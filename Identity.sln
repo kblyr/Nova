@@ -1,0 +1,40 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30114.105
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{46D9FFBD-40CB-4D37-9063-08F46FA887D1}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{AEDFF0BE-4A35-4405-BE9D-98D189C07697}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nova", "src\Common\Core\Nova.csproj", "{B344C6DA-A11B-44CD-9B5A-3ADA6D38BBB7}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Identity", "Identity", "{AAB27E51-3AD6-475F-B092-75ECA0C89599}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nova.Identity", "src\Identity\Core\Nova.Identity.csproj", "{351153EB-4515-42D4-B6BD-8498634D613B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B344C6DA-A11B-44CD-9B5A-3ADA6D38BBB7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B344C6DA-A11B-44CD-9B5A-3ADA6D38BBB7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B344C6DA-A11B-44CD-9B5A-3ADA6D38BBB7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B344C6DA-A11B-44CD-9B5A-3ADA6D38BBB7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{351153EB-4515-42D4-B6BD-8498634D613B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{351153EB-4515-42D4-B6BD-8498634D613B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{351153EB-4515-42D4-B6BD-8498634D613B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{351153EB-4515-42D4-B6BD-8498634D613B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{AEDFF0BE-4A35-4405-BE9D-98D189C07697} = {46D9FFBD-40CB-4D37-9063-08F46FA887D1}
+		{B344C6DA-A11B-44CD-9B5A-3ADA6D38BBB7} = {AEDFF0BE-4A35-4405-BE9D-98D189C07697}
+		{AAB27E51-3AD6-475F-B092-75ECA0C89599} = {46D9FFBD-40CB-4D37-9063-08F46FA887D1}
+		{351153EB-4515-42D4-B6BD-8498634D613B} = {AAB27E51-3AD6-475F-B092-75ECA0C89599}
+	EndGlobalSection
+EndGlobal
