@@ -1,0 +1,27 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30114.105
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{F13AD1CB-D5B2-4E64-B022-6D3F9227F9F4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nova", "src\Core\Nova.csproj", "{ED2EE6DC-A2F1-49BC-9A8C-C8BC7F2A1AFA}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{ED2EE6DC-A2F1-49BC-9A8C-C8BC7F2A1AFA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ED2EE6DC-A2F1-49BC-9A8C-C8BC7F2A1AFA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ED2EE6DC-A2F1-49BC-9A8C-C8BC7F2A1AFA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ED2EE6DC-A2F1-49BC-9A8C-C8BC7F2A1AFA}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{ED2EE6DC-A2F1-49BC-9A8C-C8BC7F2A1AFA} = {F13AD1CB-D5B2-4E64-B022-6D3F9227F9F4}
+	EndGlobalSection
+EndGlobal
