@@ -3,16 +3,23 @@
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="11.0.1" />
+    <PackageReference Include="MediatR" Version="10.0.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.2" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\Core\Nova.csproj" />
     <ProjectReference Include="..\Core\Nova.Identity.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Using Include="Nova.Messaging" />
+    <Using Include="Nova.Identity.Contracts" />
+    <Using Include="Nova.Identity.Entities" />
   </ItemGroup>
 
 </Project>
