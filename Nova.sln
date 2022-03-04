@@ -7,6 +7,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{F13AD1CB-D5B
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nova", "src\Core\Nova.csproj", "{ED2EE6DC-A2F1-49BC-9A8C-C8BC7F2A1AFA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nova.EFCore", "src\EFCore\Nova.EFCore.csproj", "{7302CDBB-43B3-4FCF-AEA7-32D79D5B13EF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -20,8 +22,13 @@ Global
 		{ED2EE6DC-A2F1-49BC-9A8C-C8BC7F2A1AFA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{ED2EE6DC-A2F1-49BC-9A8C-C8BC7F2A1AFA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{ED2EE6DC-A2F1-49BC-9A8C-C8BC7F2A1AFA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7302CDBB-43B3-4FCF-AEA7-32D79D5B13EF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7302CDBB-43B3-4FCF-AEA7-32D79D5B13EF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7302CDBB-43B3-4FCF-AEA7-32D79D5B13EF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7302CDBB-43B3-4FCF-AEA7-32D79D5B13EF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{ED2EE6DC-A2F1-49BC-9A8C-C8BC7F2A1AFA} = {F13AD1CB-D5B2-4E64-B022-6D3F9227F9F4}
+		{7302CDBB-43B3-4FCF-AEA7-32D79D5B13EF} = {F13AD1CB-D5B2-4E64-B022-6D3F9227F9F4}
 	EndGlobalSection
 EndGlobal
