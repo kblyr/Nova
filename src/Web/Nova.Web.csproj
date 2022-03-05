@@ -10,4 +10,17 @@
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="11.0.1" />
+    <PackageReference Include="MediatR" Version="10.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Core\Nova.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Using Include="Nova.Messaging" />
+  </ItemGroup>
+
 </Project>
