@@ -16,8 +16,8 @@ sealed class User_EndpointMapper : EndpointMapper
         var response = await mediator.Send(mapper.Map<AddUser.Request, Contracts.AddUser>(request));
 
         if (response is Contracts.AddUser.Response successResponse)
-            return Results.Created($"/user/{successResponse.Id}", successResponse);
+            return Results.Created($"/user/{successResponse.Id}", mapper.Map<Contracts.AddUser.Response, AddUser.Response>(successResponse));
 
-        return Results.BadRequest();
+        return Results.BadRequest(response);
     }
 }
