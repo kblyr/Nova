@@ -2,7 +2,7 @@ namespace Nova.Identity.Contracts;
 
 public record GetUserStatuses : Request
 {
-    public record Response(IEnumerable<Response.UserStatusObj> UserStatuses) : Nova.Messaging.Response
+    public record Response(IEnumerable<Response.UserStatusObj> UserStatuses) : Messaging.Response
     {
         public record UserStatusObj(short Id, string Name);
     }

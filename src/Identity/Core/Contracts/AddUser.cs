@@ -7,5 +7,5 @@ public record AddUser
     short StatusId
 ) : Request
 {
-    public record Response(int Id) : Nova.Messaging.Response;
+    public record Response(int Id) : Messaging.Response;
 }
