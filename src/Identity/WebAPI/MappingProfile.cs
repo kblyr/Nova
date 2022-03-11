@@ -8,5 +8,7 @@ sealed class MappingProfile : Profile
     {
         CreateMap<AddUser.Request, Contracts.AddUser>();
         CreateMap<Contracts.AddUser.Response, AddUser.Response>();
+        CreateMap<IdentifyUserForSignIn.Request, Contracts.IdentifyUserForSignIn>();
+        CreateMap<Contracts.IdentifyUserForSignIn.Response, IdentifyUserForSignIn.Response>();
     }
 }

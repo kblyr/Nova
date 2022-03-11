@@ -28,7 +28,7 @@ public class ResponseMapper
 
         return 
         (
-            isFailedResponse ? new ApiFailedResponse(responseType.Name, mappedData) : mappedData,
+            isFailedResponse ? new Dictionary<string, object> { { responseType.Name, mappedData } } : mappedData,
             responseTypeDefinition?.StatusCode ?? (isFailedResponse ? StatusCodes.Status400BadRequest : StatusCodes.Status200OK)
         );
     }

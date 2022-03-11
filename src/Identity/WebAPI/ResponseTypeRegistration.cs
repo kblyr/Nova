@@ -7,6 +7,11 @@ sealed class ResponseTypeRegistration : IResponseTypeRegistration
         registry
             .RegisterCreated<Contracts.AddUser.Response, AddUser.Response>()
             .RegisterConflict<Contracts.UsernameAlreadyExists>()
-            .RegisterNotFound<Contracts.UserStatusNotFound>();
+            .RegisterNotFound<Contracts.UserStatusNotFound>()
+            .RegisterOK<Contracts.IdentifyUserForSignIn.Response, IdentifyUserForSignIn.Response>()
+            .RegisterNotFound<Contracts.ApplicationNotFound>()
+            .RegisterNotFound<Contracts.UsernameNotFound>()
+            .RegisterForbidden<Contracts.UserNotActive>()
+            .RegisterForbidden<Contracts.UserNotLinkedToApplication>();
     }
 }

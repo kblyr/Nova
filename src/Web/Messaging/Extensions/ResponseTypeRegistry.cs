@@ -34,6 +34,11 @@ public static class ResponseTypeRegistry_Extensions
         return registry.Register<TResponse, TApiResponse>(StatusCodes.Status400BadRequest);
     }
 
+    public static ResponseTypeRegistry RegisterForbidden<TResponse>(this ResponseTypeRegistry registry) where TResponse : Response
+    {
+        return registry.Register<TResponse>(StatusCodes.Status403Forbidden);
+    }
+
     public static ResponseTypeRegistry RegisterNotFound<TResponse>(this ResponseTypeRegistry registry) where TResponse : Response
     {
         return registry.Register<TResponse>(StatusCodes.Status404NotFound);
