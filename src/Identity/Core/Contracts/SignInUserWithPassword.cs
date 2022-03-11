@@ -1,9 +1,10 @@
 namespace Nova.Identity.Contracts;
 
-public record SignInUserWithPassword(int Id, string Password) : Request
+public record SignInUserWithPassword : Request
 {
-    public record Response : Messaging.Response
-    {
-        public static Response Instance = new();
-    }
+    public int Id { get; init; }
+    public string Password { get; init; } = "";
+    public short ApplicationId { get; init; }
+
+    public record Response(int Id, string Username, short StatusId) : Messaging.Response;
 }

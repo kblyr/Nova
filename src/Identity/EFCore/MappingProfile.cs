@@ -8,5 +8,6 @@ sealed class MappingProfile : Profile
     {
         CreateMap<AddUser, User>();
         CreateMap<User, IdentifyUserForSignIn.Response>();
+        CreateMap<User, SignInUserWithPassword.Response>();
     }
 }

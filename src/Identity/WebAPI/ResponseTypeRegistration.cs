@@ -12,6 +12,9 @@ sealed class ResponseTypeRegistration : IResponseTypeRegistration
             .RegisterNotFound<Contracts.ApplicationNotFound>()
             .RegisterNotFound<Contracts.UsernameNotFound>()
             .RegisterForbidden<Contracts.UserNotActive>()
-            .RegisterForbidden<Contracts.UserNotLinkedToApplication>();
+            .RegisterForbidden<Contracts.UserNotLinkedToApplication>()
+            .RegisterOK<Contracts.SignInUserWithPassword.Response, SignInUserWithPassword.Response>()
+            .RegisterBadRequest<Contracts.IncorrectUserPassword>()
+            .RegisterNotFound<Contracts.UserNotFound>();
     }
 }
