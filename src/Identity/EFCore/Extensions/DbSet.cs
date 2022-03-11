@@ -19,4 +19,20 @@ public static class DbSet_Extensions
             .Where(userStatus => userStatus.Id == id)
             .AnyAsync();
     }
+
+    public static async Task<bool> Exists(this DbSet<Application> applications, short id)
+    {
+        return await applications
+            .AsNoTracking()
+            .Where(application => application.Id == id)
+            .AnyAsync();
+    }
+
+    public static async Task<bool> Exists(this DbSet<UserApplication> userApplications, int userId, short applicationId)
+    {
+        return await userApplications
+            .AsNoTracking()
+            .Where(userApplication => userApplication.UserId == userId && userApplication.ApplicationId == applicationId && !userApplication.IsDeleted)
+            .AnyAsync();
+    }
 }

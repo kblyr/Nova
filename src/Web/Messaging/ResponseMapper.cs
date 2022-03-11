@@ -19,18 +19,17 @@ public class ResponseMapper
         if (response is null)
             return (null, StatusCodes.Status204NoContent);
 
+        var isFailedResponse = response is FailedResponse;
         var responseType = response.GetType();
         var responseTypeDefinition = _registry.ApiResponseFor(responseType);
-
-        if (!responseTypeDefinition.HasValue)
-            throw new InvalidOperationException($"No API response type registered for type '{responseType.FullName}'");
-
-        var mappedData = _mapper.Map(response, responseType, responseTypeDefinition.Value.ApiResponseType);
+        var mappedData = responseTypeDefinition.HasValue && responseTypeDefinition.Value.ApiResponseType is not null 
+            ? _mapper.Map(response, responseType, responseTypeDefinition.Value.ApiResponseType) 
+            : response;
 
         return 
         (
-            response is FailedResponse ? new ApiFailedResponse(responseType.Name, mappedData) : mappedData,
-            responseTypeDefinition.Value.StatusCode
+            isFailedResponse ? new ApiFailedResponse(responseType.Name, mappedData) : mappedData,
+            responseTypeDefinition?.StatusCode ?? (isFailedResponse ? StatusCodes.Status400BadRequest : StatusCodes.Status200OK)
         );
     }
 }

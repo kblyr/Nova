@@ -13,6 +13,9 @@ public class DatabaseContext : DbContext
 
     public DbSet<User> Users => Set<User>();
     public DbSet<UserStatus> UserStatuses => Set<UserStatus>();
+    public DbSet<Domain> Domains => Set<Domain>();
+    public DbSet<Application> Applications => Set<Application>();
+    public DbSet<UserApplication> UserApplications => Set<UserApplication>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
