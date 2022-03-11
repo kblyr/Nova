@@ -7,8 +7,8 @@ public static class DependencyExtensions
     public static DependencyInjector AddMessaging(this DependencyInjector injector)
     {
         injector.Services
-            .AddSingleton<MappedMediator>()
-            .AddSingleton<ResponseMapper>()
+            .AddScoped<MappedMediator>()
+            .AddScoped<ResponseMapper>()
             .AddResponseMapping(injector.AssemblyMarkers);
 
         return injector;

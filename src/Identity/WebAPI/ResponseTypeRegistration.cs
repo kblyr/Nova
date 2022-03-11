@@ -5,6 +5,8 @@ sealed class ResponseTypeRegistration : IResponseTypeRegistration
     public void Register(ResponseTypeRegistry registry)
     {
         registry
-            .Register<Contracts.AddUser.Response, AddUser.Response>(StatusCodes.Status201Created);
+            .RegisterCreated<Contracts.AddUser.Response, AddUser.Response>()
+            .RegisterConflict<Contracts.UsernameAlreadyExists>()
+            .RegisterNotFound<Contracts.UserStatusNotFound>();
     }
 }
