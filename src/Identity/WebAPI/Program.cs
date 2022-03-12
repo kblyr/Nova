@@ -1,5 +1,8 @@
+using System.Security.Cryptography;
 using MediatR;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using Nova.Core;
 using Nova.EFCore;
 using Nova.Identity.Core;
@@ -20,10 +23,32 @@ var assemblyMarkers = new []
 };
 
 builder.Services
+    .AddAuthentication(options => {
+        options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+        options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+    })
+    .AddJwtBearer(options => {
+        var publicKeyXmlString = File.ReadAllText(@"C:\Crypto Keys\Nova\public_key.xml");
+        using var rsa = RSA.Create();
+        rsa.FromXmlString(publicKeyXmlString);
+        var securityKey = new RsaSecurityKey(rsa);
+
+        options.SaveToken = true;
+        options.TokenValidationParameters = new()
+        {
+            ValidateAudience = false,
+            ValidateIssuer = false,
+            ValidateIssuerSigningKey = true,
+            IssuerSigningKey = securityKey
+        };
+    });
+
+builder.Services
     .AddMediatR(assemblyMarkers)
     .AddAutoMapper(assemblyMarkers)
     .AddResponseMapping(Nova.Identity.WebAPI.AssemblyMarker.Assembly)
     .AddHttpContextAccessor();
+
 builder.Services.AddNova(nova => nova
     .EFCore(efCore => efCore
         .AddDbContextFactory<Nova.Identity.DatabaseContext>(options => options.UseNpgsql(builder.Configuration.GetConnectionString("Nova:Identity:V1")))
@@ -40,6 +65,10 @@ builder.Services.AddNova(nova => nova
     )
 );
 
+builder.Services.AddSingleton<Nova.Identity.Utilities.TokenGenerator>();
+
 var app = builder.Build();
+app.UseAuthentication();
+// app.UseAuthorization();
 app.MapEndpoints(Nova.Identity.WebAPI.AssemblyMarker.Assembly);
 app.Run();

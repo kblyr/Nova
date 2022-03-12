@@ -1,0 +1,20 @@
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
+
+namespace Nova.Identity.EntityTypeConfigurations;
+
+sealed class Role_EntityTypeConfiguration : IEntityTypeConfiguration<Role>
+{
+    public void Configure(EntityTypeBuilder<Role> builder)
+    {
+        builder.ToTable("Role", DatabaseDefaults.Schema);
+
+        builder.HasOne(role => role.Domain)
+            .WithMany()
+            .HasForeignKey(role => role.DomainId);
+
+        builder.HasOne(role => role.Application)
+            .WithMany()
+            .HasForeignKey(role => role.ApplicationId);
+    }
+}

@@ -1,20 +1,23 @@
 using AutoMapper;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Nova.Identity.Utilities;
 
 namespace Nova.Identity.Handlers;
 
-sealed class SignInUserWithPassword_Handler : RequestHandler<SignInUserWithPassword>
+sealed class SignInUserWithPassword_Handler : Messaging.RequestHandler<SignInUserWithPassword>
 {
     readonly IDbContextFactory<DatabaseContext> _contextFactory;
     readonly IUserPasswordHash _passwordHash;
     readonly IMapper _mapper;
+    readonly IMediator _mediator;
 
-    public SignInUserWithPassword_Handler(IDbContextFactory<DatabaseContext> contextFactory, IUserPasswordHash passwordHash, IMapper mapper)
+    public SignInUserWithPassword_Handler(IDbContextFactory<DatabaseContext> contextFactory, IUserPasswordHash passwordHash, IMapper mapper, IMediator mediator)
     {
         _contextFactory = contextFactory;
         _passwordHash = passwordHash;
         _mapper = mapper;
+        _mediator = mediator;
     }
 
     public async Task<Response> Handle(SignInUserWithPassword request, CancellationToken cancellationToken)
@@ -40,6 +43,7 @@ sealed class SignInUserWithPassword_Handler : RequestHandler<SignInUserWithPassw
         if (user.HashedPassword != hashedPassword)
             return IncorrectUserPassword.Instance;
 
+        await _mediator.Publish(new UserSignedIn(request.Id, request.ApplicationId));
         return _mapper.Map<User, SignInUserWithPassword.Response>(user);
     }
 
