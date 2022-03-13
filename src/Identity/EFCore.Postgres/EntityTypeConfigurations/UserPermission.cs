@@ -10,11 +10,11 @@ sealed class UserPermission_EntityTypeConfiguration : IEntityTypeConfiguration<U
         builder.ToTable("UserPermission", DatabaseDefaults.Schema);
 
         builder.HasOne(userPermission => userPermission.User)
-            .WithMany()
+            .WithMany(user => user.UserPermissions)
             .HasForeignKey(userPermission => userPermission.UserId);
 
         builder.HasOne(userPermission => userPermission.Permission)
-            .WithMany()
+            .WithMany(permission => permission.UserPermissions)
             .HasForeignKey(userPermission => userPermission.PermissionId);
     }
 }

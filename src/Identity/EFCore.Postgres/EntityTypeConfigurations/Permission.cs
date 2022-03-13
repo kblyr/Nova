@@ -10,11 +10,11 @@ sealed class Permission_EntityTypeConfiguration : IEntityTypeConfiguration<Permi
         builder.ToTable("Permission", DatabaseDefaults.Schema);
 
         builder.HasOne(permission => permission.Domain)
-            .WithMany()
+            .WithMany(domain => domain.Permissions)
             .HasForeignKey(permission => permission.DomainId);
 
         builder.HasOne(permission => permission.Application)
-            .WithMany()
+            .WithMany(application => application.Permissions)
             .HasForeignKey(permission => permission.ApplicationId);
     }
 }

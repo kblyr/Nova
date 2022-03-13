@@ -10,11 +10,11 @@ sealed class UserRole_EntityTypeConfiguration : IEntityTypeConfiguration<UserRol
         builder.ToTable("UserRole", DatabaseDefaults.Schema);
 
         builder.HasOne(userRole => userRole.User)
-            .WithMany()
+            .WithMany(user => user.UserRoles)
             .HasForeignKey(userRole => userRole.UserId);
 
         builder.HasOne(userRole => userRole.Role)
-            .WithMany()
+            .WithMany(role => role.UserRoles)
             .HasForeignKey(userRole => userRole.RoleId);
     }
 }

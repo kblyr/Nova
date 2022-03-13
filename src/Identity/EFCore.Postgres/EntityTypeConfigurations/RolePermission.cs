@@ -10,11 +10,11 @@ sealed class RolePermission_EntityTypeConfiguration : IEntityTypeConfiguration<R
         builder.ToTable("RolePermission", DatabaseDefaults.Schema);
 
         builder.HasOne(rolePermission => rolePermission.Role)
-            .WithMany()
+            .WithMany(role => role.RolePermissions)
             .HasForeignKey(rolePermission => rolePermission.RoleId);
 
         builder.HasOne(rolePermission => rolePermission.Permission)
-            .WithMany()
+            .WithMany(permission => permission.RolePermissions)
             .HasForeignKey(rolePermission => rolePermission.PermissionId);
     }
 }

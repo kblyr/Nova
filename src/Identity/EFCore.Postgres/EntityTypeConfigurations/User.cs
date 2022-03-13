@@ -10,7 +10,7 @@ sealed class User_EntityTypeConfiguration : IEntityTypeConfiguration<User>
         builder.ToTable("User", DatabaseDefaults.Schema);
 
         builder.HasOne(user => user.Status)
-            .WithMany()
+            .WithMany(status => status.Users)
             .HasForeignKey(user => user.StatusId);
     }
 }

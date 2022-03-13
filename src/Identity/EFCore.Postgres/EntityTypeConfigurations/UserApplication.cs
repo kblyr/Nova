@@ -10,11 +10,11 @@ sealed class UserApplication_EntityTypeConfiguration : IEntityTypeConfiguration<
         builder.ToTable("UserApplication", DatabaseDefaults.Schema);
 
         builder.HasOne(userApplication => userApplication.User)
-            .WithMany()
+            .WithMany(user => user.UserApplications)
             .HasForeignKey(userApplication => userApplication.UserId);
 
         builder.HasOne(userApplication => userApplication.Application)
-            .WithMany()
+            .WithMany(application => application.UserApplications)
             .HasForeignKey(userApplication => userApplication.ApplicationId);
     }
 }

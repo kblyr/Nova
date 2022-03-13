@@ -17,4 +17,6 @@ public class Permission
 
     public Domain Domain { get; set; }
     public Application Application { get; set; }
+    public IEnumerable<RolePermission> RolePermissions { get; set; }
+    public IEnumerable<UserPermission> UserPermissions { get; set; }
 }

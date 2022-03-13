@@ -10,11 +10,11 @@ sealed class Role_EntityTypeConfiguration : IEntityTypeConfiguration<Role>
         builder.ToTable("Role", DatabaseDefaults.Schema);
 
         builder.HasOne(role => role.Domain)
-            .WithMany()
+            .WithMany(domain => domain.Roles)
             .HasForeignKey(role => role.DomainId);
 
         builder.HasOne(role => role.Application)
-            .WithMany()
+            .WithMany(application => application.Roles)
             .HasForeignKey(role => role.ApplicationId);
     }
 }
