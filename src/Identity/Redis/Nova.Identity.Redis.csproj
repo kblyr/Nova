@@ -7,22 +7,19 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <FrameworkReference Include="Microsoft.AspNetCore.App" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="AutoMapper" Version="11.0.1" />
     <PackageReference Include="MediatR" Version="10.0.1" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="6.0.0" />
+    <PackageReference Include="StackExchange.Redis" Version="2.5.43" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Core\Nova.csproj" />
-    <ProjectReference Include="..\Shared\Nova.Shared.csproj" />
+    <ProjectReference Include="..\Core\Nova.Identity.csproj" />
+    <ProjectReference Include="..\..\Core\Nova.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     <Using Include="Nova.Messaging" />
+    <Using Include="Nova.Identity.Contracts" />
   </ItemGroup>
 
 </Project>

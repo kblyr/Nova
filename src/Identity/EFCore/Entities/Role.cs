@@ -4,7 +4,7 @@ public class Role
 {
     public int Id { get; set; }
     public string Name { get; set; }
-    public string LookupKey { get; set; }
+    public string Code { get; set; }
     public short? DomainId { get; set; }
     public short? ApplicationId { get; set; }
     public bool IsDeleted { get; set; }

@@ -19,6 +19,9 @@
     <ProjectReference Include="..\..\Web\Nova.Web.csproj" />
     <ProjectReference Include="..\..\Core\Nova.csproj" />
     <ProjectReference Include="..\EFCore.Postgres\Nova.Identity.EFCore.Postgres.csproj" />
+    <ProjectReference Include="..\Shared\Nova.Identity.Shared.csproj" />
+    <ProjectReference Include="..\..\Shared\Nova.Shared.csproj" />
+    <ProjectReference Include="..\Redis\Nova.Identity.Redis.csproj" />
   </ItemGroup>
 
   <ItemGroup>

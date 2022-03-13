@@ -4,6 +4,7 @@ public class Domain
 {
     public short Id { get; set; }
     public string Name { get; set; }
+    public string Code { get; set; }
 
     public IEnumerable<Application> Applications { get; set; }
     public IEnumerable<Role> Roles { get; set; }

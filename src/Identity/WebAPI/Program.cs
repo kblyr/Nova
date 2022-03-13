@@ -9,6 +9,7 @@ using Nova.Identity.Core;
 using Nova.Identity.Core.Utilities;
 using Nova.Identity.EFCore;
 using Nova.Identity.EFCore.Postgres;
+using Nova.Identity.Redis;
 using Nova.Web;
 using Nova.Web.Auditing;
 using Nova.Web.Messaging;
@@ -19,6 +20,7 @@ var assemblyMarkers = new []
 {
     Nova.Core.AssemblyMarker.Assembly,
     Nova.Identity.EFCore.AssemblyMarker.Assembly,
+    Nova.Identity.Redis.AssemblyMarker.Assembly,
     Nova.Identity.WebAPI.AssemblyMarker.Assembly
 };
 
@@ -51,16 +53,20 @@ builder.Services
 
 builder.Services.AddNova(nova => nova
     .EFCore(efCore => efCore
-        .AddDbContextFactory<Nova.Identity.DatabaseContext>(options => options.UseNpgsql(builder.Configuration.GetConnectionString("Nova:Identity:V1")))
+        .AddDbContextFactory<Nova.Identity.DatabaseContext>(options => options.UseNpgsql(builder.Configuration.GetConnectionString("Postgres:Nova:Identity")))
     )
     .Web(web => web
         .AddAuditing()
         .AddMessaging()
     )
     .Identity(identity => identity
+        .SetupConfigurations(builder.Configuration)
         .AddUtilities()
         .EFCore(efCore => efCore
             .Postgres(postgres => postgres.AddDefault())
+        )
+        .Redis(redis =>
+            redis.AddConnectionMultiplexerFactory(builder.Configuration.GetConnectionString("Redis:Nova:Identity")) 
         )
     )
 );

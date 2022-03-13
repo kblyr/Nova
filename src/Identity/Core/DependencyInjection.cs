@@ -1,5 +1,7 @@
 using System.Reflection;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Nova.Identity.Configuration;
 
 namespace Nova.Identity.Core;
 
@@ -17,5 +19,13 @@ public static class DependencyExtensions
         var injector = new DependencyInjector(parentInjector.Services, parentInjector.AssemblyMarkers);
         injectDependencies?.Invoke(injector);
         return parentInjector;
+    }
+
+    public static DependencyInjector SetupConfigurations(this DependencyInjector injector, IConfiguration configuration)
+    {
+        injector.Services
+            .Configure<AccessTokenConfig>(configuration.GetSection(AccessTokenConfig.ConfigKey))
+            .Configure<RefreshTokenConfig>(configuration.GetSection(RefreshTokenConfig.ConfigKey));
+        return injector;
     }
 }
