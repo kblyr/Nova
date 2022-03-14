@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Nova.Core;
+using Nova.Core.Utilities;
 using Nova.EFCore;
 using Nova.Identity.Core;
 using Nova.Identity.Core.Utilities;
@@ -53,6 +54,7 @@ builder.Services
     .AddHttpContextAccessor();
 
 builder.Services.AddNova(nova => nova
+    .AddUtilities()
     .EFCore(efCore => efCore
         .AddDbContextFactory<Nova.Identity.DatabaseContext>(options => options.UseNpgsql(builder.Configuration.GetConnectionString("Postgres:Nova:Identity")))
     )
