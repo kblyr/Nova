@@ -69,4 +69,16 @@ public static class DbSet_Extensions
             )
             .AnyAsync();
     }
+
+    public static async Task<bool> Exists(this DbSet<RolePermission> rolePermissions, int roleId, int permissionId)
+    {
+        return await rolePermissions
+            .AsNoTracking()
+            .Where(rolePermission =>
+                !rolePermission.IsDeleted
+                && rolePermission.RoleId == roleId
+                && rolePermission.PermissionId == permissionId
+            )
+            .AnyAsync();
+    }
 }
