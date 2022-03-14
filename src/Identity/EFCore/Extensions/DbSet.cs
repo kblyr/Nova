@@ -56,4 +56,17 @@ public static class DbSet_Extensions
             )
             .AnyAsync();
     }
+
+    public static async Task<bool> Exists(this DbSet<Permission> permissions, string name, short? domainId, short? applicationId)
+    {
+        return await permissions
+            .AsNoTracking()
+            .Where(permission =>
+                !permission.IsDeleted
+                && permission.Name == name
+                && permission.DomainId == domainId
+                && permission.ApplicationId == applicationId
+            )
+            .AnyAsync();
+    }
 }

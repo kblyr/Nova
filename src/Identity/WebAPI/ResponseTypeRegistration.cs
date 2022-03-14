@@ -5,6 +5,7 @@ sealed class ResponseTypeRegistration : IResponseTypeRegistration
     public void Register(ResponseTypeRegistry registry)
     {
         registry
+            .RegisterCreated<Contracts.AddPermission.Response, AddPermission.Response>()
             .RegisterCreated<Contracts.AddRole.Response, AddRole.Response>()
             .RegisterCreated<Contracts.AddUser.Response, AddUser.Response>()
             .RegisterNotFound<Contracts.ApplicationNotFound>()
@@ -12,6 +13,7 @@ sealed class ResponseTypeRegistration : IResponseTypeRegistration
             .RegisterNotFound<Contracts.DomainNotFound>()
             .RegisterOK<Contracts.IdentifyUserForSignIn.Response, IdentifyUserForSignIn.Response>()
             .RegisterBadRequest<Contracts.IncorrectUserPassword>()
+            .RegisterConflict<Contracts.PermissionAlreadyExists>()
             .RegisterConflict<Contracts.RoleAlreadyExists>()
             .RegisterOK<Contracts.SignInUserWithPassword.Response, SignInUserWithPassword.Response>()
             .RegisterConflict<Contracts.UsernameAlreadyExists>()

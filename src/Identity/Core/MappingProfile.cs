@@ -7,6 +7,8 @@ sealed class MappingProfile : Profile
 {
     public MappingProfile()
     {
+        CreateMap<AddPermission, PermissionAlreadyExists>();
+        CreateMap<AddRole, RoleAlreadyExists>();
         CreateMap<GenerateAccessToken, GetAccessTokenPayload>();
         CreateMap<GetAccessTokenPayload.Response.UserObj, SessionClaimType.UserObj>();
         CreateMap<GetAccessTokenPayload.Response.ApplicationObj, SessionClaimType.ApplicationObj>();
