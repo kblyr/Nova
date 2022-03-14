@@ -1,7 +1,7 @@
 using System.Reflection;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Nova.Identity.Redis;
+namespace Nova.Redis;
 
 public sealed class DependencyInjector : DependencyInjectorBase, IDependencyInjector
 {
@@ -19,9 +19,14 @@ public static class DependencyExtensions
         return parentInjector;
     }
 
-    public static DependencyInjector AddConnectionMultiplexerFactory(this DependencyInjector injector, string configuration)
+    public static DependencyInjector AddMultiplexerProvider<TMultiplexerProvider>(this DependencyInjector injector, string configuration) where TMultiplexerProvider : MultiplexerProviderBase
     {
-        injector.Services.AddSingleton(new ConnectionMultiplexerFactory(configuration));
+        var type = typeof(TMultiplexerProvider);
+        var instance = Activator.CreateInstance(type, configuration);
+
+        if (instance is not null)
+            injector.Services.AddSingleton(type, instance);
+
         return injector;
     }
 }

@@ -10,6 +10,7 @@ using Nova.Identity.Core.Utilities;
 using Nova.Identity.EFCore;
 using Nova.Identity.EFCore.Postgres;
 using Nova.Identity.Redis;
+using Nova.Redis;
 using Nova.Web;
 using Nova.Web.Auditing;
 using Nova.Web.Messaging;
@@ -59,14 +60,14 @@ builder.Services.AddNova(nova => nova
         .AddAuditing()
         .AddMessaging()
     )
+    .Redis(redis => redis
+        .AddMultiplexerProvider<Nova.Identity.MultiplexerProvider>(builder.Configuration.GetConnectionString("Redis:Nova:Identity"))
+    )
     .Identity(identity => identity
         .SetupConfigurations(builder.Configuration)
         .AddUtilities()
         .EFCore(efCore => efCore
             .Postgres(postgres => postgres.AddDefault())
-        )
-        .Redis(redis =>
-            redis.AddConnectionMultiplexerFactory(builder.Configuration.GetConnectionString("Redis:Nova:Identity")) 
         )
     )
 );

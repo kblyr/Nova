@@ -15,6 +15,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Core\Nova.csproj" />
+    <ProjectReference Include="..\..\Redis\Nova.Redis.csproj" />
     <ProjectReference Include="..\..\Shared\Nova.Shared.csproj" />
     <ProjectReference Include="..\..\Web\Nova.Web.csproj" />
     <ProjectReference Include="..\Core\Nova.Identity.csproj" />

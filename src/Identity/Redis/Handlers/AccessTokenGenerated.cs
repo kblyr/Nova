@@ -5,17 +5,16 @@ namespace Nova.Identity.Handlers;
 
 sealed class AccessTokenGenerated_Handler : INotificationHandler<AccessTokenGenerated>
 {
-    readonly ConnectionMultiplexerFactory _multiplexerFactory;
+    readonly MultiplexerProvider _multiplexerProvider;
 
-    public AccessTokenGenerated_Handler(ConnectionMultiplexerFactory multiplexerFactory)
+    public AccessTokenGenerated_Handler(MultiplexerProvider multiplexerProvider)
     {
-        _multiplexerFactory = multiplexerFactory;
+        _multiplexerProvider = multiplexerProvider;
     }
 
     public async Task Handle(AccessTokenGenerated notification, CancellationToken cancellationToken)
     {
-        using var multiplexer = await _multiplexerFactory.Connect();
-        var database = multiplexer.GetDatabase();
+        var database = _multiplexerProvider.Instance().GetDatabase();
         var key = new StringBuilder("AccessToken")
             .Append($"/{notification.UserId}")
             .Append($"/{notification.ApplicationId}")
