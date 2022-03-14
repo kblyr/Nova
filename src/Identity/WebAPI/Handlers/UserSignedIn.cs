@@ -39,11 +39,13 @@ sealed class UserSignedIn_Handler : INotificationHandler<UserSignedIn>
         if (response_generateRefreshToken is not GenerateRefreshToken.Response _response_generateRefreshToken)
             return;
 
-        context.Response.Headers.TryAdd(HeaderNames.AccessToken, _response_generateAccessToken.AccessToken.TokenString);
-        context.Response.Cookies.Append(CookieNames.RefreshToken, _response_generateRefreshToken.RefreshToken, new CookieOptions
+        var cookieOptions = new CookieOptions
         {
             HttpOnly = true,
             MaxAge = _refreshTokenConfig.Expiration
-        });
+        };
+        context.Response.Headers.TryAdd(HeaderNames.AccessToken, _response_generateAccessToken.AccessToken.TokenString);
+        context.Response.Cookies.Append(CookieNames.SessionId, _response_generateAccessToken.AccessToken.Id.ToString("N"));
+        context.Response.Cookies.Append(CookieNames.RefreshToken, _response_generateRefreshToken.RefreshToken, cookieOptions);
     }
 }

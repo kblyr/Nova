@@ -9,7 +9,6 @@ using Nova.Identity.Core;
 using Nova.Identity.Core.Utilities;
 using Nova.Identity.EFCore;
 using Nova.Identity.EFCore.Postgres;
-using Nova.Identity.Redis;
 using Nova.Redis;
 using Nova.Web;
 using Nova.Web.Auditing;
@@ -20,6 +19,7 @@ var builder = WebApplication.CreateBuilder(args);
 var assemblyMarkers = new []
 {
     Nova.Core.AssemblyMarker.Assembly,
+    Nova.Identity.Core.AssemblyMarker.Assembly,
     Nova.Identity.EFCore.AssemblyMarker.Assembly,
     Nova.Identity.Redis.AssemblyMarker.Assembly,
     Nova.Identity.WebAPI.AssemblyMarker.Assembly
@@ -71,8 +71,6 @@ builder.Services.AddNova(nova => nova
         )
     )
 );
-
-builder.Services.AddSingleton<Nova.Identity.Utilities.TokenGenerator>();
 
 var app = builder.Build();
 app.UseAuthentication();

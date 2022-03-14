@@ -32,12 +32,9 @@ sealed class GenerateAccessToken_Handler : Messaging.RequestHandler<GenerateAcce
 
         if (string.IsNullOrWhiteSpace(_config.PrivateSigningKeyPath) || File.Exists(_config.PrivateSigningKeyPath) == false)
             throw new FileNotFoundException("Private Signing Key cannot be found", _config.PrivateSigningKeyPath);
-
-        var tokenDescriptor = await CreateTokenDescriptor(_config, _response_getAccessTokenPayload, _mapper);
-        var tokenHandler = new JwtSecurityTokenHandler();
-        var securityToken = tokenHandler.CreateToken(tokenDescriptor);
+            
         var id = Guid.NewGuid();
-        var tokenString = tokenHandler.WriteToken(securityToken);
+        var tokenString = await CreateTokenString(_config, _response_getAccessTokenPayload, _mapper);
         
         await _mediator.Publish(new AccessTokenGenerated(
             request.UserId, 
@@ -47,17 +44,20 @@ sealed class GenerateAccessToken_Handler : Messaging.RequestHandler<GenerateAcce
         return new GenerateAccessToken.Response(new(id, tokenString));
     }
 
-    static async Task<SecurityTokenDescriptor> CreateTokenDescriptor(AccessTokenConfig config, GetAccessTokenPayload.Response response, IMapper mapper)
+    static async Task<string> CreateTokenString(AccessTokenConfig config, GetAccessTokenPayload.Response response, IMapper mapper)
     {
         var keyXmlString = await File.ReadAllTextAsync(config.PrivateSigningKeyPath);
         using var rsa = RSA.Create();
         var signingCredentials = new SigningCredentials(new RsaSecurityKey(rsa), SecurityAlgorithms.RsaSha256);
-        return new SecurityTokenDescriptor
+        var descriptor = new SecurityTokenDescriptor
         {
             Expires = DateTime.UtcNow + config.Expiration,
             SigningCredentials = signingCredentials,
             Claims = GetClaims(response, mapper)
         };
+        var tokenHandler = new JwtSecurityTokenHandler();
+        var securityToken = tokenHandler.CreateToken(descriptor);
+        return tokenHandler.WriteToken(securityToken);
     }
 
     static IDictionary<string, object> GetClaims(GetAccessTokenPayload.Response response, IMapper mapper)
