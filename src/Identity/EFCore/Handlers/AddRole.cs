@@ -35,8 +35,8 @@ sealed class AddRole_Handler : RequestHandler<AddRole>
             if (application is null)
                 return new ApplicationNotFound(request.ApplicationId.Value);
 
-            if (request.DomainId.HasValue && request.DomainId.Value != 0 && application.DomainId != request.DomainId)
-                return new ApplicationNotInDomain(application.Id, request.DomainId.Value);
+            if (application.DomainId != request.DomainId)
+                return new ApplicationNotInDomain(application.Id, request.DomainId);
         }
 
         if (await context.Roles.Exists(request.Name, request.DomainId, request.ApplicationId))
