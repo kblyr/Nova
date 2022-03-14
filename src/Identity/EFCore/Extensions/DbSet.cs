@@ -43,4 +43,17 @@ public static class DbSet_Extensions
             .Where(domain => domain.Id == id)
             .AnyAsync();
     }
+
+    public static async Task<bool> Exists(this DbSet<Role> roles, string name, short? domainId, short? applicationId)
+    {
+        return await roles
+            .AsNoTracking()
+            .Where(role =>
+                !role.IsDeleted
+                && role.Name == name
+                && role.DomainId == domainId
+                && role.ApplicationId == applicationId 
+            )
+            .AnyAsync();
+    }
 }

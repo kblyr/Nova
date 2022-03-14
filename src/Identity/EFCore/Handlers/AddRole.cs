@@ -28,26 +28,53 @@ sealed class AddRole_Handler : RequestHandler<AddRole>
         if (request.DomainId.HasValue && request.DomainId.Value != 0 && await context.Domains.Exists(request.DomainId.Value) == false)
             return new DomainNotFound(request.DomainId.Value);
 
-        if (request.ApplicationId.HasValue && request.ApplicationId.Value != 0 && await context.Applications.Exists(request.ApplicationId.Value) == false)
-            return new ApplicationNotFound(request.ApplicationId.Value);
+        if (request.ApplicationId.HasValue && request.ApplicationId.Value != 0)
+        {
+            var application = await GetApplication(context, request.ApplicationId.Value);
+
+            if (application is null)
+                return new ApplicationNotFound(request.ApplicationId.Value);
+
+            if (request.DomainId.HasValue && request.DomainId.Value != 0 && application.DomainId != request.DomainId)
+                return new ApplicationNotInDomain(application.Id, request.DomainId.Value);
+        }
+
+        if (await context.Roles.Exists(request.Name, request.DomainId, request.ApplicationId))
+            return new RoleAlreadyExists(request.Name, request.DomainId, request.ApplicationId);
 
         var auditInfo = _currentAuditInfoProvider.Current;
         var role = _mapper.Map<AddRole, Role>(request);
-        role.Code = await GenerateCode(context);
+        role.Code = await GenerateCode(context, _codeGenerator);
         role.IsDeleted = false;
         role.InsertedById = auditInfo.UserId;
         role.InsertedOn = auditInfo.Timestamp;
+        context.Roles.Add(role);
+        await context.SaveChangesAsync();
+        await transaction.CommitAsync();
 
         return _mapper.Map<Role, AddRole.Response>(role);
     }
 
-    async Task<string> GenerateCode(DatabaseContext context)
+    static async Task<string> GenerateCode(DatabaseContext context, RandomStringGenerator codeGenerator)
     {
-        var code = _codeGenerator.Generate(10);
+        var code = codeGenerator.Generate(10);
 
         if (await context.Roles.Where(role => role.Code == code).AnyAsync())
-            return await GenerateCode(context);
+            return await GenerateCode(context, codeGenerator);
 
         return code;
+    }
+    
+    static async Task<Application> GetApplication(DatabaseContext context, int id)
+    {
+        return await context.Applications
+            .AsNoTracking()
+            .Where(application => application.Id == id)
+            .Select(application => new Application
+            {
+                Id = application.Id,
+                DomainId = application.DomainId
+            })
+            .SingleOrDefaultAsync();
     }
 }
