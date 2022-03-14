@@ -45,7 +45,7 @@ sealed class UserSignedIn_Handler : INotificationHandler<UserSignedIn>
             MaxAge = _refreshTokenConfig.Expiration
         };
         context.Response.Headers.TryAdd(HeaderNames.AccessToken, _response_generateAccessToken.AccessToken.TokenString);
-        context.Response.Cookies.Append(CookieNames.SessionId, _response_generateAccessToken.AccessToken.Id.ToString("N"));
+        context.Response.Cookies.Append(CookieNames.SessionId, _response_generateAccessToken.AccessToken.Id);
         context.Response.Cookies.Append(CookieNames.RefreshToken, _response_generateRefreshToken.RefreshToken, cookieOptions);
     }
 }

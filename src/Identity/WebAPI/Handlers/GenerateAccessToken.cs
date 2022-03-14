@@ -33,7 +33,7 @@ sealed class GenerateAccessToken_Handler : Messaging.RequestHandler<GenerateAcce
         if (string.IsNullOrWhiteSpace(_config.PrivateSigningKeyPath) || File.Exists(_config.PrivateSigningKeyPath) == false)
             throw new FileNotFoundException("Private Signing Key cannot be found", _config.PrivateSigningKeyPath);
             
-        var id = Guid.NewGuid();
+        var id = Guid.NewGuid().ToString("N");
         var tokenString = await CreateTokenString(_config, _response_getAccessTokenPayload, _mapper);
         
         await _mediator.Publish(new AccessTokenGenerated(

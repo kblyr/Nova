@@ -2,4 +2,4 @@ using MediatR;
 
 namespace Nova.Identity.Contracts;
 
-public record RefreshTokenGenerated(Guid AccessTokenId, string TokenString) : INotification;
+public record RefreshTokenGenerated(string AccessTokenId, string TokenString) : INotification;
