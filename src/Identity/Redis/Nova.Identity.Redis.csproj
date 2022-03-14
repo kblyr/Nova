@@ -13,8 +13,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Core\Nova.Identity.csproj" />
     <ProjectReference Include="..\..\Core\Nova.csproj" />
+    <ProjectReference Include="..\Core\Nova.Identity.csproj" />
   </ItemGroup>
 
   <ItemGroup>
