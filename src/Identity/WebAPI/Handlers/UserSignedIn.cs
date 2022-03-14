@@ -12,14 +12,14 @@ sealed class UserSignedIn_Handler : INotificationHandler<UserSignedIn>
     readonly IHttpContextAccessor _contextAccessor;
     readonly IMediator _mediator;
     readonly IMapper _mapper;
-    readonly RefreshTokenConfig _refreshTokenConfig;
+    readonly AccessTokenConfig _config;
 
-    public UserSignedIn_Handler(IHttpContextAccessor contextAccessor, IMediator mediator, IMapper mapper, IOptions<RefreshTokenConfig> refreshTokenConfig)
+    public UserSignedIn_Handler(IHttpContextAccessor contextAccessor, IMediator mediator, IMapper mapper, IOptions<AccessTokenConfig> config)
     {
         _contextAccessor = contextAccessor;
         _mediator = mediator;
         _mapper = mapper;
-        _refreshTokenConfig = refreshTokenConfig.Value;
+        _config = config.Value;
     }
 
     public async Task Handle(UserSignedIn notification, CancellationToken cancellationToken)
@@ -34,18 +34,12 @@ sealed class UserSignedIn_Handler : INotificationHandler<UserSignedIn>
         if (response_generateAccessToken is not GenerateAccessToken.Response _response_generateAccessToken)
             return;
 
-        var response_generateRefreshToken = await _mediator.Send(_mapper.Map<GenerateAccessToken.Response, GenerateRefreshToken>(_response_generateAccessToken));
-
-        if (response_generateRefreshToken is not GenerateRefreshToken.Response _response_generateRefreshToken)
-            return;
-
         var cookieOptions = new CookieOptions
         {
             HttpOnly = true,
-            MaxAge = _refreshTokenConfig.Expiration
+            MaxAge = _config.SessionExpiration
         };
         context.Response.Headers.TryAdd(HeaderNames.AccessToken, _response_generateAccessToken.AccessToken.TokenString);
         context.Response.Cookies.Append(CookieNames.SessionId, _response_generateAccessToken.AccessToken.Id);
-        context.Response.Cookies.Append(CookieNames.RefreshToken, _response_generateRefreshToken.RefreshToken, cookieOptions);
     }
 }

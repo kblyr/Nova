@@ -24,8 +24,7 @@ public static class DependencyExtensions
     public static DependencyInjector SetupConfigurations(this DependencyInjector injector, IConfiguration configuration)
     {
         injector.Services
-            .Configure<AccessTokenConfig>(configuration.GetSection(AccessTokenConfig.ConfigKey))
-            .Configure<RefreshTokenConfig>(configuration.GetSection(RefreshTokenConfig.ConfigKey));
+            .Configure<AccessTokenConfig>(configuration.GetSection(AccessTokenConfig.ConfigKey));
         return injector;
     }
 }
