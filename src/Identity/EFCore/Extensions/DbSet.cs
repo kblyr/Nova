@@ -81,4 +81,44 @@ public static class DbSet_Extensions
             )
             .AnyAsync();
     }
+
+    public static async Task<bool> Exists(this DbSet<User> users, int id)
+    {
+        return await users
+            .AsNoTracking()
+            .Where(user => user.Id == id && !user.IsDeleted)
+            .AnyAsync();
+    }
+
+    public static async Task<bool> Exists(this DbSet<Role> roles, int id)
+    {
+        return await roles
+            .AsNoTracking()
+            .Where(role => role.Id == id && !role.IsDeleted)
+            .AnyAsync();
+    }
+
+    public static async Task<bool> Exists(this DbSet<UserRole> userRoles, int userId, int roleId)
+    {
+        return await userRoles
+            .AsNoTracking()
+            .Where(userRole => userRole.UserId == userId && userRole.RoleId == roleId && !userRole.IsDeleted)
+            .AnyAsync();
+    }
+
+    public static async Task<bool> Exists(this DbSet<Permission> permissions, int id)
+    {
+        return await permissions
+            .AsNoTracking()
+            .Where(permission => permission.Id == id && !permission.IsDeleted)
+            .AnyAsync();
+    }
+
+    public static async Task<bool> Exists(this DbSet<UserPermission> userPermissions, int userId, int permissionId)
+    {
+        return await userPermissions
+            .AsNoTracking()
+            .Where(userPermission => userPermission.UserId == userId && userPermission.PermissionId == permissionId && !userPermission.IsDeleted)
+            .AnyAsync();
+    }
 }

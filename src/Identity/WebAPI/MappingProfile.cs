@@ -1,4 +1,3 @@
-using System.Diagnostics.Contracts;
 using AutoMapper;
 
 namespace Nova.Identity;
@@ -21,6 +20,13 @@ sealed class MappingProfile : Profile
 
         CreateMap<SavePermissionsOfRole.Request, Contracts.SavePermissionsOfRole>();
         CreateMap<Contracts.SavePermissionsOfRole.Response, SavePermissionsOfRole.Response>();
+
+        CreateMap<SaveRolesAndPermissionsOfUser.Request, Contracts.SaveRolesAndPermissionsOfUser>();
+        CreateMap<SaveRolesAndPermissionsOfUser.Request.RolesObj, Contracts.SaveRolesAndPermissionsOfUser.RolesObj>();
+        CreateMap<SaveRolesAndPermissionsOfUser.Request.PermissionsObj, Contracts.SaveRolesAndPermissionsOfUser.PermissionsObj>();
+        CreateMap<Contracts.SaveRolesAndPermissionsOfUser.Response, SaveRolesAndPermissionsOfUser.Response>();
+        CreateMap<Contracts.SaveRolesAndPermissionsOfUser.Response.RolesObj, SaveRolesAndPermissionsOfUser.Response.RolesObj>();
+        CreateMap<Contracts.SaveRolesAndPermissionsOfUser.Response.PermissionsObj, SaveRolesAndPermissionsOfUser.Response.PermissionsObj>();
         
         CreateMap<SignInUserWithPassword.Request, Contracts.SignInUserWithPassword>();
         CreateMap<Contracts.SignInUserWithPassword.Response, SignInUserWithPassword.Response>();

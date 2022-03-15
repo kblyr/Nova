@@ -20,6 +20,7 @@ sealed class ResponseTypeRegistration : IResponseTypeRegistration
             .RegisterConflict<Contracts.RoleAlreadyExists>()
             .RegisterNotFound<Contracts.RoleNotFound>()
             .RegisterOK<Contracts.SavePermissionsOfRole.Response, SavePermissionsOfRole.Response>()
+            .RegisterOK<Contracts.SaveRolesAndPermissionsOfUser.Response, SaveRolesAndPermissionsOfUser.Response>()
             .RegisterOK<Contracts.SignInUserWithPassword.Response, SignInUserWithPassword.Response>()
             .RegisterConflict<Contracts.UsernameAlreadyExists>()
             .RegisterNotFound<Contracts.UsernameNotFound>()
