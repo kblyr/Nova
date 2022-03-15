@@ -6,6 +6,7 @@ sealed class ResponseTypeRegistration : IResponseTypeRegistration
     {
         registry
             .RegisterCreated<Contracts.AddPermission.Response, AddPermission.Response>()
+            .RegisterCreated<Contracts.AddApplicationToUser.Response, AddApplicationToUser.Response>()
             .RegisterCreated<Contracts.AddRole.Response, AddRole.Response>()
             .RegisterCreated<Contracts.AddUser.Response, AddUser.Response>()
             .RegisterNotFound<Contracts.ApplicationNotFound>()
@@ -22,6 +23,7 @@ sealed class ResponseTypeRegistration : IResponseTypeRegistration
             .RegisterOK<Contracts.SavePermissionsOfRole.Response, SavePermissionsOfRole.Response>()
             .RegisterOK<Contracts.SaveRolesAndPermissionsOfUser.Response, SaveRolesAndPermissionsOfUser.Response>()
             .RegisterOK<Contracts.SignInUserWithPassword.Response, SignInUserWithPassword.Response>()
+            .RegisterConflict<Contracts.UserApplicationAlreadyExists>()
             .RegisterConflict<Contracts.UsernameAlreadyExists>()
             .RegisterNotFound<Contracts.UsernameNotFound>()
             .RegisterForbidden<Contracts.UserNotActive>()

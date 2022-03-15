@@ -17,6 +17,8 @@ sealed class User_EndpointMapper : EndpointMapper
         builder.MapPost("/user/signIn/{id}/password", SignInWithPassword);
 
         builder.MapPost("/user/{id}/saveRolesAndPermissions", SaveRolesAndPermissions);
+
+        builder.MapPost("/user/{id}/addApplication", AddApplication);
     }
 
     static async Task<IResult> Add(MappedMediator mediator, AddUser.Request request)
@@ -40,6 +42,12 @@ sealed class User_EndpointMapper : EndpointMapper
     static async Task<IResult> SaveRolesAndPermissions(MappedMediator mediator, int id, SaveRolesAndPermissionsOfUser.Request request)
     {
         var response = await mediator.Send<SaveRolesAndPermissionsOfUser.Request, Contracts.SaveRolesAndPermissionsOfUser>(request, request => request with { UserId = id });
+        return Results.Extensions.Mapped(response);
+    }
+
+    static async Task<IResult> AddApplication(MappedMediator mediator, int id, AddApplicationToUser.Request request)
+    {
+        var response = await mediator.Send<AddApplicationToUser.Request, Contracts.AddApplicationToUser>(request, request => request with { UserId = id });
         return Results.Extensions.Mapped(response);
     }
 }

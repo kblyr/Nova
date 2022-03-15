@@ -6,6 +6,9 @@ sealed class MappingProfile : Profile
 {
     public MappingProfile()
     {
+        CreateMap<AddApplicationToUser.Request, Contracts.AddApplicationToUser>();
+        CreateMap<Contracts.AddApplicationToUser.Response, AddApplicationToUser.Response>();
+
         CreateMap<AddPermission.Request, Contracts.AddPermission>();
         CreateMap<Contracts.AddPermission.Response, AddPermission.Response>();
 
