@@ -15,4 +15,7 @@ public class User
     public DateTimeOffset? DeletedOn { get; set; }
 
     public UserStatus Status { get; set; }
+    public IEnumerable<UserApplication> UserApplications { get; set; }
+    public IEnumerable<UserRole> UserRoles { get; set; }
+    public IEnumerable<UserPermission> UserPermissions { get; set; }
 }

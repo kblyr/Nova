@@ -10,7 +10,7 @@ sealed class Application_EntityTypeConfiguration : IEntityTypeConfiguration<Appl
         builder.ToTable("Application", DatabaseDefaults.Schema);
 
         builder.HasOne(application => application.Domain)
-            .WithMany()
+            .WithMany(domain => domain.Applications)
             .HasForeignKey(application => application.DomainId);
     }
 }
