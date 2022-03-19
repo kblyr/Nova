@@ -1,0 +1,27 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
+    <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="10.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Core\Nova.csproj" />
+    <ProjectReference Include="..\..\Web\Nova.Web.csproj" />
+    <ProjectReference Include="..\Core\Nova.HRIS.csproj" />
+    <ProjectReference Include="..\EFCore\Nova.HRIS.EFCore.csproj" />
+    <ProjectReference Include="..\EFCore.Postgres\Nova.HRIS.EFCore.Postgres.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Using Include="Nova.Messaging" />
+    <Using Include="Nova.HRIS.Schema" />
+  </ItemGroup>
+
+</Project>
