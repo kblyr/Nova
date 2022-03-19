@@ -1,5 +1,6 @@
+using System.Text.Json;
 using Microsoft.AspNetCore.Http;
-using Nova.Authentication;
+using Nova.Authentication.ClaimTypes;
 
 namespace Nova.Auditing;
 
@@ -22,17 +23,22 @@ sealed class CurrentAuditInfoProvider : ICurrentAuditInfoProvider
                 return _current;
 
             _current = new(null, DateTimeOffset.UtcNow);
-
             var context = _contextAccessor.HttpContext;
 
-            if (context is not null)
-            {
-                var claim = context.User.FindFirst(ClaimTypes.User.Id);
+            if (context is null)
+                return _current;
 
-                if (claim is not null && int.TryParse(claim.Value, out int userId))
-                    _current = _current with { UserId = userId };
+            var claim = context.User.FindFirst(SessionClaimType.ClaimTypeName);
 
-            }
+            if (claim is null)
+                return _current;
+            
+            var session = JsonSerializer.Deserialize<SessionClaimType>(claim.Value);
+
+            if (session is null || session.User is null)
+                return _current;
+
+            _current = _current with { UserId = session.User.Id };
 
             return _current;
         }
