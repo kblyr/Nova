@@ -1,3 +1,4 @@
+using System.Data.Common;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using Nova.Auditing;
@@ -30,13 +31,16 @@ sealed class AddEmployee_Handler : RequestHandler<AddEmployee>
         City city = null;
         Barangay barangay = null;
 
-        if ((request.CivilStatusId ?? 0) != 0 && await context.CivilStatuses.Exists(request.CivilStatusId.Value) == false)
+        if (await context.Employees.Exists(request.FirstName, request.MiddleName, request.LastName, request.NameSuffix, request.Sex, request.BirthDate))
+            return _mapper.Map<AddEmployee, EmployeeAlreadyExists>(request);
+
+        if (request.CivilStatusId.HasValue && await context.CivilStatuses.Exists(request.CivilStatusId.Value) == false)
             return new CivilStatusNotFound(request.CivilStatusId.Value);
 
-        if ((request.NationalityId ?? 0) != 0 && await context.Nationalities.Exists(request.NationalityId.Value) == false)
+        if (request.NationalityId.HasValue && await context.Nationalities.Exists(request.NationalityId.Value) == false)
             return new NationalityNotFound(request.NationalityId.Value);
 
-        if ((request.ProvinceId ?? 0) != 0)
+        if (request.ProvinceId.HasValue)
         {
             province = await GetProvince(context, request.ProvinceId.Value);
 
@@ -44,7 +48,7 @@ sealed class AddEmployee_Handler : RequestHandler<AddEmployee>
                 return new ProvinceNotFound(request.ProvinceId.Value);
         }
 
-        if ((request.CityId ?? 0) != 0) 
+        if (request.CityId.HasValue) 
         {
             city = await GetCity(context, request.CityId.Value);
 
@@ -55,12 +59,15 @@ sealed class AddEmployee_Handler : RequestHandler<AddEmployee>
                 return new CityNotInProvince(request.CityId.Value, request.ProvinceId);
         }
 
-        if ((request.BarangayId ?? 0) != 0)
+        if (request.BarangayId.HasValue)
         {
             barangay = await GetBarangay(context, request.BarangayId.Value);
 
             if (barangay is null)
                 return new BarangayNotFound(request.BarangayId.Value);
+
+            if (barangay.CityId != request.CityId)
+                return new BarangayNotInCity(request.BarangayId.Value, request.CityId);
         }
 
         var auditInfo = _currentAuditInfoProvider.Current;
