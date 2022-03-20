@@ -6,6 +6,5 @@ static class DatabaseDefaults
     {
         public const string HRIS = "HRIS";
         public const string Lookup = "Lookup";
-        public const string PoliticalArea = "PoliticalArea";
     }
 }
