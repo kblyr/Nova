@@ -14,8 +14,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Core\Nova.csproj" />
-    <ProjectReference Include="..\Core\Nova.Identity.csproj" />
     <ProjectReference Include="..\..\Redis\Nova.Redis.csproj" />
+    <ProjectReference Include="..\Core\Nova.Identity.csproj" />
   </ItemGroup>
 
   <ItemGroup>
