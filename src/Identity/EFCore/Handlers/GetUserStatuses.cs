@@ -4,9 +4,9 @@ namespace Nova.Identity.Handlers;
 
 sealed class GetUserStatuses_Handler : RequestHandler<GetUserStatuses>
 {
-    readonly IDbContextFactory<DatabaseContext> _contextFactory;
+    readonly IDbContextFactory<UserStatusDbContext> _contextFactory;
 
-    public GetUserStatuses_Handler(IDbContextFactory<DatabaseContext> contextFactory)
+    public GetUserStatuses_Handler(IDbContextFactory<UserStatusDbContext> contextFactory)
     {
         _contextFactory = contextFactory;
     }

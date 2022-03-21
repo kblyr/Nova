@@ -1,23 +1,20 @@
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using Nova.Auditing;
-using Nova.Utilities;
 
 namespace Nova.Identity.Handlers;
 
 sealed class AddPermission_Handler : RequestHandler<AddPermission>
 {
-    readonly IDbContextFactory<DatabaseContext> _contextFactory;
+    readonly IDbContextFactory<PermissionDbContext> _contextFactory;
     readonly IMapper _mapper;
     readonly ICurrentAuditInfoProvider _currentAuditInfoProvider;
-    readonly RandomStringGenerator _codeGenerator;
 
-    public AddPermission_Handler(IDbContextFactory<DatabaseContext> contextFactory, IMapper mapper, ICurrentAuditInfoProvider currentAuditInfoProvider, RandomStringGenerator codeGenerator)
+    public AddPermission_Handler(IDbContextFactory<PermissionDbContext> contextFactory, IMapper mapper, ICurrentAuditInfoProvider currentAuditInfoProvider)
     {
         _contextFactory = contextFactory;
         _mapper = mapper;
         _currentAuditInfoProvider = currentAuditInfoProvider;
-        _codeGenerator = codeGenerator;
     }
 
     public async Task<Response> Handle(AddPermission request, CancellationToken cancellationToken)
@@ -44,7 +41,6 @@ sealed class AddPermission_Handler : RequestHandler<AddPermission>
 
         var auditInfo = _currentAuditInfoProvider.Current;
         var permission = _mapper.Map<AddPermission, Permission>(request);
-        permission.Code = await GenerateCode(context, _codeGenerator);
         permission.IsDeleted = false;
         permission.InsertedById = auditInfo.UserId;
         permission.InsertedOn = auditInfo.Timestamp;
@@ -55,7 +51,7 @@ sealed class AddPermission_Handler : RequestHandler<AddPermission>
         return _mapper.Map<Permission, AddPermission.Response>(permission);
     }
     
-    static async Task<Application> GetApplication(DatabaseContext context, int id)
+    static async Task<Application> GetApplication(PermissionDbContext context, int id)
     {
         return await context.Applications
             .AsNoTracking()
@@ -66,15 +62,5 @@ sealed class AddPermission_Handler : RequestHandler<AddPermission>
                 DomainId = application.DomainId
             })
             .SingleOrDefaultAsync();
-    }
-
-    static async Task<string> GenerateCode(DatabaseContext context, RandomStringGenerator codeGenerator)
-    {
-        var code = codeGenerator.Generate(10);
-
-        if (await context.Permissions.Where(permission => permission.Code == code).AnyAsync())
-            return await GenerateCode(context, codeGenerator);
-
-        return code;
     }
 }

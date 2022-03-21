@@ -5,10 +5,10 @@ namespace Nova.Identity.Handlers;
 
 sealed class SaveRolesAndPermissionsOfUser_Handler : RequestHandler<SaveRolesAndPermissionsOfUser>
 {
-    readonly IDbContextFactory<DatabaseContext> _contextFactory;
+    readonly IDbContextFactory<UserDbContext> _contextFactory;
     readonly ICurrentAuditInfoProvider _currentAuditInfoProvider;
 
-    public SaveRolesAndPermissionsOfUser_Handler(IDbContextFactory<DatabaseContext> contextFactory, ICurrentAuditInfoProvider currentAuditInfoProvider)
+    public SaveRolesAndPermissionsOfUser_Handler(IDbContextFactory<UserDbContext> contextFactory, ICurrentAuditInfoProvider currentAuditInfoProvider)
     {
         _contextFactory = contextFactory;
         _currentAuditInfoProvider = currentAuditInfoProvider;
@@ -127,14 +127,14 @@ sealed class SaveRolesAndPermissionsOfUser_Handler : RequestHandler<SaveRolesAnd
         );
     }
 
-    static async Task<UserRole> GetUserRole(DatabaseContext context, int userId, int roleId)
+    static async Task<UserRole> GetUserRole(UserDbContext context, int userId, int roleId)
     {
         return await context.UserRoles
             .Where(userRole => userRole.UserId == userId && userRole.RoleId == roleId && !userRole.IsDeleted)
             .SingleOrDefaultAsync();
     }
 
-    static async Task<bool> UserPermissionExists(DatabaseContext context, int userId, int permissionId)
+    static async Task<bool> UserPermissionExists(UserDbContext context, int userId, int permissionId)
     {
         return await context.Permissions
             .AsNoTracking()
@@ -152,7 +152,7 @@ sealed class SaveRolesAndPermissionsOfUser_Handler : RequestHandler<SaveRolesAnd
             .AnyAsync();
     }
 
-    static async Task<UserPermission> GetUserPermission(DatabaseContext context, int userId, int permissionId)
+    static async Task<UserPermission> GetUserPermission(UserDbContext context, int userId, int permissionId)
     {
         return await context.UserPermissions
             .Where(userPermission => userPermission.UserId == userId && userPermission.PermissionId == permissionId && !userPermission.IsDeleted)

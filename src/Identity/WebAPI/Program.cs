@@ -26,6 +26,8 @@ var assemblyMarkers = new []
     Nova.Identity.WebAPI.AssemblyMarker.Assembly
 };
 
+var usePostgres = void (DbContextOptionsBuilder options) => options.UseNpgsql(builder.Configuration.GetConnectionString("Postgres:Nova:Identity"));
+
 builder.Services
     .AddAuthentication(options => {
         options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -56,7 +58,12 @@ builder.Services
 builder.Services.AddNova(nova => nova
     .AddUtilities()
     .EFCore(efCore => efCore
-        .AddDbContextFactory<Nova.Identity.DatabaseContext>(options => options.UseNpgsql(builder.Configuration.GetConnectionString("Postgres:Nova:Identity")))
+        .AddDbContextFactory<Nova.Identity.AccessTokenDbContext>(usePostgres)
+        .AddDbContextFactory<Nova.Identity.PermissionDbContext>(usePostgres)
+        .AddDbContextFactory<Nova.Identity.RoleDbContext>(usePostgres)
+        .AddDbContextFactory<Nova.Identity.UserDbContext>(usePostgres)
+        .AddDbContextFactory<Nova.Identity.UserApplicationDbContext>(usePostgres)
+        .AddDbContextFactory<Nova.Identity.UserStatusDbContext>(usePostgres)
     )
     .Web(web => web
         .AddAuditing()

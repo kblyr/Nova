@@ -5,8 +5,8 @@ public record SessionClaimType
     public UserObj User { get; init; } = new();
     public ApplicationObj Application { get; init; } = new();
     public DomainObj? Domain { get; init; }
-    public IEnumerable<string> Roles { get; init; } = Enumerable.Empty<string>();
-    public IEnumerable<string> Permissions { get; init; } = Enumerable.Empty<string>();
+    public IEnumerable<int> Roles { get; init; } = Enumerable.Empty<int>();
+    public IEnumerable<int> Permissions { get; init; } = Enumerable.Empty<int>();
 
     public record UserObj
     {

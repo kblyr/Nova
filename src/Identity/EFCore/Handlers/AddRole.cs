@@ -1,23 +1,20 @@
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using Nova.Auditing;
-using Nova.Utilities;
 
 namespace Nova.Identity.Handlers;
 
 sealed class AddRole_Handler : RequestHandler<AddRole>
 {
-    readonly IDbContextFactory<DatabaseContext> _contextFactory;
+    readonly IDbContextFactory<RoleDbContext> _contextFactory;
     readonly IMapper _mapper;
     readonly ICurrentAuditInfoProvider _currentAuditInfoProvider;
-    readonly RandomStringGenerator _codeGenerator;
 
-    public AddRole_Handler(IDbContextFactory<DatabaseContext> contextFactory, IMapper mapper, ICurrentAuditInfoProvider currentAuditInfoProvider, RandomStringGenerator codeGenerator)
+    public AddRole_Handler(IDbContextFactory<RoleDbContext> contextFactory, IMapper mapper, ICurrentAuditInfoProvider currentAuditInfoProvider)
     {
         _contextFactory = contextFactory;
         _mapper = mapper;
         _currentAuditInfoProvider = currentAuditInfoProvider;
-        _codeGenerator = codeGenerator;
     }
 
     public async Task<Response> Handle(AddRole request, CancellationToken cancellationToken)
@@ -44,7 +41,6 @@ sealed class AddRole_Handler : RequestHandler<AddRole>
 
         var auditInfo = _currentAuditInfoProvider.Current;
         var role = _mapper.Map<AddRole, Role>(request);
-        role.Code = await GenerateCode(context, _codeGenerator);
         role.IsDeleted = false;
         role.InsertedById = auditInfo.UserId;
         role.InsertedOn = auditInfo.Timestamp;
@@ -54,18 +50,8 @@ sealed class AddRole_Handler : RequestHandler<AddRole>
 
         return _mapper.Map<Role, AddRole.Response>(role);
     }
-
-    static async Task<string> GenerateCode(DatabaseContext context, RandomStringGenerator codeGenerator)
-    {
-        var code = codeGenerator.Generate(10);
-
-        if (await context.Roles.Where(role => role.Code == code).AnyAsync())
-            return await GenerateCode(context, codeGenerator);
-
-        return code;
-    }
     
-    static async Task<Application> GetApplication(DatabaseContext context, int id)
+    static async Task<Application> GetApplication(RoleDbContext context, int id)
     {
         return await context.Applications
             .AsNoTracking()

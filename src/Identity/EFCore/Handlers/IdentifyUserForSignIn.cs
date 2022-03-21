@@ -5,10 +5,10 @@ namespace Nova.Identity.Handlers;
 
 sealed class IdentifyUserForSignIn_Handler : RequestHandler<IdentifyUserForSignIn>
 {
-    readonly IDbContextFactory<DatabaseContext> _contextFactory;
+    readonly IDbContextFactory<UserDbContext> _contextFactory;
     readonly IMapper _mapper;
 
-    public IdentifyUserForSignIn_Handler(IDbContextFactory<DatabaseContext> contextFactory, IMapper mapper)
+    public IdentifyUserForSignIn_Handler(IDbContextFactory<UserDbContext> contextFactory, IMapper mapper)
     {
         _contextFactory = contextFactory;
         _mapper = mapper;
@@ -35,7 +35,7 @@ sealed class IdentifyUserForSignIn_Handler : RequestHandler<IdentifyUserForSignI
         return _mapper.Map<User, IdentifyUserForSignIn.Response>(user);
     }
 
-    static async Task<User> GetUser(DatabaseContext context, string username)
+    static async Task<User> GetUser(UserDbContext context, string username)
     {
         return await context.Users
             .AsNoTracking()

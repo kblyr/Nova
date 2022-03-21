@@ -10,8 +10,8 @@ public record GetAccessTokenPayload
     (
         Response.UserObj User,
         Response.ApplicationObj Application,
-        IEnumerable<string> Roles,
-        IEnumerable<string> Permissions
+        IEnumerable<int> Roles,
+        IEnumerable<int> Permissions
     ) : Messaging.Response
     {
         public record UserObj(int Id, string Username, UserStatusObj Status);

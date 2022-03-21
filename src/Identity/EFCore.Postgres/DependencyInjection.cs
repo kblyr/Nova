@@ -21,7 +21,13 @@ public static class DependencyExtensions
 
     public static DependencyInjector AddDefault(this DependencyInjector injector)
     {
-        injector.Services.AddEntityTypeConfigurationContainingAssemblyProvider<EntityTypeConfigurationContainingAssemblyProvider, DatabaseContext>();
+        injector.Services
+            .AddEntityTypeConfigurationContainingAssemblyProvider<EntityTypeConfigurationContainingAssemblyProvider, AccessTokenDbContext>()
+            .AddEntityTypeConfigurationContainingAssemblyProvider<EntityTypeConfigurationContainingAssemblyProvider, PermissionDbContext>()
+            .AddEntityTypeConfigurationContainingAssemblyProvider<EntityTypeConfigurationContainingAssemblyProvider, RoleDbContext>()
+            .AddEntityTypeConfigurationContainingAssemblyProvider<EntityTypeConfigurationContainingAssemblyProvider, UserDbContext>()
+            .AddEntityTypeConfigurationContainingAssemblyProvider<EntityTypeConfigurationContainingAssemblyProvider, UserApplicationDbContext>()
+            .AddEntityTypeConfigurationContainingAssemblyProvider<EntityTypeConfigurationContainingAssemblyProvider, UserStatusDbContext>();
         return injector;
     }
 }
