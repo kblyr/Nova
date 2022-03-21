@@ -7,7 +7,7 @@ sealed class UserPermission_EntityTypeConfiguration : IEntityTypeConfiguration<U
 {
     public void Configure(EntityTypeBuilder<UserPermission> builder)
     {
-        builder.ToTable("UserPermission", DatabaseDefaults.Schema);
+        builder.ToTable("UserPermission", DatabaseDefaults.Schemas.Default);
 
         builder.HasOne(userPermission => userPermission.User)
             .WithMany(user => user.UserPermissions)

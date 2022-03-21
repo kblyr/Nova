@@ -7,7 +7,7 @@ sealed class UserRole_EntityTypeConfiguration : IEntityTypeConfiguration<UserRol
 {
     public void Configure(EntityTypeBuilder<UserRole> builder)
     {
-        builder.ToTable("UserRole", DatabaseDefaults.Schema);
+        builder.ToTable("UserRole", DatabaseDefaults.Schemas.Default);
 
         builder.HasOne(userRole => userRole.User)
             .WithMany(user => user.UserRoles)

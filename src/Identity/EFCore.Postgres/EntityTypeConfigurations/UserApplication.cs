@@ -7,7 +7,7 @@ sealed class UserApplication_EntityTypeConfiguration : IEntityTypeConfiguration<
 {
     public void Configure(EntityTypeBuilder<UserApplication> builder)
     {
-        builder.ToTable("UserApplication", DatabaseDefaults.Schema);
+        builder.ToTable("UserApplication", DatabaseDefaults.Schemas.Default);
 
         builder.HasOne(userApplication => userApplication.User)
             .WithMany(user => user.UserApplications)

@@ -7,7 +7,7 @@ sealed class RolePermission_EntityTypeConfiguration : IEntityTypeConfiguration<R
 {
     public void Configure(EntityTypeBuilder<RolePermission> builder)
     {
-        builder.ToTable("RolePermission", DatabaseDefaults.Schema);
+        builder.ToTable("RolePermission", DatabaseDefaults.Schemas.Default);
 
         builder.HasOne(rolePermission => rolePermission.Role)
             .WithMany(role => role.RolePermissions)
