@@ -77,7 +77,7 @@ sealed class AddEmployee_Handler : RequestHandler<AddEmployee>
         employee.IsDeleted = false;
         employee.InsertedById = auditInfo.UserId;
         employee.InsertedOn = auditInfo.Timestamp;
-
+        context.Employees.Add(employee);
         await context.SaveChangesAsync();
         await transaction.CommitAsync();
         return new AddEmployee.Response(employee.Id);

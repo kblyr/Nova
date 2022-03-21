@@ -8,6 +8,7 @@ sealed class MappingProfile : Profile
     {
         CreateMap<AddBarangay, BarangayAlreadyExists>();
         CreateMap<AddCity, CityAlreadyExists>();
+        CreateMap<AddEmployee, EmployeeAlreadyExists>();
         CreateMap<AddProvince, ProvinceAlreadyExists>();
     }
 }

@@ -21,7 +21,11 @@ public static class DependencyExtensions
 
     public static DependencyInjector AddDefault(this DependencyInjector injector)
     {
-        injector.Services.AddEntityTypeConfigurationContainingAssemblyProvider<EntityTypeConfigurationContainingAssemblyProvider, EmployeeDbContext>();
+        injector.Services
+            .AddEntityTypeConfigurationContainingAssemblyProvider<EntityTypeConfigurationContainingAssemblyProvider, BarangayDbContext>()
+            .AddEntityTypeConfigurationContainingAssemblyProvider<EntityTypeConfigurationContainingAssemblyProvider, CityDbContext>()
+            .AddEntityTypeConfigurationContainingAssemblyProvider<EntityTypeConfigurationContainingAssemblyProvider, EmployeeDbContext>()
+            .AddEntityTypeConfigurationContainingAssemblyProvider<EntityTypeConfigurationContainingAssemblyProvider, ProvinceDbContext>();
         return injector;
     }
 }

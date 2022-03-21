@@ -13,7 +13,7 @@ CREATE TABLE "Lookup"."CivilStatus"
 
 CREATE TABLE "Lookup"."Nationality"
 (
-    "Id" SMALLINT NOT NULL GENERATED ALWAYS AS IDENTITY,
+    "Id" SMALLINT NOT NULL,
     "Name" TEXT NOT NULL,
     CONSTRAINT "PK_Nationality" PRIMARY KEY("Id")
 );

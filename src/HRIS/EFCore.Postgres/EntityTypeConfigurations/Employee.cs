@@ -9,6 +9,9 @@ sealed class Employee_EntityTypeConfiguration : IEntityTypeConfiguration<Employe
     {
         builder.ToTable("Employee", DatabaseDefaults.Schemas.HRIS);
 
+        builder.Property(employee => employee.BirthDate)
+            .HasColumnType("DATE");
+
         builder.HasOne(employee => employee.CivilStatus)
             .WithMany()
             .HasForeignKey(employee => employee.CivilStatusId);

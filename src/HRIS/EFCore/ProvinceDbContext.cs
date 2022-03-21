@@ -6,7 +6,7 @@ public class ProvinceDbContext : DbContext
 {
     readonly IEntityTypeConfigurationContainingAssemblyProvider<ProvinceDbContext> _entityTypeConfigurationContainingAssemblyProvider;
 
-    public ProvinceDbContext(DbContextOptions options, IEntityTypeConfigurationContainingAssemblyProvider<ProvinceDbContext> entityTypeConfigurationContainingAssemblyProvider) : base(options)
+    public ProvinceDbContext(DbContextOptions<ProvinceDbContext> options, IEntityTypeConfigurationContainingAssemblyProvider<ProvinceDbContext> entityTypeConfigurationContainingAssemblyProvider) : base(options)
     {
         _entityTypeConfigurationContainingAssemblyProvider = entityTypeConfigurationContainingAssemblyProvider;
     }

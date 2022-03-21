@@ -6,7 +6,7 @@ public class BarangayDbContext : DbContext
 {
     readonly IEntityTypeConfigurationContainingAssemblyProvider<BarangayDbContext> _entityTypeConfigurationAssemblyProvider;
 
-    public BarangayDbContext(DbContextOptions options, IEntityTypeConfigurationContainingAssemblyProvider<BarangayDbContext> entityTypeConfigurationAssemblyProvider) : base(options)
+    public BarangayDbContext(DbContextOptions<BarangayDbContext> options, IEntityTypeConfigurationContainingAssemblyProvider<BarangayDbContext> entityTypeConfigurationAssemblyProvider) : base(options)
     {
         _entityTypeConfigurationAssemblyProvider = entityTypeConfigurationAssemblyProvider;
     }

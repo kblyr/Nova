@@ -6,7 +6,7 @@ public class EmployeeDbContext : DbContext
 {
     readonly IEntityTypeConfigurationContainingAssemblyProvider<EmployeeDbContext> _entityTypeConfigurationAssemblyProvider;
 
-    public EmployeeDbContext(DbContextOptions options, IEntityTypeConfigurationContainingAssemblyProvider<EmployeeDbContext> entityTypeConfigurationAssemblyProvider) : base(options)
+    public EmployeeDbContext(DbContextOptions<EmployeeDbContext> options, IEntityTypeConfigurationContainingAssemblyProvider<EmployeeDbContext> entityTypeConfigurationAssemblyProvider) : base(options)
     {
         _entityTypeConfigurationAssemblyProvider = entityTypeConfigurationAssemblyProvider;
     }

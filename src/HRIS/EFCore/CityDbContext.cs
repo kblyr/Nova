@@ -6,7 +6,7 @@ public class CityDbContext : DbContext
 {
     readonly IEntityTypeConfigurationContainingAssemblyProvider<CityDbContext> _entityTypeConfigurationContainingAssemblyProvider;
 
-    public CityDbContext(DbContextOptions options, IEntityTypeConfigurationContainingAssemblyProvider<CityDbContext> entityTypeConfigurationContainingAssemblyProvider) : base(options)
+    public CityDbContext(DbContextOptions<CityDbContext> options, IEntityTypeConfigurationContainingAssemblyProvider<CityDbContext> entityTypeConfigurationContainingAssemblyProvider) : base(options)
     {
         _entityTypeConfigurationContainingAssemblyProvider = entityTypeConfigurationContainingAssemblyProvider;
     }

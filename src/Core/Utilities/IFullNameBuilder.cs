@@ -45,6 +45,9 @@ sealed class FullNameBuilder : IFullNameBuilder
         if (containsMiddleInitials)
             builder.Replace(Placeholder_MiddleInitials, _middleInitialsParser.Parse(middleName));
 
+        if (containsNameSuffix)
+            builder.Replace(Placeholder_NameSuffix, nameSuffix);
+
         return builder.ToString();
     }
 }
