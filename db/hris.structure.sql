@@ -18,6 +18,20 @@ CREATE TABLE "Lookup"."Nationality"
     CONSTRAINT "PK_Nationality" PRIMARY KEY("Id")
 );
 
+CREATE TABLE "Lookup"."EmploymentStatus"
+(
+    "Id" SMALLINT NOT NULL,
+    "Name" TEXT NOT NULL,
+    CONSTRAINT "PK_EmploymentStatus" PRIMARY KEY("Id")
+);
+
+CREATE TABLE "Lookup"."EmploymentType"
+(
+    "Id" SMALLINT NOT NULL,
+    "Name" TEXT NOT NULL,
+    CONSTRAINT "PK_EmploymentType" PRIMARY KEY("Id")
+);
+
 CREATE TABLE "Lookup"."Province"
 (
     "Id" SMALLINT NOT NULL GENERATED ALWAYS AS IDENTITY,

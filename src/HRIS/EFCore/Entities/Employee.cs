@@ -18,6 +18,7 @@ public class Employee
     public short? BarangayId { get; set; }
     public short? CityId { get; set; }
     public short? ProvinceId { get; set; }
+    public short? EmploymentStatusId { get; set; }
     public bool IsDeleted { get; set; }
     public int? InsertedById { get; set; }
     public DateTimeOffset? InsertedOn { get; set; }
@@ -31,6 +32,7 @@ public class Employee
     public Barangay Barangay { get; set; }
     public City City { get; set; }
     public Province Province { get; set; }
+    public EmploymentStatus EmploymentStatus { get; set; }
     
     public string FullName { get; set; }
     public string FullAddress { get; set; }

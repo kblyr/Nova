@@ -31,5 +31,9 @@ sealed class Employee_EntityTypeConfiguration : IEntityTypeConfiguration<Employe
         builder.HasOne(employee => employee.Barangay)
             .WithMany()
             .HasForeignKey(employee => employee.BarangayId);
+
+        builder.HasOne(employee => employee.EmploymentStatus)
+            .WithMany()
+            .HasForeignKey(employee => employee.EmploymentStatusId);
     }
 }
