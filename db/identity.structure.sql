@@ -1,10 +1,8 @@
 CREATE DATABASE "Nova_Identity_V1";
 
-CREATE SCHEMA "Lookup";
-
 CREATE SCHEMA "Identity";
 
-CREATE TABLE "Lookup"."UserStatus"
+CREATE TABLE "Identity"."UserStatus"
 (
     "Id" SMALLINT NOT NULL,
     "Name" TEXT NOT NULL,
@@ -26,7 +24,7 @@ CREATE TABLE "Identity"."User"
     "DeletedById" INT,
     "DeletedOn" TIMESTAMPTZ,
     CONSTRAINT "PK_User" PRIMARY KEY("Id"),
-    CONSTRAINT "FK_User_StatusId" FOREIGN KEY("StatusId") REFERENCES "Lookup"."UserStatus"("Id")
+    CONSTRAINT "FK_User_StatusId" FOREIGN KEY("StatusId") REFERENCES "Identity"."UserStatus"("Id")
 );
 
 CREATE TABLE "Identity"."Domain"
