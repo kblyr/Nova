@@ -19,4 +19,10 @@ public class MappedMediator
         var requestTo = _mapper.Map<TRequestFrom, TRequestTo>(requestFrom);
         return await _mediator.Send(requestTo);
     }
+
+    public async Task<Response> Send<TRequestFrom, TRequestTo>(TRequestFrom requestFrom, Func<TRequestTo, TRequestTo> mutateRequest) where TRequestTo : Request
+    {
+        var requestTo = _mapper.Map<TRequestFrom, TRequestTo>(requestFrom);
+        return await _mediator.Send(mutateRequest(requestTo));
+    }
 }

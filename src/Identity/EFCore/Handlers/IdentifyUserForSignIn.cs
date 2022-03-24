@@ -3,18 +3,18 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Nova.Identity.Handlers;
 
-sealed class IdentityUserForSignIn_Handler : RequestHandler<IdentityUserForSignIn>
+sealed class IdentifyUserForSignIn_Handler : RequestHandler<IdentifyUserForSignIn>
 {
     readonly IDbContextFactory<DatabaseContext> _contextFactory;
     readonly IMapper _mapper;
 
-    public IdentityUserForSignIn_Handler(IDbContextFactory<DatabaseContext> contextFactory, IMapper mapper)
+    public IdentifyUserForSignIn_Handler(IDbContextFactory<DatabaseContext> contextFactory, IMapper mapper)
     {
         _contextFactory = contextFactory;
         _mapper = mapper;
     }
 
-    public async Task<Response> Handle(IdentityUserForSignIn request, CancellationToken cancellationToken)
+    public async Task<Response> Handle(IdentifyUserForSignIn request, CancellationToken cancellationToken)
     {
         using var context = await _contextFactory.CreateDbContextAsync();
 
@@ -32,7 +32,7 @@ sealed class IdentityUserForSignIn_Handler : RequestHandler<IdentityUserForSignI
         if (await context.UserApplications.Exists(user.Id, request.ApplicationId) == false)
             return new UserNotLinkedToApplication(user.Id, request.ApplicationId);
 
-        return _mapper.Map<User, IdentityUserForSignIn.Response>(user);
+        return _mapper.Map<User, IdentifyUserForSignIn.Response>(user);
     }
 
     static async Task<User> GetUser(DatabaseContext context, string username)
@@ -43,6 +43,12 @@ sealed class IdentityUserForSignIn_Handler : RequestHandler<IdentityUserForSignI
                 user.Username == username
                 && !user.IsDeleted
             )
+            .Select(user => new User
+            {
+                Id = user.Id,
+                Username = user.Username,
+                StatusId = user.StatusId
+            })
             .SingleOrDefaultAsync();
     }
 }

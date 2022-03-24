@@ -16,6 +16,11 @@ public class DatabaseContext : DbContext
     public DbSet<Domain> Domains => Set<Domain>();
     public DbSet<Application> Applications => Set<Application>();
     public DbSet<UserApplication> UserApplications => Set<UserApplication>();
+    public DbSet<Role> Roles => Set<Role>();
+    public DbSet<Permission> Permissions => Set<Permission>();
+    public DbSet<RolePermission> RolePermissions => Set<RolePermission>();
+    public DbSet<UserRole> UserRoles => Set<UserRole>();
+    public DbSet<UserPermission> UserPermissions => Set<UserPermission>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
