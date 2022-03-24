@@ -6,10 +6,10 @@ public class Employment
     public int EmployeeId { get; set; }
     public short TypeId { get; set; }
     public short OfficeId { get; set; }
-    public short PositionId { get; set; }
+    public int PositionId { get; set; }
     public DateTimeOffset EffectivityDateBegin { get; set; }
     public DateTimeOffset? EffectivityDateEnd { get; set; }
-    public decimal Salary { get; set; }
+    public decimal? Salary { get; set; }
     public bool IsDeleted { get; set; }
     public int? InsertedById { get; set; }
     public DateTimeOffset? InsertedOn { get; set; }
