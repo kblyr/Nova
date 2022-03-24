@@ -7,6 +7,6 @@ sealed class EmploymentStatus_EntityTypeConfiguration : IEntityTypeConfiguration
 {
     public void Configure(EntityTypeBuilder<EmploymentStatus> builder)
     {
-        builder.ToTable("EmploymentStatus", DatabaseDefaults.Schemas.Lookup); 
+        builder.ToTable("EmploymentStatus", DatabaseDefaults.Schemas.HRIS); 
     }
 }

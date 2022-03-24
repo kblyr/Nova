@@ -7,6 +7,6 @@ sealed class Province_EntityTypeConfiguration : IEntityTypeConfiguration<Provinc
 {
     public void Configure(EntityTypeBuilder<Province> builder)
     {
-        builder.ToTable("Province", DatabaseDefaults.Schemas.Lookup);
+        builder.ToTable("Province", DatabaseDefaults.Schemas.HRIS);
     }
 }

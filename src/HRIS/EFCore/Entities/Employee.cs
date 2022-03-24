@@ -33,6 +33,8 @@ public class Employee
     public City City { get; set; }
     public Province Province { get; set; }
     public EmploymentStatus EmploymentStatus { get; set; }
+    public IEnumerable<Employment> Employments { get; set; }
+    public IEnumerable<EmployeeSalaryGradeStep> SalaryGradeSteps { get; set; }
     
     public string FullName { get; set; }
     public string FullAddress { get; set; }

@@ -7,7 +7,7 @@ sealed class Barangay_EntityTypeConfiguration : IEntityTypeConfiguration<Baranga
 {
     public void Configure(EntityTypeBuilder<Barangay> builder)
     {
-        builder.ToTable("Barangay", DatabaseDefaults.Schemas.Lookup);
+        builder.ToTable("Barangay", DatabaseDefaults.Schemas.HRIS);
 
         builder.HasOne(barangay => barangay.City)
             .WithMany()

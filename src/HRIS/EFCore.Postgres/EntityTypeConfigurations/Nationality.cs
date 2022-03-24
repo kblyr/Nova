@@ -7,6 +7,6 @@ sealed class Nationality_EntityTypeConfiguration : IEntityTypeConfiguration<Nati
 {
     public void Configure(EntityTypeBuilder<Nationality> builder)
     {
-        builder.ToTable("Nationality", DatabaseDefaults.Schemas.Lookup);
+        builder.ToTable("Nationality", DatabaseDefaults.Schemas.HRIS);
     }
 }

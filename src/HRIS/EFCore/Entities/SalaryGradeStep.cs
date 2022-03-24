@@ -1,11 +1,12 @@
 namespace Nova.HRIS.Entities;
 
-public class Position
+public class SalaryGradeStep
 {
-    public short Id { get; set; }
-    public string Name { get; set; }
-    public short Level { get; set; }
-    public short? ParentId { get; set; }
+    public long Id { get; set; }
+    public int TableId { get; set; }
+    public short Grade { get; set; }
+    public short Step { get; set; }
+    public decimal Amount { get; set; }
     public bool IsDeleted { get; set; }
     public int? InsertedById { get; set; }
     public DateTimeOffset? InsertedOn { get; set; }
@@ -14,8 +15,5 @@ public class Position
     public int? DeletedById { get; set; }
     public DateTimeOffset? DeletedOn { get; set; }
 
-    public Position Parent { get; set; }
-    public IEnumerable<Position> Children { get; set; }
-
-    public string FullName { get; set; }
+    public SalaryGradeTable Table { get; set; }
 }

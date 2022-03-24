@@ -7,6 +7,6 @@ sealed class CivilStatus_EntityTypeConfiguration : IEntityTypeConfiguration<Civi
 {
     public void Configure(EntityTypeBuilder<CivilStatus> builder)
     {
-        builder.ToTable("CivilStatus", DatabaseDefaults.Schemas.Lookup);
+        builder.ToTable("CivilStatus", DatabaseDefaults.Schemas.HRIS);
     }
 }
