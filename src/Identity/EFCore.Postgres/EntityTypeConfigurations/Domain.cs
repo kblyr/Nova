@@ -7,6 +7,6 @@ sealed class Domain_EntityTypeConfiguration : IEntityTypeConfiguration<Domain>
 {
     public void Configure(EntityTypeBuilder<Domain> builder)
     {
-        builder.ToTable("Domain", DatabaseDefaults.Schemas.Default);
+        builder.ToTable("Domain", DatabaseDefaults.Schemas.Identity);
     }
 }

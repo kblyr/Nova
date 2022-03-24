@@ -7,7 +7,7 @@ sealed class Application_EntityTypeConfiguration : IEntityTypeConfiguration<Appl
 {
     public void Configure(EntityTypeBuilder<Application> builder)
     {
-        builder.ToTable("Application", DatabaseDefaults.Schemas.Default);
+        builder.ToTable("Application", DatabaseDefaults.Schemas.Identity);
 
         builder.HasOne(application => application.Domain)
             .WithMany(domain => domain.Applications)

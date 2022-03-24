@@ -7,7 +7,7 @@ sealed class Role_EntityTypeConfiguration : IEntityTypeConfiguration<Role>
 {
     public void Configure(EntityTypeBuilder<Role> builder)
     {
-        builder.ToTable("Role", DatabaseDefaults.Schemas.Default);
+        builder.ToTable("Role", DatabaseDefaults.Schemas.Identity);
 
         builder.HasOne(role => role.Domain)
             .WithMany(domain => domain.Roles)
