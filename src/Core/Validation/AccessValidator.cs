@@ -1,5 +1,6 @@
 using System.Collections.Concurrent;
 using MediatR;
+using Nova.Validation.Rules;
 
 namespace Nova.Validation;
 
@@ -29,16 +30,31 @@ public abstract class AccessValidatorBase
 
 sealed class AccessValidator : AccessValidatorBase, IAccessValidator
 {
+    readonly InternalAccessValidator _internal;
+
+    public AccessValidator(InternalAccessValidator internalValidator)
+    {
+        _internal = internalValidator;
+    }
+
+    protected override bool Validate(IAccessValidationRule rule)
+    {
+        return _internal.Validate(rule);
+    }
+}
+
+sealed class InternalAccessValidator
+{
     static readonly ConcurrentDictionary<Type, AccessValidatorWrapperBase> _accessValidatorImpls = new();
 
     readonly ServiceFactory _serviceFactory;
 
-    public AccessValidator(ServiceFactory serviceFactory)
+    public InternalAccessValidator(ServiceFactory serviceFactory)
     {
         _serviceFactory = serviceFactory;
     }
 
-    protected override bool Validate(IAccessValidationRule rule)
+    public bool Validate(IAccessValidationRule rule)
     {
         var ruleType = rule.GetType();
 
