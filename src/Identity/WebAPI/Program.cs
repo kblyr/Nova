@@ -13,6 +13,7 @@ using Nova.Identity.EFCore;
 using Nova.Identity.EFCore.Postgres;
 using Nova.Redis;
 using Nova.Web;
+using Nova.Web.Authentication;
 using Nova.Web.Messaging;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -60,6 +61,7 @@ builder.Services.AddNova(nova => nova
         .AddDbContextFactory<Nova.Identity.DatabaseContext>(options => options.UseNpgsql(builder.Configuration.GetConnectionString("Postgres:Nova:Identity")))
     )
     .Web(web => web
+        .AddAuthentication()
         .AddMessaging()
     )
     .Redis(redis => redis
