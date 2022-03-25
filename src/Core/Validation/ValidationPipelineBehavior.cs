@@ -50,8 +50,8 @@ sealed class ValidationPipelineBehavior<TRequest> : IPipelineBehavior<TRequest, 
 
     static bool Validate(IAccessValidator validator, IAccessValidationConfiguration<TRequest> configuration, TRequest request)
     {
-        var context = new AccessValidationContext();
-        configuration.Configure(context, request);
+        var context = new AccessValidationContext<TRequest>(request);
+        configuration.Configure(context);
         var result = validator.Validate(context.Rules);
         return result.IsSucceeded;
     }

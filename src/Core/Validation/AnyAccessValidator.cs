@@ -2,7 +2,7 @@ using Nova.Validation.Rules;
 
 namespace Nova.Validation;
 
-sealed class AnyAccessValidator : IAccessValidator<ValidateAny>
+sealed class AnyAccessValidator<T> : IAccessValidator<ValidateAny>
 {
     readonly InternalAccessValidator _internalValidator;
 
