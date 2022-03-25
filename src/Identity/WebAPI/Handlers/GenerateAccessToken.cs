@@ -4,7 +4,7 @@ using AutoMapper;
 using MediatR;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
-using Nova.Authentication.ClaimTypes;
+using Nova.Authentication;
 using Nova.Identity.Configuration;
 using Nova.Identity.Contracts;
 
@@ -63,16 +63,7 @@ sealed class GenerateAccessToken_Handler : Messaging.RequestHandler<GenerateAcce
     static IDictionary<string, object> GetClaims(GetAccessTokenPayload.Response response, IMapper mapper)
     {
         var claims = new Dictionary<string, object>();
-
-        claims.Add(SessionClaimType.ClaimTypeName, new SessionClaimType
-        {
-            User = mapper.Map<GetAccessTokenPayload.Response.UserObj, SessionClaimType.UserObj>(response.User),
-            Application = mapper.Map<GetAccessTokenPayload.Response.ApplicationObj, SessionClaimType.ApplicationObj>(response.Application),
-            Domain = response.Application.Domain is null ? null : mapper.Map<GetAccessTokenPayload.Response.DomainObj, SessionClaimType.DomainObj>(response.Application.Domain),
-            Roles = response.Roles,
-            Permissions = response.Permissions
-        });
-
+        claims.Add(Session.ClaimType, mapper.Map<GetAccessTokenPayload.Response, Session>(response));
         return claims;
     }
 }
