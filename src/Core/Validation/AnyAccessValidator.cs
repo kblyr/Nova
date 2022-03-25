@@ -13,10 +13,10 @@ sealed class AnyAccessValidator : IAccessValidator<ValidateAny>
 
     public bool Validate(ValidateAny rule)
     {
-        if (rule.Rules is null || !rule.Rules.Any())
+        if (rule.RequiredRules is null || !rule.RequiredRules.Rules.Any())
             return true;
 
-        foreach (var _rule in rule.Rules)
+        foreach (var _rule in rule.RequiredRules.Rules)
         {
             if (_internalValidator.Validate(_rule))
                 return true;

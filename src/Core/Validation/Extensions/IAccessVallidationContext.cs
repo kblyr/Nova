@@ -21,7 +21,7 @@ public static class IAccessValidationContext_Extensions
     {
         var requiredRules = new RequiredAccessValidationRules();
         addRequiredRules(requiredRules);
-        context.Require(new ValidateAny(requiredRules.Rules));
+        context.Require(new ValidateAny(requiredRules));
         return context;
     }
 }
