@@ -20,6 +20,7 @@
 
   <ItemGroup>
     <Using Include="Nova.Messaging" />
+    <Using Include="Nova.Validation" />
     <Using Include="Nova.Identity.Contracts" />
   </ItemGroup>
 
