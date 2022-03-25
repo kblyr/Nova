@@ -72,7 +72,7 @@ sealed class GetAccessTokenPayload_Handler : RequestHandler<GetAccessTokenPayloa
             .SingleOrDefaultAsync();
     }
 
-    static async Task<IEnumerable<string>> GetRoles(DatabaseContext context, int userId, short applicationId)
+    static async Task<IEnumerable<int>> GetRoles(DatabaseContext context, int userId, short applicationId)
     {
         var query = context.Roles
             .AsNoTracking()
@@ -81,13 +81,13 @@ sealed class GetAccessTokenPayload_Handler : RequestHandler<GetAccessTokenPayloa
                 && role.ApplicationId == applicationId
                 && role.UserRoles.Any(userRole => userRole.UserId == userId && !userRole.IsDeleted)
             )
-            .Select(role => role.Code)
+            .Select(role => role.Id)
             .Distinct();
 
-        return await query.ToArrayAsync() ?? Enumerable.Empty<string>();
+        return await query.ToArrayAsync() ?? Enumerable.Empty<int>();
     }
 
-    static async Task<IEnumerable<string>> GetPermissions(DatabaseContext context, int userId, short applicationId)
+    static async Task<IEnumerable<int>> GetPermissions(DatabaseContext context, int userId, short applicationId)
     {
         var query = context.Permissions
             .AsNoTracking()
@@ -104,9 +104,9 @@ sealed class GetAccessTokenPayload_Handler : RequestHandler<GetAccessTokenPayloa
                     )
                 )
             )
-            .Select(permission => permission.Code)
+            .Select(permission => permission.Id)
             .Distinct();
 
-        return await query.ToArrayAsync() ?? Enumerable.Empty<string>();
+        return await query.ToArrayAsync() ?? Enumerable.Empty<int>();
     }
 }

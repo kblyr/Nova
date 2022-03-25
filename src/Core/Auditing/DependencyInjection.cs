@@ -1,7 +1,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using Nova.Auditing;
 
-namespace Nova.Web.Auditing;
+namespace Nova.Core.Auditing;
 
 public static class DependencyExtensions
 {

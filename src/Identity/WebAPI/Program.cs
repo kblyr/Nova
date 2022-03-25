@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Nova.Core;
+using Nova.Core.Auditing;
 using Nova.Core.Utilities;
 using Nova.EFCore;
 using Nova.Identity.Core;
@@ -12,7 +13,6 @@ using Nova.Identity.EFCore;
 using Nova.Identity.EFCore.Postgres;
 using Nova.Redis;
 using Nova.Web;
-using Nova.Web.Auditing;
 using Nova.Web.Messaging;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -54,12 +54,12 @@ builder.Services
     .AddHttpContextAccessor();
 
 builder.Services.AddNova(nova => nova
+    .AddAuditing()
     .AddUtilities()
     .EFCore(efCore => efCore
         .AddDbContextFactory<Nova.Identity.DatabaseContext>(options => options.UseNpgsql(builder.Configuration.GetConnectionString("Postgres:Nova:Identity")))
     )
     .Web(web => web
-        .AddAuditing()
         .AddMessaging()
     )
     .Redis(redis => redis
