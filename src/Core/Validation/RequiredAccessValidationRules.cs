@@ -13,4 +13,12 @@ public class RequiredAccessValidationRules
         _rules.Add(rule);
         return this;
     }
+
+    public RequiredAccessValidationRules Require(Func<IAccessValidationRule> materializeRule, Func<bool> predicate)
+    {
+        if (predicate())
+            _rules.Add(materializeRule());
+
+        return this;
+    }
 }
