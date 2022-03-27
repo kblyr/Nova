@@ -4,16 +4,17 @@ using MediatR;
 
 namespace Nova.Validation;
 
-sealed class ValidationPipelineBehavior<TRequest> : IPipelineBehavior<TRequest, Response> where TRequest : Request
+sealed class ValidationPipelineBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, Response> 
+    where TRequest : IRequest<Response>
 {
     readonly IEnumerable<IValidator<TRequest>> _validators;
-    readonly IAccessValidationConfiguration<TRequest> _accessValidationConfiguration;
+    readonly IEnumerable<IAccessValidationConfiguration<TRequest>> _accessValidationConfigurations;
     readonly IAccessValidator _accessValidator;
 
-    public ValidationPipelineBehavior(IEnumerable<IValidator<TRequest>> validators, IAccessValidationConfiguration<TRequest> accessValidationConfiguration, IAccessValidator accessValidator)
+    public ValidationPipelineBehavior(IEnumerable<IValidator<TRequest>> validators, IEnumerable<IAccessValidationConfiguration<TRequest>> accessValidationConfigurations, IAccessValidator accessValidator)
     {
         _validators = validators;
-        _accessValidationConfiguration = accessValidationConfiguration;
+        _accessValidationConfigurations = accessValidationConfigurations;
         _accessValidator = accessValidator;
     }
 
@@ -24,8 +25,11 @@ sealed class ValidationPipelineBehavior<TRequest> : IPipelineBehavior<TRequest, 
         if (failures.Any())
             return new ValidationFailed(failures.Select(failure => new ValidationFailed.FailureObj(failure.PropertyName, failure.ErrorMessage)));
 
-        if (Validate(_accessValidator, _accessValidationConfiguration, request) == false)
-            return new AccessValidationFailed();
+        foreach (var configuration in _accessValidationConfigurations)
+        {
+            if (Validate(_accessValidator, configuration, request) == false)
+                return new AccessValidationFailed();
+        }
 
         return await next();
     }

@@ -1,14 +1,13 @@
 namespace Nova.Authentication;
 
 public record Session
-(
-    int UserId,
-    string Username,
-    short ApplicationId,
-    short? DomainId,
-    IEnumerable<int> Roles,
-    IEnumerable<int> Permissions
-)
 {
-    public const string ClaimType = "Nova:Session";
+    public int UserId { get; init; }
+    public string Username { get; init; } = "";
+    public short ApplicationId { get; init; }
+    public short? DomainId { get; init; }
+    public IEnumerable<int> Roles { get; init; } = Enumerable.Empty<int>();
+    public IEnumerable<int> Permissions { get; init; } = Enumerable.Empty<int>();
+
+    public const string ClaimType = "NovaSession";
 }

@@ -18,7 +18,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Core\Nova.csproj" />
-    <ProjectReference Include="..\Shared\Nova.Shared.csproj" />
   </ItemGroup>
 
   <ItemGroup>
