@@ -1,0 +1,26 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="11.0.1" />
+    <PackageReference Include="MediatR" Version="10.0.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="6.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\EFCore\Nova.EFCore.csproj" />
+    <ProjectReference Include="..\..\Core\Nova.csproj" />
+    <ProjectReference Include="..\Core\Nova.HRIS.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Using Include="Nova.Messaging" />
+    <Using Include="Nova.HRIS.Contracts" />
+    <Using Include="Nova.HRIS.Entities" />
+  </ItemGroup>
+
+</Project>
