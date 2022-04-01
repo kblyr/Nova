@@ -16,6 +16,8 @@ sealed class MappingProfile : Profile
             .ForMember(dest => dest.UserId, config => config.MapFrom(src => src.User.Id))
             .ForMember(dest => dest.Username, config => config.MapFrom(src => src.User.Username))
             .ForMember(dest => dest.ApplicationId, config => config.MapFrom(src => src.Application.Id))
-            .ForMember(dest => dest.DomainId, config => config.MapFrom(src => src.Application.Domain.Id));
+            .ForMember(dest => dest.DomainId, config => config.MapFrom(src => src.Application.Domain.Id))
+            .ForMember(dest => dest.Roles, config => config.MapFrom(src => src.Roles))
+            .ForMember(dest => dest.Permissions, config => config.MapFrom(src => src.Permissions));
     }
 }

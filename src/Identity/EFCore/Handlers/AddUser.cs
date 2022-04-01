@@ -7,12 +7,12 @@ namespace Nova.Identity.Handlers;
 
 sealed class AddUser_Handler : RequestHandler<AddUser>
 {
-    readonly IDbContextFactory<DatabaseContext> _contextFactory;
+    readonly IDbContextFactory<UserDbContext> _contextFactory;
     readonly ICurrentAuditInfoProvider _currentAuditInfoProvider;
     readonly IMapper _mapper;
     readonly IUserPasswordHash _userPasswordHash;
 
-    public AddUser_Handler(IDbContextFactory<DatabaseContext> contextFactory, ICurrentAuditInfoProvider currentAuditInfoProvider, IMapper mapper, IUserPasswordHash userPasswordHash)
+    public AddUser_Handler(IDbContextFactory<UserDbContext> contextFactory, ICurrentAuditInfoProvider currentAuditInfoProvider, IMapper mapper, IUserPasswordHash userPasswordHash)
     {
         _contextFactory = contextFactory;
         _currentAuditInfoProvider = currentAuditInfoProvider;

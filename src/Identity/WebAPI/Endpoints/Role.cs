@@ -1,3 +1,5 @@
+using Microsoft.AspNetCore.Authorization;
+
 namespace Nova.Identity.Endpoints;
 
 sealed class Role_EndpointMapper : EndpointMapper
@@ -8,6 +10,7 @@ sealed class Role_EndpointMapper : EndpointMapper
         builder.MapPost("/role/{id}/savePermissions", SavePermissions);
     }
 
+    [Authorize]
     static async Task<IResult> Add(MappedMediator mediator, AddRole.Request request)
     {
         var response = await mediator.Send<AddRole.Request, Contracts.AddRole>(request);

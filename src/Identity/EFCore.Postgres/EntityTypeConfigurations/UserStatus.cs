@@ -7,6 +7,6 @@ sealed class UserStatus_EntityTypeConfiguration : IEntityTypeConfiguration<UserS
 {
     public void Configure(EntityTypeBuilder<UserStatus> builder)
     {
-        builder.ToTable("UserStatus", DatabaseDefaults.Schema);
+        builder.ToTable("UserStatus", DatabaseDefaults.Schemas.Identity);
     }
 }

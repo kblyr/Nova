@@ -7,12 +7,12 @@ namespace Nova.Identity.Handlers;
 
 sealed class SignInUserWithPassword_Handler : Messaging.RequestHandler<SignInUserWithPassword>
 {
-    readonly IDbContextFactory<DatabaseContext> _contextFactory;
+    readonly IDbContextFactory<UserDbContext> _contextFactory;
     readonly IUserPasswordHash _passwordHash;
     readonly IMapper _mapper;
     readonly IMediator _mediator;
 
-    public SignInUserWithPassword_Handler(IDbContextFactory<DatabaseContext> contextFactory, IUserPasswordHash passwordHash, IMapper mapper, IMediator mediator)
+    public SignInUserWithPassword_Handler(IDbContextFactory<UserDbContext> contextFactory, IUserPasswordHash passwordHash, IMapper mapper, IMediator mediator)
     {
         _contextFactory = contextFactory;
         _passwordHash = passwordHash;
@@ -47,7 +47,7 @@ sealed class SignInUserWithPassword_Handler : Messaging.RequestHandler<SignInUse
         return _mapper.Map<User, SignInUserWithPassword.Response>(user);
     }
 
-    static async Task<User> GetUser(DatabaseContext context, int id)
+    static async Task<User> GetUser(UserDbContext context, int id)
     {
         return await context.Users
             .AsNoTracking()

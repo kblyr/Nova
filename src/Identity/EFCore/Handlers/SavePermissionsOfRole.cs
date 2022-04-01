@@ -5,10 +5,10 @@ namespace Nova.Identity.Handlers;
 
 sealed class SavePermissionsOfRole_Handler : RequestHandler<SavePermissionsOfRole>
 {
-    readonly IDbContextFactory<DatabaseContext> _contextFactory;
+    readonly IDbContextFactory<RoleDbContext> _contextFactory;
     readonly ICurrentAuditInfoProvider _currentAuditInfoProvider;
 
-    public SavePermissionsOfRole_Handler(IDbContextFactory<DatabaseContext> contextFactory, ICurrentAuditInfoProvider currentAuditInfoProvider)
+    public SavePermissionsOfRole_Handler(IDbContextFactory<RoleDbContext> contextFactory, ICurrentAuditInfoProvider currentAuditInfoProvider)
     {
         _contextFactory = contextFactory;
         _currentAuditInfoProvider = currentAuditInfoProvider;
@@ -82,7 +82,7 @@ sealed class SavePermissionsOfRole_Handler : RequestHandler<SavePermissionsOfRol
         return new SavePermissionsOfRole.Response(addedIds, removedIds);
     }
 
-    static async Task<Role> GetRole(DatabaseContext context, int id)
+    static async Task<Role> GetRole(RoleDbContext context, int id)
     {
         return await context.Roles
             .AsNoTracking()
@@ -96,7 +96,7 @@ sealed class SavePermissionsOfRole_Handler : RequestHandler<SavePermissionsOfRol
             .SingleOrDefaultAsync();
     }
 
-    static async Task<Permission> GetPermission(DatabaseContext context, int id)
+    static async Task<Permission> GetPermission(RoleDbContext context, int id)
     {
         return await context.Permissions
             .AsNoTracking()
@@ -110,7 +110,7 @@ sealed class SavePermissionsOfRole_Handler : RequestHandler<SavePermissionsOfRol
             .SingleOrDefaultAsync();
     }
 
-    static async Task<RolePermission> GetRolePermission(DatabaseContext context, int roleId, int permissionId)
+    static async Task<RolePermission> GetRolePermission(RoleDbContext context, int roleId, int permissionId)
     {
         return await context.RolePermissions
             .Where(rolePermission => 

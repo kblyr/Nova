@@ -2,5 +2,8 @@ namespace Nova.Identity;
 
 static class DatabaseDefaults
 {
-    public const string Schema = "Identity";
+    public static class Schemas
+    {
+        public const string Identity = "Identity";
+    }
 }

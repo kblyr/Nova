@@ -15,11 +15,11 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Core\Nova.csproj" />
-    <ProjectReference Include="..\..\Shared\Nova.Shared.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     <Using Include="Nova.Messaging" />
+    <Using Include="Nova.Validation" />
     <Using Include="Nova.Identity.Contracts" />
   </ItemGroup>
 

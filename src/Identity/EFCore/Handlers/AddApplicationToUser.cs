@@ -6,11 +6,11 @@ namespace Nova.Identity.Handlers;
 
 sealed class AddApplicationToUser_Handler : RequestHandler<AddApplicationToUser>
 {
-    readonly IDbContextFactory<DatabaseContext> _contextFactory;
+    readonly IDbContextFactory<UserApplicationDbContext> _contextFactory;
     readonly ICurrentAuditInfoProvider _currentAuditInfoProvider;
     readonly IMapper _mapper;
 
-    public AddApplicationToUser_Handler(IDbContextFactory<DatabaseContext> contextFactory, ICurrentAuditInfoProvider currentAuditInfoProvider, IMapper mapper)
+    public AddApplicationToUser_Handler(IDbContextFactory<UserApplicationDbContext> contextFactory, ICurrentAuditInfoProvider currentAuditInfoProvider, IMapper mapper)
     {
         _contextFactory = contextFactory;
         _currentAuditInfoProvider = currentAuditInfoProvider;
