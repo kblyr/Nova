@@ -1,3 +1,5 @@
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
+
 namespace Nova.Identity;
 
 public static class DbSetExtensions
@@ -13,6 +15,13 @@ public static class DbSetExtensions
     {
         return await users.AsNoTracking()
             .Where(user => user.Username == username && !user.IsDeleted)
+            .AnyAsync();
+    }
+
+    public static async Task<bool> EmailAddressExists(this DbSet<User> users, string emailAddress)
+    {
+        return await users.AsNoTracking()
+            .Where(user => user.EmailAddress == emailAddress && !user.IsDeleted)
             .AnyAsync();
     }
 

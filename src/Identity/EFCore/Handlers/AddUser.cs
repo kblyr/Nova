@@ -20,11 +20,14 @@ sealed class AddUserHandler : IRequestHandler<AddUserCommand>
         using var context = await _contextFactory.CreateDbContextAsync();
         using var transaction = await context.Database.BeginTransactionAsync();
 
+        if (await context.UserStatuses.Exists(request.StatusId) == false)
+            return new UserStatusNotFoundResponse(request.StatusId);
+
         if (await context.Users.UsernameExists(request.Username))
             return new UsernameAlreadyExistsResponse(request.Username);
 
-        if (await context.UserStatuses.Exists(request.StatusId) == false)
-            return new UserStatusNotFoundResponse(request.StatusId);
+        if (await context.Users.EmailAddressExists(request.EmailAddress))
+            return new UserEmailAddressAlreadyExistsResponse(request.EmailAddress);
 
         var auditInfo = _auditInfoProvider.Current;
         var user = _mapper.Map<AddUserCommand, User>(request);
@@ -36,12 +39,5 @@ sealed class AddUserHandler : IRequestHandler<AddUserCommand>
         await transaction.CommitAsync();
         return new AddUserCommand.Response(user.Id);
 
-    }
-
-    static async Task<bool> UsernameExists(UserDbContext context, string username)
-    {
-        return await context.Users.AsNoTracking()
-            .Where(user => user.Username == username && !user.IsDeleted)
-            .AnyAsync();
     }
 }

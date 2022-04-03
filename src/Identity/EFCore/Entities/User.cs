@@ -6,6 +6,7 @@ public class User
 {
     public int Id { get; set; }
     public string Username { get; set; }
+    public string EmailAddress { get; set; }
     public short StatusId { get; set; }
 
     public bool IsDeleted { get; set; }
