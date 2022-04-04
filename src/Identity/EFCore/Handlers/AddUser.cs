@@ -1,4 +1,5 @@
 using AutoMapper;
+using MediatR;
 
 namespace Nova.Identity.Handlers;
 
@@ -7,12 +8,16 @@ sealed class AddUserHandler : IRequestHandler<AddUserCommand>
     readonly IDbContextFactory<UserDbContext> _contextFactory;
     readonly IMapper _mapper;
     readonly ICurrentAuditInfoProvider _auditInfoProvider;
+    readonly UserStatusesConfig _userStatuses;
+    readonly IMediator _mediator;
 
-    public AddUserHandler(IDbContextFactory<UserDbContext> contextFactory, IMapper mapper, ICurrentAuditInfoProvider auditInfoProvider)
+    public AddUserHandler(IDbContextFactory<UserDbContext> contextFactory, IMapper mapper, ICurrentAuditInfoProvider auditInfoProvider, IOptions<UserStatusesConfig> userStatuses, IMediator mediator)
     {
         _contextFactory = contextFactory;
         _mapper = mapper;
         _auditInfoProvider = auditInfoProvider;
+        _userStatuses = userStatuses.Value;
+        _mediator = mediator;
     }
 
     public async Task<IResponse> Handle(AddUserCommand request, CancellationToken cancellationToken)
@@ -27,7 +32,7 @@ sealed class AddUserHandler : IRequestHandler<AddUserCommand>
             return new UsernameAlreadyExistsResponse(request.Username);
 
         if (await context.Users.EmailAddressExists(request.EmailAddress))
-            return new UserEmailAddressAlreadyExistsResponse(request.EmailAddress);
+            return new UserEmailAddressAlreadyExistsResponse(0, request.EmailAddress);
 
         var auditInfo = _auditInfoProvider.Current;
         var user = _mapper.Map<AddUserCommand, User>(request);
@@ -36,7 +41,20 @@ sealed class AddUserHandler : IRequestHandler<AddUserCommand>
         user.InsertedOn = auditInfo.Timestamp;
         context.Users.Add(user);
         await context.SaveChangesAsync();
+        var userEmailAddress = new UserEmailAddress
+        {
+            UserId = user.Id,
+            EmailAddress = request.EmailAddress,
+            IsPrimary = true,
+            IsVerified = user.StatusId == _userStatuses.Active,
+            IsDeleted = false,
+            InsertedById = auditInfo.UserId,
+            InsertedOn = auditInfo.Timestamp
+        };
+        context.UserEmailAddresses.Add(userEmailAddress);
+        await context.SaveChangesAsync();
         await transaction.CommitAsync();
+        await _mediator.Publish(_mapper.Map<User, UserAddedEvent>(user));
         return new AddUserCommand.Response(user.Id);
 
     }

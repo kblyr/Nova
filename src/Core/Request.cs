@@ -1,3 +1,3 @@
-namespace Nova.Contracts;
+namespace Nova;
 
 public interface IRequest : MediatR.IRequest<IResponse> { }

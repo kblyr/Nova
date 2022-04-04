@@ -1,4 +1,4 @@
-namespace Nova.Contracts;
+namespace Nova;
 
 public interface IResponse { }
 
