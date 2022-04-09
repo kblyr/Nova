@@ -18,4 +18,5 @@ public class User
     public DateTimeOffset? DeletedOn { get; set; }
 
     public UserStatus Status { get; set; }
+    public IEnumerable<UserEmailAddress> UserEmailAddresses { get; set; }
 }
