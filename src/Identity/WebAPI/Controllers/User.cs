@@ -15,4 +15,10 @@ public sealed class UserController : ApiControllerBase
     {
         return await Mediator.SendThenMap<AddUserPasswordLogin.Request, AddUserPasswordLoginCommand>(request, request => request with { UserId = Hashids.DecodeFirstOrDefault(id) });
     }
+
+    [HttpPost(ActionRoutes.User.AddEmailAddress)]
+    public async Task<IActionResult> AddEmailAddress(string id, [FromBody]AddUserEmailAddress.Request request)
+    {
+        return await Mediator.SendThenMap<AddUserEmailAddress.Request, AddUserEmailAddressCommand>(request, request => request with { UserId = Hashids.DecodeFirstOrDefault(id) });
+    }
 }

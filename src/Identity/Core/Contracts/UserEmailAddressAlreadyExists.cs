@@ -1,3 +1,3 @@
 namespace Nova.Identity.Contracts;
 
-public record UserEmailAddressAlreadyExistsResponse(int UserId, string EmailAddress) : IFailedResponse;
+public record UserEmailAddressAlreadyExistsResponse(string EmailAddress) : IFailedResponse;

@@ -11,5 +11,6 @@ public static class ActionRoutes
     {
         public const string Add = "";
         public const string AddPasswordLogin = "{id}/password-login";
+        public const string AddEmailAddress = "{id}/email-address";
     }
 }

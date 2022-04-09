@@ -31,8 +31,8 @@ sealed class AddUserHandler : IRequestHandler<AddUserCommand>
         if (await context.Users.UsernameExists(request.Username))
             return new UsernameAlreadyExistsResponse(request.Username);
 
-        if (await context.Users.EmailAddressExists(request.EmailAddress))
-            return new UserEmailAddressAlreadyExistsResponse(0, request.EmailAddress);
+        if (await context.UserEmailAddresses.Exists(request.EmailAddress))
+            return new UserEmailAddressAlreadyExistsResponse(request.EmailAddress);
 
         var auditInfo = _auditInfoProvider.Current;
         var user = _mapper.Map<AddUserCommand, User>(request);
