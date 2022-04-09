@@ -7,6 +7,8 @@ sealed class MappingProfile : Profile
     public MappingProfile()
     {
         CreateMap<AddUserCommand, User>();
+        
         CreateMap<User, UserAddedEvent>();
+        CreateMap<UserEmailAddress, UserEmailAddressAddressAddedEvent>();
     }
 }

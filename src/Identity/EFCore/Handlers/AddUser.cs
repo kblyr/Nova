@@ -55,6 +55,7 @@ sealed class AddUserHandler : IRequestHandler<AddUserCommand>
         await context.SaveChangesAsync();
         await transaction.CommitAsync();
         await _mediator.Publish(_mapper.Map<User, UserAddedEvent>(user));
+        await _mediator.Publish(_mapper.Map<UserEmailAddress, UserEmailAddressAddressAddedEvent>(userEmailAddress));
         return new AddUserCommand.Response(user.Id);
 
     }
