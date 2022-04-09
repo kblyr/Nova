@@ -1,8 +1,8 @@
 namespace Nova.Identity.Data;
 
-public sealed class UserDbContext : DbContext
+public sealed class UserDbContext : DbContextBase<UserDbContext>
 {
-    public UserDbContext(DbContextOptions<UserDbContext> options) : base(options)
+    public UserDbContext(DbContextOptions<UserDbContext> options, IEntityTypeConfigurationContainingAssemblyProvider<UserDbContext> entityTypeConfigurationContainingAssemblyProvider) : base(options, entityTypeConfigurationContainingAssemblyProvider)
     {
     }
 
