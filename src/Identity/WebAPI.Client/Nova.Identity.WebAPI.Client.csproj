@@ -7,8 +7,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="MediatR" Version="10.0.1" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="6.0.0" />
+    <PackageReference Include="Refit" Version="6.3.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\WebAPI.Shared\Nova.Identity.WebAPI.Shared.csproj" />
   </ItemGroup>
 
 </Project>

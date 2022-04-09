@@ -2,9 +2,9 @@ namespace Nova.Identity.Schema;
 
 public static class AddUserPasswordLogin
 {
-    public const string ROUTE = "{id}/password-login";
+    public const string ROUTE = $"{ControllerRoutes.User}/{ActionRoutes.User.AddPasswordLogin}";
 
-    public record Request(string SecurePassword);
+    public record Request(string SecurePassword) : IApiRequest;
 
-    public record Response(string Id);
+    public record Response(string Id) : IApiResponse;
 }
