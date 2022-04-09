@@ -12,10 +12,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\WebAPI.Host\Nova.WebAPI.Host.csproj" />
     <ProjectReference Include="..\Core\Nova.Identity.csproj" />
     <ProjectReference Include="..\EFCore\Nova.Identity.EFCore.csproj" />
     <ProjectReference Include="..\WebAPI.Shared\Nova.Identity.WebAPI.Shared.csproj" />
-    <ProjectReference Include="..\..\WebAPI.Host\Nova.WebAPI.Host.csproj" />
   </ItemGroup>
 
 </Project>

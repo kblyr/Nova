@@ -13,9 +13,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Core\Nova.Identity.csproj" />
     <ProjectReference Include="..\..\Core\Nova.csproj" />
     <ProjectReference Include="..\..\EFCore\Nova.EFCore.csproj" />
+    <ProjectReference Include="..\Core\Nova.Identity.csproj" />
   </ItemGroup>
 
 </Project>
