@@ -1,5 +1,3 @@
-using System.Diagnostics.Contracts;
-
 namespace Nova.Identity.Contracts;
 
 public record AddUserEmailAddressCommand(int UserId, string EmailAddress) : IRequest
