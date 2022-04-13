@@ -6,8 +6,8 @@ public interface UserEndpoints
     Task<IApiResponse<AddUser.Response>> Add([Body]AddUser.Request request);
 
     [Post(AddPasswordLoginToUser.ROUTE)]
-    Task<IApiResponse<AddPasswordLoginToUser.Response>> Add(string id, [Body]AddPasswordLoginToUser.Request request);
+    Task<IApiResponse<AddPasswordLoginToUser.Response>> AddPasswordLogin(string id, [Body]AddPasswordLoginToUser.Request request);
 
     [Post(AddEmailAddressToUser.ROUTE)]
-    Task<IApiResponse<AddEmailAddressToUser.Response>> Add(string id, [Body]AddEmailAddressToUser.Request request);
+    Task<IApiResponse<AddEmailAddressToUser.Response>> AddEmailAddress(string id, [Body]AddEmailAddressToUser.Request request);
 }
