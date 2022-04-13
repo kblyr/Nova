@@ -8,7 +8,7 @@ public interface IApiMediator
         where TRequestFrom : IApiRequest
         where TRequestTo : IRequest;
 
-    Task<ObjectResult> SendThenMap<TRequestFrom, TRequestTo>(TRequestFrom requestFrom, MutateRequest<TRequestTo>? mutateRequest = null)
+    Task<IActionResult> SendThenMap<TRequestFrom, TRequestTo>(TRequestFrom requestFrom, MutateRequest<TRequestTo>? mutateRequest = null)
         where TRequestFrom : IApiRequest
         where TRequestTo : IRequest;
 }
@@ -35,7 +35,7 @@ sealed class ApiMediator : IApiMediator
         return await _mediator.Send(requestTo);
     }
 
-    public async Task<ObjectResult> SendThenMap<TRequestFrom, TRequestTo>(TRequestFrom requestFrom, MutateRequest<TRequestTo>? mutateRequest = null)
+    public async Task<IActionResult> SendThenMap<TRequestFrom, TRequestTo>(TRequestFrom requestFrom, MutateRequest<TRequestTo>? mutateRequest = null)
         where TRequestFrom : IApiRequest
         where TRequestTo : IRequest
     {

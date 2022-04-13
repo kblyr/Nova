@@ -2,9 +2,9 @@ using FluentValidation;
 
 namespace Nova.Identity.Validators;
 
-public sealed class AddUserPasswordLoginValidator : AbstractValidator<AddUserPasswordLoginCommand>
+public sealed class AddPasswordLoginToUserValidator : AbstractValidator<AddPasswordLoginToUserCommand>
 {
-    public AddUserPasswordLoginValidator()
+    public AddPasswordLoginToUserValidator()
     {
         RuleFor(_ => _.UserId)
             .NotEqual(0);

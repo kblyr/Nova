@@ -3,14 +3,14 @@ using Nova.Security;
 
 namespace Nova.Identity.Handlers;
 
-sealed class AddUserPasswordLoginHandler : IRequestHandler<AddUserPasswordLoginCommand>
+sealed class AddPasswordLoginToUserHandler : IRequestHandler<AddPasswordLoginToUserCommand>
 {
     readonly IDbContextFactory<UserPasswordLoginDbContext> _contextFactory;
     readonly ICurrentAuditInfoProvider _auditInfoProvider;
     readonly IStringDecryptor _decryptor;
     readonly IUserPasswordHashComputer _passwordHashComputer;
 
-    public AddUserPasswordLoginHandler(IDbContextFactory<UserPasswordLoginDbContext> contextFactory, ICurrentAuditInfoProvider auditInfoProvider, IStringDecryptor decryptor, IUserPasswordHashComputer passwordHashComputer)
+    public AddPasswordLoginToUserHandler(IDbContextFactory<UserPasswordLoginDbContext> contextFactory, ICurrentAuditInfoProvider auditInfoProvider, IStringDecryptor decryptor, IUserPasswordHashComputer passwordHashComputer)
     {
         _contextFactory = contextFactory;
         _auditInfoProvider = auditInfoProvider;
@@ -18,7 +18,7 @@ sealed class AddUserPasswordLoginHandler : IRequestHandler<AddUserPasswordLoginC
         _passwordHashComputer = passwordHashComputer;
     }
 
-    public async Task<IResponse> Handle(AddUserPasswordLoginCommand request, CancellationToken cancellationToken)
+    public async Task<IResponse> Handle(AddPasswordLoginToUserCommand request, CancellationToken cancellationToken)
     {
         using var context = await _contextFactory.CreateDbContextAsync();
         using var transaction = await context.Database.BeginTransactionAsync();
@@ -41,6 +41,6 @@ sealed class AddUserPasswordLoginHandler : IRequestHandler<AddUserPasswordLoginC
         context.UserPasswordLogins.Add(login);
         await context.SaveChangesAsync();
         await transaction.CommitAsync();
-        return new AddUserPasswordLoginCommand.Response(login.Id);
+        return new AddPasswordLoginToUserCommand.Response(login.Id);
     }
 }

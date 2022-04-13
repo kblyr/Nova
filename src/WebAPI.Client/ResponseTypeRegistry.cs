@@ -7,7 +7,6 @@ public interface IApiResponseTypeRegistry
     Type? this[string key] { get; }
     bool TryGet(string key, out Type responseType);
     IApiResponseTypeRegistry Register(Type responseType);
-    IApiResponseTypeRegistry Register(IEnumerable<Assembly> assemblies);
 }
 
 sealed class ApiResponseTypeRegistry : IApiResponseTypeRegistry
@@ -16,10 +15,12 @@ sealed class ApiResponseTypeRegistry : IApiResponseTypeRegistry
 
     readonly Dictionary<string, Type> _responseTypes = new();
     readonly IApiResponseTypeRegistryKeyProvider _keyProvider;
+    readonly AssemblyScanner _assemblyScanner;
 
-    public ApiResponseTypeRegistry(IApiResponseTypeRegistryKeyProvider keyProvider)
+    public ApiResponseTypeRegistry(IApiResponseTypeRegistryKeyProvider keyProvider, AssemblyScanner assemblyScanner)
     {
         _keyProvider = keyProvider;
+        _assemblyScanner = assemblyScanner;
     }
 
     public Type? this[string key]
@@ -28,6 +29,12 @@ sealed class ApiResponseTypeRegistry : IApiResponseTypeRegistry
         {
             if (_responseTypes.ContainsKey(key))
                 return _responseTypes[key];
+
+            if (!_assemblyScanner.IsScanned)
+            {
+                _assemblyScanner.Scan(this);
+                return this[key];
+            }
 
             return null;
         }
@@ -39,6 +46,12 @@ sealed class ApiResponseTypeRegistry : IApiResponseTypeRegistry
         {
             responseType = _responseTypes[key];
             return true;
+        }
+
+        if (!_assemblyScanner.IsScanned)
+        {
+            _assemblyScanner.Scan(this);
+            return TryGet(key, out responseType);
         }
 
         responseType = default!;
@@ -55,27 +68,33 @@ sealed class ApiResponseTypeRegistry : IApiResponseTypeRegistry
         return this;
     }
 
-    public IApiResponseTypeRegistry Register(IEnumerable<Assembly> assemblies)
+    public record AssemblyScanner(IEnumerable<Assembly> Assemblies)
     {
-        if (assemblies.Any())
-        {
-            foreach (var assembly in assemblies)
-            {
-                var responseTypes = assembly.GetTypes()
-                    .Where(type =>
-                        !type.IsGenericType
-                        && !type.IsAbstract
-                        && type.GetInterfaces().Any(interfaceType => interfaceType == _apiResponseInterfaceType)
-                    );
+        public bool IsScanned { get; private set; }
 
-                if (responseTypes is null || !responseTypes.Any())
+        public void Scan(ApiResponseTypeRegistry registry)
+        {
+            IsScanned = true;
+
+            if (Assemblies is null || !Assemblies.Any())
+                return;
+
+            var tMarker = typeof(IApiResponse);
+
+            foreach (var assembly in Assemblies)
+            {
+                var tApiResponses = assembly.GetTypes().Where(t =>
+                    !t.IsAbstract
+                    && !t.IsGenericType
+                    && !t.GetInterfaces().Any(tInterface => tInterface == tMarker) 
+                );
+
+                if (tApiResponses is null || !tApiResponses.Any())
                     continue;
 
-                foreach (var responseType in responseTypes)
-                    Register(responseType);
+                foreach (var tApiResponse in tApiResponses)
+                    registry.Register(tApiResponse);
             }
         }
-
-        return this;
     }
 }

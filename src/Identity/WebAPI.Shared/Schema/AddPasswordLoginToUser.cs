@@ -1,6 +1,6 @@
 namespace Nova.Identity.Schema;
 
-public static class AddUserPasswordLogin
+public static class AddPasswordLoginToUser
 {
     public const string ROUTE = $"{ControllerRoutes.User}/{ActionRoutes.User.AddPasswordLogin}";
 

@@ -6,6 +6,6 @@ sealed class MappingProfile : Profile
 {
     public MappingProfile()
     {
-        CreateMap<AddUserEmailAddressCommand, UserEmailAddressAlreadyExistsResponse>();
+        CreateMap<AddEmailAddressToUserCommand, UserEmailAddressAlreadyExistsResponse>();
     }
 }

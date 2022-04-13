@@ -39,10 +39,10 @@ sealed class ApiResponseTypeSerializer : IApiResponseTypeSerializer
 
     string GetErrorType<T>(Refit.ApiResponse<T> response)
     {
-        if (!response.Headers.Contains(ApiHeaders.ErrorType))
+        if (!response.Headers.Contains(ApiHeaders.ResponseObjectType))
             return "";
         
-        var errorTypeHeader = response.Headers.FirstOrDefault(header => header.Key == ApiHeaders.ErrorType);
+        var errorTypeHeader = response.Headers.FirstOrDefault(header => header.Key == ApiHeaders.ResponseObjectType);
         return errorTypeHeader.Value.First();
     }
 

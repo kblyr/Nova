@@ -11,7 +11,7 @@ public static class ResponseTypeMapRegistryExtensions
         return registry.Register(typeof(TResponse), typeof(TApiResponse), statusCode);
     }
 
-    public static IResponseTypeMapRegistry RegisterOk<TResponse, TApiResponse>(this IResponseTypeMapRegistry registry)
+    public static IResponseTypeMapRegistry RegisterOK<TResponse, TApiResponse>(this IResponseTypeMapRegistry registry)
         where TResponse : IResponse
         where TApiResponse : IApiResponse
     {

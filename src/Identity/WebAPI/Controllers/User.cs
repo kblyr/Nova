@@ -11,14 +11,14 @@ public sealed class UserController : ApiControllerBase
     }
 
     [HttpPost(ActionRoutes.User.AddPasswordLogin)]
-    public async Task<IActionResult> AddPasswordLogin(string id, [FromBody]AddUserPasswordLogin.Request request)
+    public Task<IActionResult> AddPasswordLogin(string id, [FromBody]AddPasswordLoginToUser.Request request)
     {
-        return await Mediator.SendThenMap<AddUserPasswordLogin.Request, AddUserPasswordLoginCommand>(request, request => request with { UserId = Hashids.DecodeFirstOrDefault(id) });
+        return Mediator.SendThenMap<AddPasswordLoginToUser.Request, AddPasswordLoginToUserCommand>(request, request => request with { UserId = Hashids.DecodeFirstOrDefault(id) });
     }
 
     [HttpPost(ActionRoutes.User.AddEmailAddress)]
-    public async Task<IActionResult> AddEmailAddress(string id, [FromBody]AddUserEmailAddress.Request request)
+    public Task<IActionResult> AddEmailAddress(string id, [FromBody]AddEmailAddressToUser.Request request)
     {
-        return await Mediator.SendThenMap<AddUserEmailAddress.Request, AddUserEmailAddressCommand>(request, request => request with { UserId = Hashids.DecodeFirstOrDefault(id) });
+        return Mediator.SendThenMap<AddEmailAddressToUser.Request, AddEmailAddressToUserCommand>(request, request => request with { UserId = Hashids.DecodeFirstOrDefault(id) });
     }
 }

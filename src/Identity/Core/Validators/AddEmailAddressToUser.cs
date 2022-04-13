@@ -2,9 +2,9 @@ using FluentValidation;
 
 namespace Nova.Identity.Validators;
 
-public sealed class AddUserEmailAddressValidator : AbstractValidator<AddUserEmailAddressCommand>
+public sealed class AddEmailAddressToUserValidator : AbstractValidator<AddEmailAddressToUserCommand>
 {
-    public AddUserEmailAddressValidator(IOptions<UserConfig> user)
+    public AddEmailAddressToUserValidator(IOptions<UserConfig> user)
     {
         RuleFor(_ => _.UserId)
             .NotEqual(0);

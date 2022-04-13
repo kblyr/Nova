@@ -8,15 +8,34 @@ public interface IResponseTypeMapRegistry
     bool TryGet(Type responseType, out ResponseTypeMapDefinition definition);
     IResponseTypeMapRegistry Register(ResponseTypeMapDefinition definition);
     IResponseTypeMapRegistry Register(Type responseType, Type apiResponseType, int statusCode);
-    IResponseTypeMapRegistry Register(IEnumerable<Assembly> assemblies);
 }
 
 sealed class ResponseTypeMapRegistry : IResponseTypeMapRegistry
 {
-    static readonly Type _responseTypeMapRegistrationType = typeof(IResponseTypeMapRegistration);
-    static readonly Dictionary<Type, ResponseTypeMapDefinition> _definitions = new();
+    readonly Dictionary<Type, ResponseTypeMapDefinition> _definitions = new();
+    readonly AssemblyScanner _assemblyScanner;
 
-    public ResponseTypeMapDefinition? this[Type responseType] => throw new NotImplementedException();
+    public ResponseTypeMapRegistry(AssemblyScanner assemblyScanner)
+    {
+        _assemblyScanner = assemblyScanner;
+    }
+
+    public ResponseTypeMapDefinition? this[Type responseType]
+    {
+        get
+        {
+            if (_definitions.ContainsKey(responseType))
+                return _definitions[responseType];
+
+            if (!_assemblyScanner.IsScanned)
+            {
+                _assemblyScanner.Scan(this);
+                return this[responseType];
+            }
+
+            return null;
+        }
+    }
 
     public bool TryGet(Type responseType, out ResponseTypeMapDefinition definition)
     {
@@ -24,6 +43,12 @@ sealed class ResponseTypeMapRegistry : IResponseTypeMapRegistry
         {
             definition = _definitions[responseType];
             return true;
+        }
+
+        if (!_assemblyScanner.IsScanned)
+        {
+            _assemblyScanner.Scan(this);
+            return TryGet(responseType, out definition);
         }
         
         definition = default;
@@ -45,31 +70,38 @@ sealed class ResponseTypeMapRegistry : IResponseTypeMapRegistry
         return this;
     }
 
-    public IResponseTypeMapRegistry Register(IEnumerable<Assembly> assemblies)
+    public record AssemblyScanner(IEnumerable<Assembly> Assemblies)
     {
-        if (assemblies.Any())
-        {
-            foreach (var assembly in assemblies)
-            {
-                var registryTypes = assembly.GetTypes()
-                    .Where(type =>
-                        !type.IsGenericType
-                        && !type.IsAbstract
-                        && type.GetInterfaces().Any(interfaceType => interfaceType == _responseTypeMapRegistrationType)
-                    );
+        public bool IsScanned { get; private set; }
 
-                if (registryTypes is null || !registryTypes.Any())
+        public void Scan(ResponseTypeMapRegistry registry)
+        {
+            IsScanned = true;
+
+            if (Assemblies is null || !Assemblies.Any())
+                return;
+
+            var tMarker = typeof(IResponseTypeMapRegistration);
+
+            foreach (var assembly in Assemblies)
+            {
+                var tRegistrations = assembly.GetTypes().Where(t =>
+                    !t.IsAbstract
+                    && !t.IsGenericType
+                    && t.GetInterfaces().Any(tInterface => tInterface == tMarker)
+                    && t.GetConstructor(Type.EmptyTypes) is not null
+                );
+
+                if (tRegistrations is null || !tRegistrations.Any())
                     continue;
 
-                foreach (var registrationType in registryTypes)
+                foreach (var tRegistration in tRegistrations)
                 {
-                    var registration = Activator.CreateInstance(registrationType) as IResponseTypeMapRegistration;
-                    registration?.Register(this);
+                    var registration = Activator.CreateInstance(tRegistration) as IResponseTypeMapRegistration;
+                    registration?.Register(registry);
                 }
             }
         }
-
-        return this;
     }
 }
 

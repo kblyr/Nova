@@ -5,7 +5,7 @@ namespace Nova;
 
 public interface IResponseMapper
 {
-    ObjectResult Map(IResponse response);
+    IActionResult Map(IResponse response);
 }
 
 sealed class ResponseMapper : IResponseMapper
@@ -23,14 +23,12 @@ sealed class ResponseMapper : IResponseMapper
         _contextAccessor = contextAccessor;
     }
 
-    public ObjectResult Map(IResponse response)
+    public IActionResult Map(IResponse response)
     {
-        var isFailedResponse = response is IFailedResponse;
-        
-        if (!_registry.TryGet(response.GetType(), out ResponseTypeMapDefinition definition))
+        if (response is null || !_registry.TryGet(response.GetType(), out ResponseTypeMapDefinition definition))
             return new ObjectResult(null) { StatusCode = StatusCodes.Status204NoContent };
 
-        _contextAccessor.HttpContext?.Response.Headers.Add(ApiHeaders.ErrorType, _registryKeyProvider.Get(definition.ApiResponseType));
-        return new(_mapper.Map(response, definition.ResponseType, definition.ApiResponseType)) { StatusCode = definition.StatusCode };
+        _contextAccessor.HttpContext?.Response.Headers.Add(ApiHeaders.ResponseObjectType, _registryKeyProvider.Get(definition.ApiResponseType));
+        return new ObjectResult(_mapper.Map(response, definition.ResponseType, definition.ApiResponseType)) { StatusCode = definition.StatusCode };
     }
 }

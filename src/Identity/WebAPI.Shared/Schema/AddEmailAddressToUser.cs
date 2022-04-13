@@ -1,6 +1,6 @@
 namespace Nova.Identity.Schema;
 
-public static class AddUserEmailAddress
+public static class AddEmailAddressToUser
 {
     public const string ROUTE = $"{ControllerRoutes.User}/{ActionRoutes.User.AddEmailAddress}";
 
