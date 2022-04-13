@@ -2,17 +2,17 @@ using System.Text.Json;
 
 namespace Nova;
 
-public interface IApiResponseTypeSerializer
+public interface IApiResponseSerializer
 {
     IApiResponse? Deserialize<T>(Refit.ApiResponse<T> response) where T : IApiResponse;
 }
 
-sealed class ApiResponseTypeSerializer : IApiResponseTypeSerializer
+sealed class ApiResponseSerializer : IApiResponseSerializer
 {
     readonly IApiResponseTypeRegistry _registry;
     readonly JsonSerializerOptions _jsonOptions;
 
-    public ApiResponseTypeSerializer(IApiResponseTypeRegistry registry, JsonOptionsProvider jsonOptions)
+    public ApiResponseSerializer(IApiResponseTypeRegistry registry, JsonOptionsProvider jsonOptions)
     {
         _registry = registry;
         _jsonOptions = jsonOptions.Value;

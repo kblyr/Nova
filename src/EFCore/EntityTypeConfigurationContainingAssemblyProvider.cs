@@ -7,3 +7,13 @@ public interface IEntityTypeConfigurationContainingAssemblyProvider<T> where T :
 {
     Assembly Assembly { get; }
 }
+
+sealed class EntityTypeConfigurationContainingAssemblyProvider<T> : IEntityTypeConfigurationContainingAssemblyProvider<T> where T : DbContext
+{
+    public Assembly Assembly { get; }
+
+    public EntityTypeConfigurationContainingAssemblyProvider(Assembly assembly)
+    {
+        Assembly = assembly;
+    }
+}

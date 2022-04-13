@@ -12,9 +12,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\EFCore\Nova.EFCore.csproj" />
+    <ProjectReference Include="..\..\EFCore.Postgres\Nova.EFCore.Postgres.csproj" />
     <ProjectReference Include="..\..\WebAPI.Host\Nova.WebAPI.Host.csproj" />
     <ProjectReference Include="..\Core\Nova.Identity.csproj" />
     <ProjectReference Include="..\EFCore\Nova.Identity.EFCore.csproj" />
+    <ProjectReference Include="..\EFCore.Postgres\Nova.Identity.EFCore.Postgres.csproj" />
     <ProjectReference Include="..\WebAPI.Shared\Nova.Identity.WebAPI.Shared.csproj" />
   </ItemGroup>
 

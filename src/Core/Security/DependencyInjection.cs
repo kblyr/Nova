@@ -1,6 +1,6 @@
 using Nova.Security;
 
-namespace DI.Nova.Security;
+namespace Nova.Core.Security;
 
 public sealed class DependencyInjector : DependencyInjectorBase, IDependencyInjector
 {
@@ -11,7 +11,7 @@ public sealed class DependencyInjector : DependencyInjectorBase, IDependencyInje
 
 public static class DependencyExtensions
 {
-    public static DI.Nova.DependencyInjector AddSecurity(this DI.Nova.DependencyInjector injector, InjectDependencies<DependencyInjector>? injectDependencies = null)
+    public static Nova.Core.DependencyInjector WithSecurity(this Nova.Core.DependencyInjector injector, InjectDependencies<DependencyInjector>? injectDependencies = null)
     {
         var _injector = new DependencyInjector(injector);
         injectDependencies?.Invoke(_injector);
