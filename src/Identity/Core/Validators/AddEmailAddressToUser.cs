@@ -15,3 +15,18 @@ public sealed class AddEmailAddressToUserValidator : AbstractValidator<AddEmailA
             .MaximumLength(user.Value.EmailAddress.MaxLength);
     }
 }
+
+sealed class AddEmailAddressToUserAccessValidationConfiguration : IAccessValidationConfiguration<AddEmailAddressToUserCommand>
+{
+    readonly PermissionsConfig _permissions;
+
+    public AddEmailAddressToUserAccessValidationConfiguration(IOptions<PermissionsConfig> permissions)
+    {
+        _permissions = permissions.Value;
+    }
+
+    public void Configure(IAccessValidationContext<AddEmailAddressToUserCommand> context)
+    {
+        context.RequirePermission(_permissions.AddUserEmailAddress);
+    }
+}

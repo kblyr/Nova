@@ -34,6 +34,7 @@ builder.Nova(nova => nova
         )
     )
     .Identity(identity => identity
+        .Configure<PermissionsConfig>(PermissionsConfig.CONFIGKEY)
         .Configure<UserConfig>(UserConfig.CONFIGKEY)
         .Configure<UserLoginTypesConfig>(UserLoginTypesConfig.CONFIGKEY)
         .Configure<UserStatusesConfig>(UserStatusesConfig.CONFIGKEY)

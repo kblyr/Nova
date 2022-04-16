@@ -20,3 +20,18 @@ public sealed class AddUserValidator : AbstractValidator<AddUserCommand>
             .NotEqual((short)0);
     }
 }
+
+sealed class AddUserAccessValidationConfiguration : IAccessValidationConfiguration<AddUserCommand>
+{
+    readonly PermissionsConfig _permissions;
+
+    public AddUserAccessValidationConfiguration(IOptions<PermissionsConfig> permissions)
+    {
+        _permissions = permissions.Value;
+    }
+
+    public void Configure(IAccessValidationContext<AddUserCommand> context)
+    {
+        context.RequirePermission(_permissions.AddUser);
+    }
+}
