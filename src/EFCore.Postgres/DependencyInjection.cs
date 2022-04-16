@@ -9,8 +9,6 @@ public class DependencyInjector : DependencyInjectorBase, IDependencyInjector
     public DependencyInjector(IDependencyInjector parent) : base(parent)
     {
     }
-
-    internal DbContextFactoriesDependencyInjector? DbContextFactories { get; set; }
 }
 
 public class DbContextFactoriesDependencyInjector : DependencyInjector
@@ -49,7 +47,7 @@ public static class DependencyExtensions
 
     public static DbContextFactoriesDependencyInjector AddDbContextFactories(this DependencyInjector injector, string connectionString, Assembly? entityTypeConfigurationContainingAssembly)
     {
-        return injector.DbContextFactories ??= new DbContextFactoriesDependencyInjector(injector, connectionString, entityTypeConfigurationContainingAssembly);
+        return new DbContextFactoriesDependencyInjector(injector, connectionString, entityTypeConfigurationContainingAssembly);
     }
 
     public static DbContextFactoriesDependencyInjector For<T>(this DbContextFactoriesDependencyInjector injector) where T : DbContext

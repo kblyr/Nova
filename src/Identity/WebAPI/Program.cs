@@ -1,6 +1,7 @@
 using Nova;
 using Nova.Core;
 using Nova.Core.Security;
+using Nova.Core.Validation;
 using Nova.EFCore;
 using Nova.EFCore.Postgres;
 using Nova.Identity.Configuration;
@@ -14,6 +15,9 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Nova(nova => nova
     .WithSecurity(security => security
         .AddStringDecryptorWithPemFile(builder.Configuration["Nova:Security:StringDecryption:KeyFilePath"])
+    )
+    .WithValidation(validation => validation
+        .AddAccessValidatorConfigurations(Nova.Identity.Core.AssemblyMarker.Assembly)
     )
     .EFCore(efCore => efCore
         .Postgres(postgres => postgres
