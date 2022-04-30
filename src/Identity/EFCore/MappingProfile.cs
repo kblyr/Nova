@@ -10,6 +10,6 @@ sealed class MappingProfile : Profile
         CreateMap<AddEmailAddressToUserCommand, UserEmailAddress>();
         
         CreateMap<User, UserAddedEvent>();
-        CreateMap<UserEmailAddress, UserEmailAddressAddressAddedEvent>();
+        CreateMap<UserEmailAddress, UserEmailAddressAddedEvent>();
     }
 }

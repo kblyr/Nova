@@ -23,8 +23,6 @@ builder.Nova(nova => nova
         .Postgres(postgres => postgres
             .AddDbContextFactories(builder.Configuration.GetConnectionString("Postgres:Nova:Identity"), Nova.Identity.EFCore.Postgres.AssemblyMarker.Assembly)
                 .For<UserDbContext>()
-                .For<UserEmailAddressDbContext>()
-                .For<UserPasswordLoginDbContext>()
         )
     )
     .WebAPI(webApi => webApi

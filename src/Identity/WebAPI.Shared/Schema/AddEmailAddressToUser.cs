@@ -2,7 +2,7 @@ namespace Nova.Identity.Schema;
 
 public static class AddEmailAddressToUser
 {
-    public const string ROUTE = $"{ControllerRoutes.User}/{ActionRoutes.User.AddEmailAddress}";
+    public const string ROUTE = $"/{ControllerRoutes.User}/{ActionRoutes.User.AddEmailAddress}";
 
     [SchemaId(SchemaIds.AddEmailAddressToUser.Request)]
     public record Request(string EmailAddress) : IApiRequest;

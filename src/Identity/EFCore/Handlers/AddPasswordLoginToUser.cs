@@ -5,12 +5,12 @@ namespace Nova.Identity.Handlers;
 
 sealed class AddPasswordLoginToUserHandler : IRequestHandler<AddPasswordLoginToUserCommand>
 {
-    readonly IDbContextFactory<UserPasswordLoginDbContext> _contextFactory;
+    readonly IDbContextFactory<UserDbContext> _contextFactory;
     readonly ICurrentAuditInfoProvider _auditInfoProvider;
     readonly IStringDecryptor _decryptor;
     readonly IUserPasswordHashComputer _passwordHashComputer;
 
-    public AddPasswordLoginToUserHandler(IDbContextFactory<UserPasswordLoginDbContext> contextFactory, ICurrentAuditInfoProvider auditInfoProvider, IStringDecryptor decryptor, IUserPasswordHashComputer passwordHashComputer)
+    public AddPasswordLoginToUserHandler(IDbContextFactory<UserDbContext> contextFactory, ICurrentAuditInfoProvider auditInfoProvider, IStringDecryptor decryptor, IUserPasswordHashComputer passwordHashComputer)
     {
         _contextFactory = contextFactory;
         _auditInfoProvider = auditInfoProvider;

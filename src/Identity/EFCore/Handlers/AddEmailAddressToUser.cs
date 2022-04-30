@@ -5,12 +5,12 @@ namespace Nova.Identity.Handlers;
 
 sealed class AddEmailAddressToUserHandler : IRequestHandler<AddEmailAddressToUserCommand>
 {
-    readonly IDbContextFactory<UserEmailAddressDbContext> _contextFactory;
+    readonly IDbContextFactory<UserDbContext> _contextFactory;
     readonly ICurrentAuditInfoProvider _auditInfoProvider;
     readonly IMapper _mapper;
     readonly IMediator _mediator;
 
-    public AddEmailAddressToUserHandler(IDbContextFactory<UserEmailAddressDbContext> contextFactory, ICurrentAuditInfoProvider auditInfoProvider, IMapper mapper, IMediator mediator)
+    public AddEmailAddressToUserHandler(IDbContextFactory<UserDbContext> contextFactory, ICurrentAuditInfoProvider auditInfoProvider, IMapper mapper, IMediator mediator)
     {
         _contextFactory = contextFactory;
         _auditInfoProvider = auditInfoProvider;
@@ -38,7 +38,7 @@ sealed class AddEmailAddressToUserHandler : IRequestHandler<AddEmailAddressToUse
         context.UserEmailAddresses.Add(userEmailAddress);
         await context.SaveChangesAsync();
         await transaction.CommitAsync();
-        await _mediator.Publish(_mapper.Map<UserEmailAddress, UserEmailAddressAddressAddedEvent>(userEmailAddress));
+        await _mediator.Publish(_mapper.Map<UserEmailAddress, UserEmailAddressAddedEvent>(userEmailAddress));
         return new AddEmailAddressToUserCommand.Response(userEmailAddress.Id);
     }
 }
