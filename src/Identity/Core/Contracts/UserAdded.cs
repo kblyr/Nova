@@ -1,5 +1,3 @@
-using MediatR;
-
 namespace Nova.Identity.Contracts;
 
 public record UserAddedEvent

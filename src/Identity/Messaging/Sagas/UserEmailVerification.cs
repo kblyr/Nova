@@ -4,11 +4,11 @@ using AutoMapper;
 
 namespace Nova.Identity.Sagas;
 
-public sealed class UserEmailAddressSaga : MassTransitStateMachine<UserEmailAddressSaga.Instance>
+public sealed class UserEmailVerificationSaga : MassTransitStateMachine<UserEmailVerificationSaga.Instance>
 {
     readonly IMapper _mapper;
 
-    public UserEmailAddressSaga(IMapper mapper)
+    public UserEmailVerificationSaga(IMapper mapper)
     {
         _mapper = mapper;
         InstanceState(instance => instance.CurrentState);
@@ -51,12 +51,10 @@ public sealed class UserEmailAddressSaga : MassTransitStateMachine<UserEmailAddr
     void ConfigureEventActivities()
     {
         Initially(
-            When(UserEmailAddressAdded, context => context.Message.IsVerified)
-                .Then(OnUserEmailAddressAdded)
-                .TransitionTo(Verified),
+            Ignore(UserEmailAddressAdded, context => context.Message.IsVerified),
             When(UserEmailAddressAdded, context => !context.Message.IsVerified)
                 .Then(OnUserEmailAddressAdded)
-                .Publish(context => _mapper.Map<UserEmailAddressAddedEvent, UserEmailVerificationSendRequestedEvent>(context.Message))
+                .Publish(context => _mapper.Map<UserEmailAddressAddedEvent, CreateUserEmailVerificationTokenRequestedEvent>(context.Message))
                 .TransitionTo(Pending),
             When(EmailVerificationSentToUser)
                 .Then(OnEmailVerificationSentToUser)

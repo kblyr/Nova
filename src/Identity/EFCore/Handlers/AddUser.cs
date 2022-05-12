@@ -1,6 +1,3 @@
-using AutoMapper;
-using MediatR;
-
 namespace Nova.Identity.Handlers;
 
 sealed class AddUserHandler : IRequestHandler<AddUserCommand>
