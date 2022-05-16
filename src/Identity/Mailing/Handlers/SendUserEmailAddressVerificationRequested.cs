@@ -1,19 +1,16 @@
-using Microsoft.Extensions.Options;
-using Nova.Identity.Configuration;
-
 namespace Nova.Identity.Handlers;
 
 sealed class SendUserEmailAddressVerificationRequestedHandler : INotificationHandler<SendUserEmailAddressVerificationRequestedEvent>
 {
     readonly UserEmailAddressVerificationTemplateLoader _templateLoader;
     readonly IMediator _mediator;
-    readonly UserEmailAddressVerificationMailOptions _options;
+    readonly UserEmailAddressVerificationSender _sender;
 
-    public SendUserEmailAddressVerificationRequestedHandler(UserEmailAddressVerificationTemplateLoader templateLoader, IMediator mediator, IOptions<UserEmailAddressVerificationMailOptions> options)
+    public SendUserEmailAddressVerificationRequestedHandler(UserEmailAddressVerificationTemplateLoader templateLoader, IMediator mediator, UserEmailAddressVerificationSender sender)
     {
         _templateLoader = templateLoader;
         _mediator = mediator;
-        _options = options.Value;
+        _sender = sender;
     }
 
     public async Task Handle(SendUserEmailAddressVerificationRequestedEvent notification, CancellationToken cancellationToken)
@@ -21,9 +18,8 @@ sealed class SendUserEmailAddressVerificationRequestedHandler : INotificationHan
         try
         {
             var template = await _templateLoader.Load(cancellationToken);
-            var message = new MimeMessage();
-            message.Sender = MailboxAddress.Parse(_options.SenderAddress);
             var body = await template.RenderAsync(new { Link = notification.Link });
+            await _sender.Send(MailboxAddress.Parse(notification.EmailAddress), body, cancellationToken);
             await _mediator.Publish(notification.Adapt<SendUserEmailAddressVerificationRequestedEvent, UserEmailAddressVerificationSentEvent>(), cancellationToken);
         }
         catch (Exception)
