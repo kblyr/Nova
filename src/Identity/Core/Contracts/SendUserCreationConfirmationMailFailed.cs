@@ -1,6 +1,6 @@
 namespace Nova.Identity.Contracts;
 
-public record SendUserCreationConfirmationMailRequestedEvent : INotification
+public record SendUserCreationConfirmationMailFailedEvent : INotification
 {
     public int Id { get; init; }
     public string EmailAddress { get; init; } = "";
