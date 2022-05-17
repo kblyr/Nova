@@ -10,4 +10,8 @@
     <PackageReference Include="MassTransit" Version="8.0.2" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Core\Nova.csproj" />
+  </ItemGroup>
+
 </Project>

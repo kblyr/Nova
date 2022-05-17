@@ -1,4 +1,5 @@
 using System.Text.Json;
+using Microsoft.Extensions.Logging;
 using Nova.Models;
 
 namespace Nova;
@@ -6,6 +7,27 @@ namespace Nova;
 public interface IPublishFailureHandler
 {
     Task Handle<T>(T message, Exception exception) where T : class;
+}
+
+sealed class LogPublishFailureHandler : IPublishFailureHandler
+{
+    readonly ILogger<IBusAdapter> _logger;
+
+    public LogPublishFailureHandler(ILogger<IBusAdapter> logger)
+    {
+        _logger = logger;
+    }
+
+    public Task Handle<T>(T message, Exception exception) where T : class
+    {
+        if (_logger.IsEnabled(LogLevel.Error))
+        {
+            _logger.LogError("Failed to publish event: {event}", message);
+            _logger.LogError("Exception: {exception}", exception);
+        }
+
+        return Task.CompletedTask;
+    }
 }
 
 sealed class SaveToFilePublishFailureHandler : IPublishFailureHandler
