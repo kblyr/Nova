@@ -6,4 +6,5 @@ public record UserAddedEvent : INotification
     public string Username { get; init; } = "";
     public string EmailAddress { get; init; } = "";
     public short StatusId { get; init; }
+    public string? CipherPassword { get; init; }
 }

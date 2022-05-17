@@ -37,18 +37,13 @@ public sealed class UserSaga : MassTransitStateMachine<UserSaga.Instance>
     void ConfigureEventActivities()
     {
         Initially(
-            When(UserAdded, context => context.Message.StatusId == _userStatuses.Pending)
-                .Then(OnUserAdded)
-                .TransitionTo(Pending),
-            When(UserAdded, context => context.Message.StatusId == _userStatuses.Active)
-                .Then(OnUserAdded)
-                .TransitionTo(Active),
-            When(UserAdded, context => context.Message.StatusId == _userStatuses.Deactivated)
-                .Then(OnUserAdded)
-                .TransitionTo(Deactivated),
-            When(UserAdded, context => context.Message.StatusId == _userStatuses.Locked)
-                .Then(OnUserAdded)
-                .TransitionTo(Locked)
+            When(UserAdded)
+                .Then(context => {
+                    context.Saga.CurrentData.Id = context.Message.Id;
+                    context.Saga.CurrentData.StatusId = context.Message.StatusId;
+                    context.TransitionToState(ConvertState(context.Message.StatusId));
+                })
+                .Publish(context => context.Message.Adapt<UserAddedEvent, SendUserCreationConfirmationMailRequestedEvent>())
         );
 
         DuringAny(Ignore(UserAdded));
@@ -66,10 +61,13 @@ public sealed class UserSaga : MassTransitStateMachine<UserSaga.Instance>
         );
     }
 
-    void OnUserAdded(BehaviorContext<Instance, UserAddedEvent> context)
+    State ConvertState(short userStatusId)
     {
-        context.Saga.CurrentData.Id = context.Message.Id;
-        context.Saga.CurrentData.StatusId = context.Message.StatusId;
+        return 
+            userStatusId == _userStatuses.Active ? Active :
+            userStatusId == _userStatuses.Deactivated ? Deactivated :
+            userStatusId == _userStatuses.Locked ? Locked :
+            Pending;
     }
 
     public record Instance : SagaStateMachineInstance, ISagaVersion
