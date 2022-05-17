@@ -1,4 +1,5 @@
 using Microsoft.Extensions.DependencyInjection;
+using Nova.WebAPI.Server.Auditing;
 
 namespace Nova.WebAPI.Server;
 
@@ -21,8 +22,18 @@ public static class DependencyExtensions
         return services;
     }
 
+    public static IServiceCollection AddNovaWebAPIServer(this IServiceCollection services, InjectDependencies<DependencyInjector> injectDependencies)
+    {
+        services.AddRequiredServices();
+        var injector = new DependencyInjector(services);
+        injectDependencies(injector);
+        return services;
+    }
+
     public static IServiceCollection AddNovaWebAPIServer(this IServiceCollection services)
     {
-        return services;
+        return services.AddNovaWebAPIServer(injector => injector
+            .AddAuditing()
+        );
     }
 }
