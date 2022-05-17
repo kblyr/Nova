@@ -1,4 +1,4 @@
-using System.Runtime.Serialization;
+using Nova.Exceptions;
 
 namespace Nova;
 
@@ -23,30 +23,5 @@ sealed class ApiResponseTypeRegistryKeyProvider : IApiResponseTypeRegistryKeyPro
         key = schemaIdAttr?.SchemaId ?? responseType.FullName;
         _registryKeys.Add(responseType, key ?? throw new FailedToGetApiResponseTypeRegistryKeyException(responseType));
         return key;
-    }
-}
-
-sealed class FailedToGetApiResponseTypeRegistryKeyException : Exception
-{
-    public Type ResponseType { get; }
-
-    public FailedToGetApiResponseTypeRegistryKeyException(Type responseType)
-    {
-        ResponseType = responseType;
-    }
-
-    public FailedToGetApiResponseTypeRegistryKeyException(Type responseType, string? message) : base(message)
-    {
-        ResponseType = responseType;
-    }
-
-    public FailedToGetApiResponseTypeRegistryKeyException(Type responseType, SerializationInfo info, StreamingContext context) : base(info, context)
-    {
-        ResponseType = responseType;
-    }
-
-    public FailedToGetApiResponseTypeRegistryKeyException(Type responseType, string? message, Exception? innerException) : base(message, innerException)
-    {
-        ResponseType = responseType;
     }
 }
