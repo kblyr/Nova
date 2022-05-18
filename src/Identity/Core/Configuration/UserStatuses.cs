@@ -1,6 +1,6 @@
-namespace Nova.Identity.Configuration;
+namespace Nova.Configuration;
 
-public record UserStatusesOptions 
+public record UserStatusesLookup 
 {
     public const string CONFIGKEY = "Nova:Identity:UserStatuses";
 

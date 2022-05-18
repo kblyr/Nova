@@ -1,5 +1,3 @@
-using System.Net;
-
 namespace Nova;
 
 public interface IMailTemplateLoader

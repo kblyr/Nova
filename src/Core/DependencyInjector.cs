@@ -1,5 +1,4 @@
 using Microsoft.Extensions.DependencyInjection;
-using Nova.Utilities;
 
 namespace Nova;
 

@@ -1,16 +1,16 @@
 #nullable disable
+namespace Nova.Entities;
 
-namespace Nova.Identity.Entities;
-
-public record User
+public class User
 {
     public int Id { get; set; }
-    public string Username { get; set; }
+    public string FirstName { get; set; }
+    public string LastName { get; set; }
     public string EmailAddress { get; set; }
     public string HashedPassword { get; set; }
     public string PasswordSalt { get; set; }
     public short StatusId { get; set; }
-    
+
     public bool IsDeleted { get; set; }
     public int? InsertedById { get; set; }
     public DateTimeOffset? InsertedOn { get; set; }

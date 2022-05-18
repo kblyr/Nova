@@ -1,6 +1,8 @@
 namespace Nova;
 
-public interface IKeyGenerator<TModel>
+public interface IKeyGenerator { }
+
+public interface IKeyGenerator<TPayload> : IKeyGenerator
 {
-    RedisKey Generate(TModel model);
+    RedisKey Generate(TPayload payload);
 }

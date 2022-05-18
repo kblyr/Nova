@@ -1,4 +1,4 @@
-namespace Nova.Identity;
+namespace Nova;
 
 public static class ApiRoutes
 {

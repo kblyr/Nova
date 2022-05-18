@@ -43,7 +43,7 @@ public abstract class MailSenderBase
         await _smtp.AuthenticateAsync(_options.SenderAddress, _options.Password, cancellationToken);
     }
 
-    public async Task Send(MailboxAddress recipientAddress, string content, CancellationToken cancellationToken = default)
+    public async Task Send(string recipient, string content, CancellationToken cancellationToken = default)
     {
         await Connect(cancellationToken);
         await Authenticate(cancellationToken);
@@ -58,7 +58,7 @@ public abstract class MailSenderBase
             Sender = MailboxAddress.Parse(_options.SenderAddress),
             Subject = _options.Subject
         };
-        message.To.Add(recipientAddress);
+        message.To.Add(MailboxAddress.Parse(recipient));
         var bodyBuilder = new BodyBuilder();
         bodyBuilder.HtmlBody = content;
         message.Body = bodyBuilder.ToMessageBody();

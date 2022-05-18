@@ -1,13 +1,17 @@
-namespace Nova.Identity;
+namespace Nova;
 
-static class SchemaIds
+static class RequestSchemaIds
 {
-    public static class User
+    public static class Email
     {
-        public static class Add
-        {
-            public const string Request = "req://identity.nova/user/add";
-            public const string Response = "res://identity.nova/user/add";
-        }
+        public const string CreateVerificationCode = "req://identity.nova/email/create-verification-code";
+    }
+}
+
+static class ResponseSchemaIds
+{
+    public static class Email
+    {
+        public const string CreateVerificationCode = "res://identity.nova/email/create-verification-code";
     }
 }

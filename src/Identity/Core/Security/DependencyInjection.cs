@@ -1,6 +1,6 @@
 using System.Data;
 using Microsoft.Extensions.DependencyInjection;
-using Nova.Identity.Security;
+using Nova.Security;
 
 namespace Nova.Identity.Core.Security;
 

@@ -1,10 +1,11 @@
 using System.Security.Cryptography;
+using Nova.Security.Exceptions;
 
 namespace Nova.Security;
 
 public interface ITextCryptoKeyLoader
 {
-    void Load(RSA algo);
+    void Load(RSA algorithm);
 }
 
 public interface ITextEncryptionKeyLoader : ITextCryptoKeyLoader { }
@@ -20,13 +21,13 @@ public abstract class PemFileTextCryptoKeyLoaderBase
         _filePath = filePath;
     }
 
-    public void Load(RSA algo)
+    public void Load(RSA algorithm)
     {
         if (string.IsNullOrWhiteSpace(_filePath) || !File.Exists(_filePath))
         {
-            return;
+            throw new CryptoKeyFileNotFoundException("Crypto key file does not exists", _filePath);
         }
 
-        algo.ImportFromPem(File.ReadAllText(_filePath));
+        algorithm.ImportFromPem(File.ReadAllText(_filePath));
     }
 }
