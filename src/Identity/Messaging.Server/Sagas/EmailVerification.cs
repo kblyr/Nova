@@ -44,7 +44,7 @@ public sealed class EmailVerificationSaga : MassTransitStateMachine<EmailVerific
             Ignore(EmailVerificationCodeSent),
             Ignore(EmailVerified),
             When(EmailVerificationCodeCreated)
-                .Then(context => {_logger.LogInformation("Verification Code was created");
+                .Then(context => {
                     context.Saga.Data.EmailAddress = context.Message.EmailAddress;
                     context.Saga.Data.VerificationCode = context.Message.VerificationCode;
                 })

@@ -7,7 +7,10 @@ sealed class ResponseTypeMapRegistration : IResponseTypeMapRegistration
     public void Register(IResponseTypeMapRegistry registry)
     {
         registry
-            .Register<CreateEmailVerificationCodeCommand.Response, CreateEmailVerificationCode.Response>(StatusCodes.Status201Created)
-            .Register<EmailVerificationCodeAlreadyCreatedResponse, EmailVerificationCodeAlreadyCreated.Response>(StatusCodes.Status400BadRequest);
+            .RegisterCreated<CreateEmailVerificationCodeCommand.Response, CreateEmailVerificationCode.Response>()
+            .RegisterNotFound<EmailAddressNotFoundResponse, EmailAddressNotFound.Response>()
+            .RegisterBadRequest<EmailVerificationCodeAlreadyCreatedResponse, EmailVerificationCodeAlreadyCreated.Response>()
+            .RegisterBadRequest<IncorrectEmailVerificationCodeResponse, IncorrectEmailVerificationCode.Response>()
+            ;
     }
 }

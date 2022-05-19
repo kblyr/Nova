@@ -7,10 +7,10 @@ public interface IBusAdapter
 
 sealed class BusAdapter : IBusAdapter
 {
-    readonly IBus _bus;
+    readonly IBusControl _bus;
     readonly IPublishFailureHandler _failureHandler;
 
-    public BusAdapter(IBus bus, IPublishFailureHandler failureHandler)
+    public BusAdapter(IBusControl bus, IPublishFailureHandler failureHandler)
     {
         _bus = bus;
         _failureHandler = failureHandler;

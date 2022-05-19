@@ -1,4 +1,3 @@
-using System.Text.Json;
 using Nova.Utilities;
 
 namespace Nova.Identity.Handlers;

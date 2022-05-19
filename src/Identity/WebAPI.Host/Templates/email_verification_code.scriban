@@ -4,6 +4,6 @@
 </head>
 <body>
     <h1>Nova Email Verification</h1>
-    <h2>Verification Code: {{ VerificationCode }}</h2>
+    <h2>Verification Code: <span style="color: green;">{{ verification_code }}</span></h2>
 </body>
 </html>
