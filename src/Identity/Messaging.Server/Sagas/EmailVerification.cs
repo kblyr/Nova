@@ -1,10 +1,13 @@
 #nullable disable
-namespace Nova.Sagas;
+namespace Nova.Identity.Sagas;
 
 public sealed class EmailVerificationSaga : MassTransitStateMachine<EmailVerificationSaga.Instance>
 {
-    public EmailVerificationSaga()
+    readonly ILogger<EmailVerificationSaga> _logger;
+
+    public EmailVerificationSaga(ILogger<EmailVerificationSaga> logger)
     {
+        _logger = logger;
         InstanceState(instance => instance.CurrentState);
         ConfigureEvents();
         ConfigureEventActivities();
@@ -41,7 +44,7 @@ public sealed class EmailVerificationSaga : MassTransitStateMachine<EmailVerific
             Ignore(EmailVerificationCodeSent),
             Ignore(EmailVerified),
             When(EmailVerificationCodeCreated)
-                .Then(context => {
+                .Then(context => {_logger.LogInformation("Verification Code was created");
                     context.Saga.Data.EmailAddress = context.Message.EmailAddress;
                     context.Saga.Data.VerificationCode = context.Message.VerificationCode;
                 })

@@ -1,4 +1,4 @@
-namespace Nova.Contexts;
+namespace Nova.Identity.Contexts;
 
 public sealed class IdentityDbContext : DbContextBase<IdentityDbContext>
 {

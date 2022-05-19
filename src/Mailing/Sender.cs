@@ -3,6 +3,11 @@ using Nova.Configuration;
 
 namespace Nova;
 
+public interface IMailSender
+{
+    Task Send(string recipient, string content, CancellationToken cancellationToken = default);
+}
+
 public abstract class MailSenderBase 
 {
     readonly SmtpClient _smtp = new();

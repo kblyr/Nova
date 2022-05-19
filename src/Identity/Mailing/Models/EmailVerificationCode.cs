@@ -1,4 +1,4 @@
-namespace Nova.Models;
+namespace Nova.Identity.Models;
 
 public record EmailVerificationCodeModel
 {

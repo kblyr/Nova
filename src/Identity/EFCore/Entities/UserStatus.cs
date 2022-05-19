@@ -1,5 +1,5 @@
 #nullable disable
-namespace Nova.Entities;
+namespace Nova.Identity.Entities;
 
 public class UserStatus
 {

@@ -10,9 +10,9 @@
             "request": "launch",
             "preLaunchTask": "build",
             // If you have changed target frameworks, make sure to update the program path.
-            "program": "${workspaceFolder}/src/Identity/WebAPI/bin/Debug/net6.0/Nova.Identity.WebAPI.dll",
+            "program": "${workspaceFolder}/src/Identity/WebAPI.Host/bin/Debug/net6.0/Nova.Identity.WebAPI.Host.dll",
             "args": [],
-            "cwd": "${workspaceFolder}/src/Identity/WebAPI",
+            "cwd": "${workspaceFolder}/src/Identity/WebAPI.Host",
             "stopAtEntry": false,
             // Enable launching a web browser when ASP.NET Core starts. For more information: https://aka.ms/VSCode-CS-LaunchJson-WebBrowser
             "serverReadyAction": {

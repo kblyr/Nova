@@ -1,5 +1,11 @@
 namespace Nova;
 
+public interface IMultiplexerProvider 
+{
+    Task<IConnectionMultiplexer> GetInstance();
+    Task<IDatabase> GetDatabase();
+}
+
 public abstract class MultiplexerProviderBase 
 {
     readonly string _configuration;
