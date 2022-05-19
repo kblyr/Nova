@@ -1,0 +1,30 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>e3677326-892b-4a63-a78d-f0a0b34eedab</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="FastEndpoints" Version="4.1.0" />
+    <PackageReference Include="Mapster.DependencyInjection" Version="1.0.0" />
+    <PackageReference Include="MassTransit.RabbitMq" Version="8.0.2" />
+    <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="10.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\WebAPI.Server\Nova.Identity.WebAPI.Server.csproj" />
+    <ProjectReference Include="..\..\Core\Nova.csproj" />
+    <ProjectReference Include="..\..\EFCore\Nova.EFCore.csproj" />
+    <ProjectReference Include="..\..\WebAPI.Server\Nova.WebAPI.Server.csproj" />
+    <ProjectReference Include="..\WebAPI\Nova.Identity.WebAPI.csproj" />
+    <ProjectReference Include="..\Messaging.Publisher\Nova.Identity.Messaging.Publisher.csproj" />
+    <ProjectReference Include="..\Redis\Nova.Identity.Redis.csproj" />
+    <ProjectReference Include="..\..\Redis\Nova.Redis.csproj" />
+    <ProjectReference Include="..\Mailing\Nova.Identity.Mailing.csproj" />
+    <ProjectReference Include="..\Messaging.Consumer\Nova.Identity.Messaging.Consumer.csproj" />
+  </ItemGroup>
+
+</Project>

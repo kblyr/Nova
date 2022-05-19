@@ -1,5 +1,5 @@
 using MassTransit;
-using Nova.Sagas;
+using Nova.Identity.Sagas;
 
 var host = Host.CreateDefaultBuilder(args)
     .ConfigureServices((host, services) => {

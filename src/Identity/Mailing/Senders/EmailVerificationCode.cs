@@ -1,6 +1,6 @@
-namespace Nova.Senders;
+namespace Nova.Identity.Senders;
 
-sealed class EmailVerificationCodeSender : MailSenderBase
+public sealed class EmailVerificationCodeSender : MailSenderBase, IMailSender
 {
     public EmailVerificationCodeSender(IOptions<EmailVerificationCodeMailOptions> options) : base(options.Value)
     {

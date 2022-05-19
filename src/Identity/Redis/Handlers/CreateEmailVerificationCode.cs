@@ -1,7 +1,7 @@
 using System.Text.Json;
 using Nova.Utilities;
 
-namespace Nova.Handlers;
+namespace Nova.Identity.Handlers;
 
 sealed class CreateEmailVerificationCodeHandler : IRequestHandler<CreateEmailVerificationCodeCommand>
 {

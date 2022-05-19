@@ -17,4 +17,9 @@ public static class DependencyExtensions
         injectDependencies(injector);
         return services;
     }
+
+    public static IServiceCollection AddNovaIdentity(this IServiceCollection services)
+    {
+        return services.AddNovaIdentity(injector => {});
+    }
 }

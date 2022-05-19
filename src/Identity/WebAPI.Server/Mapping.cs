@@ -1,4 +1,4 @@
-namespace Nova;
+namespace Nova.Identity;
 
 sealed class Mapping : IRegister
 {

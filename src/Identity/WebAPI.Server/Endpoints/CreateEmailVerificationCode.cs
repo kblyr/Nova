@@ -1,5 +1,10 @@
-namespace Nova.Endpoints;
+namespace Nova.Identity.Endpoints;
 
-public sealed class CreateEmailVerificationCodeRequestedEndpoint : ApiEndpoint<CreateEmailVerificationCodeRequested.Request, CreateEmailVerificationCodeCommand>
+public sealed class CreateEmailVerificationCodeEndpoint : ApiEndpoint<CreateEmailVerificationCode.Request, CreateEmailVerificationCodeCommand>
 {
+    public override void Configure()
+    {
+        AllowAnonymous();
+        Post("email/verificationCode");
+    }
 }

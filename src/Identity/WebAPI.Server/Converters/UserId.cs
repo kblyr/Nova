@@ -1,4 +1,4 @@
-namespace Nova.Converters;
+namespace Nova.Identity.Converters;
 
 sealed class UserIdConverter : IHashIdConverter<int>
 {

@@ -1,17 +1,12 @@
-namespace Nova;
+namespace Nova.Identity;
 
 static class RequestSchemaIds
 {
-    public static class Email
-    {
-        public const string CreateVerificationCode = "req://identity.nova/email/create-verification-code";
-    }
+    public const string CreateEmailVerificationCode = "req://identity.nova/create-email-verification-code";
 }
 
 static class ResponseSchemaIds
 {
-    public static class Email
-    {
-        public const string CreateVerificationCode = "res://identity.nova/email/create-verification-code";
-    }
+    public const string CreateEmailVerificationCode = "res://identity.nova/create-email-verification-code";
+    public const string EmailVerificationCodeAlreadyCreated = "res://identity.nova/email-verification-code-already-created";
 }

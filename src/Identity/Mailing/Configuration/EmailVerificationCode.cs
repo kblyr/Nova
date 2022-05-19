@@ -1,6 +1,6 @@
-namespace Nova.Configuration;
+namespace Nova.Identity.Configuration;
 
 public record EmailVerificationCodeMailOptions : MailOptions
 {
-    public const string CONFIGKEY = "Nova:Identity:EmailVerificationToken:Mail";
+    public const string CONFIGKEY = "Nova:Identity:EmailVerificationCode:Mail";
 }

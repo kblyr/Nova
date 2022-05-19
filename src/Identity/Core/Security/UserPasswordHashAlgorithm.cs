@@ -1,4 +1,4 @@
-namespace Nova.Security;
+namespace Nova.Identity.Security;
 
 public interface IUserPasswordHashAlgorithm
 {

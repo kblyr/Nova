@@ -1,4 +1,4 @@
-namespace Nova.Handlers;
+namespace Nova.Identity.Handlers;
 
 sealed class EmailVerificationCodeCreatedHandler : INotificationHandler<EmailVerificationCodeCreatedEvent>
 {

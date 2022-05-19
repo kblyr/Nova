@@ -1,4 +1,20 @@
-namespace Nova.Handlers;
+namespace Nova.Identity.Handlers;
+
+// sealed class CreateEmailVerificationCodeHandler : IRequestHandler<CreateEmailVerificationCodeCommand>
+// {
+//     readonly IRequestClient<CreateEmailVerificationCodeCommand> _requestClient;
+
+//     public CreateEmailVerificationCodeHandler(IRequestClient<CreateEmailVerificationCodeCommand> requestClient)
+//     {
+//         _requestClient = requestClient;
+//     }
+
+//     public async Task<IResponse> Handle(CreateEmailVerificationCodeCommand request, CancellationToken cancellationToken)
+//     {
+//         var response = await _requestClient.GetResponse<CreateEmailVerificationCodeCommand.Response>(request, cancellationToken);
+//         return response.Message;
+//     }
+// }
 
 sealed class CreateEmailVerificationCodeRequestedHandler : INotificationHandler<CreateEmailVerificationCodeRequestedEvent>
 {

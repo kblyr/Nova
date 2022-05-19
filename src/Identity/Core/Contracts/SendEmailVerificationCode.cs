@@ -1,4 +1,4 @@
-namespace Nova.Contracts;
+namespace Nova.Identity.Contracts;
 
 public record SendEmailVerificationCodeCommand : IRequest
 {

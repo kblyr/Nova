@@ -1,4 +1,4 @@
-namespace Nova.KeyGenerators;
+namespace Nova.Identity.KeyGenerators;
 
 public sealed class EmailVerificationCodeKeyGenerator : IKeyGenerator<EmailVerificationCodeKeyGenerator.Payload>
 {

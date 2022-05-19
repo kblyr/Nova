@@ -1,4 +1,4 @@
-namespace Nova.Configuration;
+namespace Nova.Identity.Configuration;
 
 public record UserStatusesLookup 
 {
