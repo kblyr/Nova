@@ -8,6 +8,7 @@ public record MailOptions
     public int Port { get; init; }
     public SecureSocketOptions SocketOptions { get; init; }
     public string SenderAddress { get; init; } = "";
+    public string SenderName { get; init; } = "Nova";
     public string Password { get; init; } = "";
 
     public string TemplatePath { get; init; } = "";

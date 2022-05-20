@@ -42,7 +42,7 @@ builder.Services
         massTransit.AddRequestClient<CreateEmailVerificationCodeCommand>();
         massTransit.AddConsumer<SendEmailVerificationCodeRequestedConsumer>();
         massTransit.UsingRabbitMq((context, rabbitMq) => {
-            rabbitMq.Host(builder.Configuration.GetConnectionString("RabbitMQ:Identity"));
+            rabbitMq.Host(builder.Configuration.GetConnectionString("RabbitMQ:Nova:Identity"));
             rabbitMq.ConfigureEndpoints(context);
         });
     });
@@ -56,7 +56,7 @@ builder.Services
     )
     .AddNovaMessagingPublisher()
     .AddNovaRedis(redis => redis
-        .AddMultiplexerProvider<Nova.Identity.MultiplexerProvider>(builder.Configuration.GetConnectionString("Redis:Identity"))
+        .AddMultiplexerProvider<Nova.Identity.MultiplexerProvider>(builder.Configuration.GetConnectionString("Redis:Nova:Identity"))
         .AddKeyGenerator<EmailVerificationCodeKeyGenerator>()
     )
     .AddNovaWebAPI()

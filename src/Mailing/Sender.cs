@@ -58,11 +58,9 @@ public abstract class MailSenderBase
             return;
         }
 
-        var message = new MimeMessage
-        {
-            Sender = MailboxAddress.Parse(_options.SenderAddress),
-            Subject = _options.Subject
-        };
+        var message = new MimeMessage();
+        message.Subject = _options.Subject;
+        message.From.Add(new MailboxAddress(_options.SenderName, _options.SenderAddress));
         message.To.Add(MailboxAddress.Parse(recipient));
         var bodyBuilder = new BodyBuilder();
         bodyBuilder.HtmlBody = content;
