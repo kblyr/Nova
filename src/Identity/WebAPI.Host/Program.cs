@@ -1,10 +1,12 @@
 using FastEndpoints;
 using MassTransit;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using Nova;
 using Nova.Core;
 using Nova.EFCore;
 using Nova.Identity.Consumers;
+using Nova.Identity.Contexts;
 using Nova.Identity.Contracts;
 using Nova.Identity.KeyGenerators;
 using Nova.Identity.Senders;
@@ -49,7 +51,9 @@ builder.Services
 
 builder.Services
     .AddNova()
-    .AddNovaEFCore(efCore => { })
+    .AddNovaEFCore(efCore => efCore
+        .AddDbContextFactory<IdentityDbContext>(Nova.Identity.EFCore.PostgreSQL.AssemblyMarker.Assembly, options => options.UseNpgsql(builder.Configuration.GetConnectionString("PostgreSQL:Nova:Identity")))
+    )
     .AddNovaMailing(mailing => mailing
         .AddSender<EmailVerificationCodeSender>()
         .AddTemplateLoaderFromFile<EmailVerificationCodeTemplateLoader>()

@@ -25,6 +25,8 @@
     <ProjectReference Include="..\..\Redis\Nova.Redis.csproj" />
     <ProjectReference Include="..\Mailing\Nova.Identity.Mailing.csproj" />
     <ProjectReference Include="..\Messaging.Consumer\Nova.Identity.Messaging.Consumer.csproj" />
+    <ProjectReference Include="..\EFCore\Nova.Identity.EFCore.csproj" />
+    <ProjectReference Include="..\EFCore.PostgreSQL\Nova.Identity.EFCore.PostgreSQL.csproj" />
   </ItemGroup>
 
 </Project>
