@@ -1,7 +1,7 @@
 #nullable disable
 namespace Nova.Identity.Entities;
 
-public class User
+public record User
 {
     public int Id { get; set; }
     public string FirstName { get; set; }
