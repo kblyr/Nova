@@ -1,6 +1,6 @@
 namespace Nova.Identity.Endpoints;
 
-public sealed class VerifyEmailEndpoin : ApiEndpoint<VerifyEmail.Request, VerifyEmailCommand>
+sealed class VerifyEmailEndpoin : ApiEndpoint<VerifyEmail.Request, VerifyEmailCommand>
 {
     public override void Configure()
     {
