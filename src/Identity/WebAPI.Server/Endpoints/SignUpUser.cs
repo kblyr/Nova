@@ -5,6 +5,6 @@ sealed class SignUpUserEndpoint : ApiEndpoint<SignUpUser.Request, SignUpUserComm
     public override void Configure()
     {
         AllowAnonymous();
-        Post("user");
+        Post("user/sign-up");
     }
 }
