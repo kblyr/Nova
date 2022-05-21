@@ -1,5 +1,3 @@
-using Microsoft.AspNetCore.Http;
-
 namespace Nova.Identity;
 
 sealed class ResponseTypeMapRegistration : IResponseTypeMapRegistration
@@ -11,6 +9,9 @@ sealed class ResponseTypeMapRegistration : IResponseTypeMapRegistration
             .RegisterNotFound<EmailAddressNotFoundResponse, EmailAddressNotFound.Response>()
             .RegisterBadRequest<EmailVerificationCodeAlreadyCreatedResponse, EmailVerificationCodeAlreadyCreated.Response>()
             .RegisterBadRequest<IncorrectEmailVerificationCodeResponse, IncorrectEmailVerificationCode.Response>()
+            .RegisterCreated<SignUpUserCommand.Response, SignUpUser.Response>()
+            .RegisterBadRequest<UserEmailAddressAlreadyExistsResponse, UserEmailAddressAlreadyExists.Response>()
+            .RegisterOK<VerifyEmailCommand.Response, VerifyEmail.Response>()
             ;
     }
 }
