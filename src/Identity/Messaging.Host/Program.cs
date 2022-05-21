@@ -6,13 +6,13 @@ var host = Host.CreateDefaultBuilder(args)
         services.AddMassTransit(massTransit => {
             massTransit.AddSagaStateMachine<EmailVerificationSaga, EmailVerificationSaga.Instance>()
                 .Endpoint(config => config.Name = "Nova_Identity_EmailVerification")
-                .MongoDbRepository(host.Configuration.GetConnectionString("MongoDB:Nova:Identity"), config => {
+                .MongoDbRepository(host.Configuration["Nova:Identity:ConnectionStrings:MongoDB"], config => {
                     config.DatabaseName = "nova_identity";
                     config.CollectionName = "email_verification";
                 });
 
             massTransit.UsingRabbitMq((context, rabbitMq) => {
-                rabbitMq.Host(host.Configuration.GetConnectionString("RabbitMQ:Nova:Identity"));
+                rabbitMq.Host(host.Configuration["Nova:Identity:ConnectionStrings:RabbitMQ"]);
                 rabbitMq.ConfigureEndpoints(context);
             });
         });

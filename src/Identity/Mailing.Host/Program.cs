@@ -17,7 +17,7 @@ IHost host = Host.CreateDefaultBuilder(args)
         services.AddMassTransit(massTransit => {
             massTransit.AddConsumer<SendEmailVerificationCodeRequestedConsumer>();
             massTransit.UsingRabbitMq((context, rabbitMq) => {
-                rabbitMq.Host(host.Configuration.GetConnectionString("RabbitMQ:Nova:Identity"));
+                rabbitMq.Host(host.Configuration["Nova:Identity:ConnectionStrings:RabbitMQ"]);
                 rabbitMq.ConfigureEndpoints(context);
             });
         });

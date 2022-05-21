@@ -37,7 +37,7 @@ builder.Services
     .AddMassTransit(massTransit => {
         massTransit.AddRequestClient<CreateEmailVerificationCodeCommand>();
         massTransit.UsingRabbitMq((context, rabbitMq) => {
-            rabbitMq.Host(builder.Configuration.GetConnectionString("RabbitMQ:Nova:Identity"));
+            rabbitMq.Host(builder.Configuration["Nova:Identity:ConnectionStrings:RabbitMQ"]);
             rabbitMq.ConfigureEndpoints(context);
         });
     });
@@ -45,11 +45,11 @@ builder.Services
 builder.Services
     .AddNova()
     .AddNovaEFCore(efCore => efCore
-        .AddDbContextFactory<IdentityDbContext>(Nova.Identity.EFCore.PostgreSQL.AssemblyMarker.Assembly, options => options.UseNpgsql(builder.Configuration.GetConnectionString("PostgreSQL:Nova:Identity")))
+        .AddDbContextFactory<IdentityDbContext>(Nova.Identity.EFCore.PostgreSQL.AssemblyMarker.Assembly, options => options.UseNpgsql(builder.Configuration["Nova:Identity:ConnectionStrings:PostgreSQL"]))
     )
     .AddNovaMessagingPublisher()
     .AddNovaRedis(redis => redis
-        .AddMultiplexerProvider<Nova.Identity.MultiplexerProvider>(builder.Configuration.GetConnectionString("Redis:Nova:Identity"))
+        .AddMultiplexerProvider<Nova.Identity.MultiplexerProvider>(builder.Configuration["Nova:Identity:ConnectionStrings:Redis"])
         .AddKeyGenerator<EmailVerificationCodeKeyGenerator>()
     )
     .AddNovaWebAPI()
