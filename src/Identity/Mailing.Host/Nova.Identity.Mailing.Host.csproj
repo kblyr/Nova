@@ -18,5 +18,6 @@
     <ProjectReference Include="..\Messaging.Consumer\Nova.Identity.Messaging.Consumer.csproj" />
     <ProjectReference Include="..\Mailing\Nova.Identity.Mailing.csproj" />
     <ProjectReference Include="..\..\Mailing\Nova.Mailing.csproj" />
+    <ProjectReference Include="..\Messaging.Publisher\Nova.Identity.Messaging.Publisher.csproj" />
   </ItemGroup>
 </Project>

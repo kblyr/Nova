@@ -5,10 +5,12 @@ using Nova.Identity.Consumers;
 using Nova.Identity.Senders;
 using Nova.Identity.TemplateLoaders;
 using Nova.Mailing;
+using Nova.Messaging.Publisher;
 
 var cqrsHandlerAssemblies = new[]
 {
-    Nova.Identity.Mailing.AssemblyMarker.Assembly
+    Nova.Identity.Mailing.AssemblyMarker.Assembly,
+    Nova.Identity.Messaging.Publisher.AssemblyMarker.Assembly
 };
 
 IHost host = Host.CreateDefaultBuilder(args)
@@ -22,10 +24,12 @@ IHost host = Host.CreateDefaultBuilder(args)
             });
         });
 
-        services.AddNovaMailing(mailing => mailing
-            .AddSender<EmailVerificationCodeSender>()
-            .AddTemplateLoaderFromFile<EmailVerificationCodeTemplateLoader>()
-        );
+        services
+            .AddNovaMailing(mailing => mailing
+                .AddSender<EmailVerificationCodeSender>()
+                .AddTemplateLoaderFromFile<EmailVerificationCodeTemplateLoader>()
+            )
+            .AddNovaMessagingPublisher();
 
         services.Configure<EmailVerificationCodeMailOptions>(host.Configuration.GetSection(EmailVerificationCodeMailOptions.CONFIGKEY));
     })
