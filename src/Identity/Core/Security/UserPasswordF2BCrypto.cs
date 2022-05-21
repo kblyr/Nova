@@ -17,7 +17,7 @@ sealed class UserPasswordF2BEncryptor : TextEncryptorBase, IUserPasswordF2BEncry
 
 sealed class UserPasswordF2BDecryptor : TextDecryptorBase, IUserPasswordF2BDecryptor
 {
-    public UserPasswordF2BDecryptor(ITextDecryptionKeyLoader keyLoader) : base(keyLoader)
+    public UserPasswordF2BDecryptor(IUserPasswordF2BDecryptionKeyLoader keyLoader) : base(keyLoader)
     {
     }
 }
