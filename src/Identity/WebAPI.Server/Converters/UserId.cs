@@ -1,21 +1,8 @@
 namespace Nova.Identity.Converters;
 
-sealed class UserIdConverter : IHashIdConverter<int>
+public sealed class UserIdConverter : Int32HashIdConverterBase, IHashIdConverter<int>
 {
-    readonly IHashids _hashids;
-
-    public UserIdConverter(IHashids hashids)
+    public UserIdConverter(string salt) : base(salt)
     {
-        _hashids = hashids;
-    }
-
-    public string Convert(int id)
-    {
-        return _hashids.Encode(id);
-    }
-
-    public int Convert(string hashId)
-    {
-        return _hashids.DecodeSingle(hashId);
     }
 }

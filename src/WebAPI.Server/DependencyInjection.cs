@@ -1,5 +1,4 @@
 using System.Reflection;
-using Microsoft.Extensions.DependencyInjection;
 using Nova.WebAPI.Server.Auditing;
 
 namespace Nova.WebAPI.Server;
@@ -28,14 +27,26 @@ public static class DependencyExtensions
     {
         services.AddRequiredServices(assembliesToScan);
         var injector = new DependencyInjector(services);
+        injector.AddAuditing();
         injectDependencies(injector);
         return services;
     }
 
     public static IServiceCollection AddNovaWebAPIServer(this IServiceCollection services, params Assembly[] assembliesToScan)
     {
-        return services.AddNovaWebAPIServer(assembliesToScan, injector => injector
-            .AddAuditing()
-        );
+        return services.AddNovaWebAPIServer(assembliesToScan, injector => {});
+    }
+
+    public static DependencyInjector AddHashIdConverter<T>(this DependencyInjector injector, string salt) where T : IHashIdConverter
+    {
+        var t = typeof(T);
+        var converter = Activator.CreateInstance(t, salt);
+        
+        if (converter is not null)
+        {
+            injector.Services.AddSingleton(t, sp => converter);
+        }
+
+        return injector;
     }
 }
