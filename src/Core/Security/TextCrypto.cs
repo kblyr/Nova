@@ -22,19 +22,19 @@ public abstract class TextCryptorBase<TKeyLoader> where TKeyLoader : ITextCrypto
         _keyLoader = keyLoader;
     }
 
-    RSA? _algo;
-    protected RSA Algo => _algo ??= InitializeAlgo();
+    RSA? _algorithm;
+    protected RSA Algorithm => _algorithm ??= InitializeAlgorithm();
 
-    RSA InitializeAlgo()
+    RSA InitializeAlgorithm()
     {
-        var algo = RSA.Create();
-        _keyLoader.Load(algo);
-        return algo;
+        var algorithm = RSA.Create();
+        _keyLoader.Load(algorithm);
+        return algorithm;
     }
 
     public virtual void Dispose()
     {
-        _algo?.Dispose();
+        _algorithm?.Dispose();
     }
 }
 
@@ -52,7 +52,7 @@ public abstract class TextEncryptorBase : TextCryptorBase<ITextEncryptionKeyLoad
         }
 
         var data = Encoding.UTF8.GetBytes(text);
-        var cipherData = Algo.Encrypt(data, RSAEncryptionPadding.OaepSHA512);
+        var cipherData = Algorithm.Encrypt(data, RSAEncryptionPadding.OaepSHA512);
         var cipherText = Convert.ToBase64String(cipherData);
         return cipherText;
     }
@@ -72,7 +72,7 @@ public abstract class TextDecryptorBase : TextCryptorBase<ITextDecryptionKeyLoad
         }
 
         var cipherData = Convert.FromBase64String(cipherText);
-        var data = Algo.Decrypt(cipherData, RSAEncryptionPadding.OaepSHA512);
+        var data = Algorithm.Decrypt(cipherData, RSAEncryptionPadding.OaepSHA512);
         var text = Encoding.UTF8.GetString(data);
         return text;
     }
