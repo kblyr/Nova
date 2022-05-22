@@ -5,6 +5,6 @@ sealed class VerifyUserEmailEndpoint : ApiEndpoint<VerifyUserEmail.Request, Veri
     public override void Configure()
     {
         AllowAnonymous();
-        Post("user/{id}/verify-email/{emailAddress}");
+        Post("user/{userId}/verify-email/{emailAddress}");
     }
 }

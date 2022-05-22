@@ -15,5 +15,7 @@ sealed class Mapping : IRegister
 
         config.ForType<VerifyUserEmail.Request, VerifyUserEmailCommand>()
             .Map(dest => dest.UserId, src => MapConverters.UserId.Convert(src.UserId));
+        config.ForType<VerifyUserEmailCommand.Response, VerifyUserEmail.Response>()
+            .Map(dest => dest.UserId, src => MapConverters.UserId.Convert(src.UserId));
     }
 }

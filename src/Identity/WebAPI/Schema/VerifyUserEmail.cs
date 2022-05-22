@@ -13,5 +13,7 @@ public static class VerifyUserEmail
     [SchemaId(ResponseSchemaIds.VerifyUserEmail)]
     public record Response : IApiResponse
     {
+        public string UserId { get; init; } = "";
+        public string EmailAddress { get; init; } = "";
     }
 }

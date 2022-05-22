@@ -31,6 +31,6 @@ sealed class VerifyUserEmailHandler : IRequestHandler<VerifyUserEmailCommand>
 
         await database.KeyDeleteAsync(key);
         await _mediator.Publish(request.Adapt<VerifyUserEmailCommand, UserEmailVerifiedEvent>(), cancellationToken);
-        return VerifyUserEmailCommand.Response.Instance;
+        return request.Adapt<VerifyUserEmailCommand, VerifyUserEmailCommand.Response>();
     }
 }
