@@ -2,11 +2,11 @@ namespace Nova.Identity.Handlers;
 
 sealed class SendUserEmailVerificationCodeHandler : IRequestHandler<SendUserEmailVerificationCodeCommand>
 {
-    readonly EmailVerificationCodeTemplateLoader _templateLoader;
-    readonly EmailVerificationCodeSender _sender;
+    readonly UserEmailVerificationCodeTemplateLoader _templateLoader;
+    readonly UserEmailVerificationCodeSender _sender;
     readonly IMediator _mediator;
 
-    public SendUserEmailVerificationCodeHandler(EmailVerificationCodeTemplateLoader templateLoader, EmailVerificationCodeSender sender, IMediator mediator)
+    public SendUserEmailVerificationCodeHandler(UserEmailVerificationCodeTemplateLoader templateLoader, UserEmailVerificationCodeSender sender, IMediator mediator)
     {
         _templateLoader = templateLoader;
         _sender = sender;
