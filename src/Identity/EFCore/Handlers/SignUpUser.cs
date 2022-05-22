@@ -8,13 +8,15 @@ sealed class SignUpUserHandler : IRequestHandler<SignUpUserCommand>
     readonly IUserPasswordHashAlgorithm _passwordHashAlgorithm;
     readonly UserStatusesLookup _userStatuses;
     readonly ICurrentAuditInfoProvider _auditInfoProvider;
+    readonly IMediator _mediator;
 
-    public SignUpUserHandler(IDbContextFactory<IdentityDbContext> contextFactory, IUserPasswordHashAlgorithm passwordHashAlgorithm, IOptions<UserStatusesLookup> userStatuses, ICurrentAuditInfoProvider auditInfoProvider)
+    public SignUpUserHandler(IDbContextFactory<IdentityDbContext> contextFactory, IUserPasswordHashAlgorithm passwordHashAlgorithm, IOptions<UserStatusesLookup> userStatuses, ICurrentAuditInfoProvider auditInfoProvider, IMediator mediator)
     {
         _contextFactory = contextFactory;
         _passwordHashAlgorithm = passwordHashAlgorithm;
         _userStatuses = userStatuses.Value;
         _auditInfoProvider = auditInfoProvider;
+        _mediator = mediator;
     }
 
     public async Task<IResponse> Handle(SignUpUserCommand request, CancellationToken cancellationToken)
@@ -42,6 +44,7 @@ sealed class SignUpUserHandler : IRequestHandler<SignUpUserCommand>
         context.Users.Add(user);
         await context.SaveChangesAsync(cancellationToken);
         await transaction.CommitAsync(cancellationToken);
+        await _mediator.Publish(user.Adapt<User, UserSignedUpEvent>(), cancellationToken);
         return user.Adapt<User, SignUpUserCommand.Response>();
     }
 
