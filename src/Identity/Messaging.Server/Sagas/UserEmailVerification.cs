@@ -27,25 +27,37 @@ public sealed class UserEmailVerificationSaga : MassTransitStateMachine<UserEmai
     {
         Event(() => UserSignedUp,
             corr => corr
-                .CorrelateBy((instance, context) => instance.Data.UserId == context.Message.Id)
+                .CorrelateBy((instance, context) => 
+                    instance.Data.UserId == context.Message.Id
+                    && instance.Data.EmailAddress == context.Message.EmailAddress
+                )
                 .SelectId(context => NewId.NextGuid())
         );
 
         Event(() => UserEmailVerificationCodeCreated,
             corr => corr
-                .CorrelateBy((instance, context) => instance.Data.UserId == context.Message.UserId)
+                .CorrelateBy((instance, context) => 
+                    instance.Data.UserId == context.Message.UserId
+                    && instance.Data.EmailAddress == context.Message.EmailAddress
+                )
                 .SelectId(context => NewId.NextGuid())
         );
 
         Event(() => UserEmailVerificationCodeSent,
             corr => corr
-                .CorrelateBy((instance, context) => instance.Data.UserId == context.Message.UserId)
+                .CorrelateBy((instance, context) => 
+                    instance.Data.UserId == context.Message.UserId
+                    && instance.Data.EmailAddress == context.Message.EmailAddress
+                )
                 .SelectId(context => NewId.NextGuid())
         );
 
         Event(() => UserEmailVerified,
             corr => corr
-                .CorrelateBy((instance, context) => instance.Data.UserId == context.Message.UserId)
+                .CorrelateBy((instance, context) => 
+                    instance.Data.UserId == context.Message.UserId
+                    && instance.Data.EmailAddress == context.Message.EmailAddress
+                )
                 .OnMissingInstance(context => context.Discard())
         );
     }
