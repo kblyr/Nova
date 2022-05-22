@@ -20,6 +20,7 @@ public sealed class UserEmailVerificationSaga : MassTransitStateMachine<UserEmai
 
     public Event<UserSignedUpEvent> UserSignedUp { get; private set; }
     public Event<UserEmailVerificationCodeCreatedEvent> UserEmailVerificationCodeCreated { get; private set; }
+    public Event<UserEmailVerificationCodeSentEvent> UserEmailVerificationCodeSent { get; private set; }
 
     void ConfigureEvents()
     {
@@ -34,13 +35,19 @@ public sealed class UserEmailVerificationSaga : MassTransitStateMachine<UserEmai
                 .CorrelateBy((instance, context) => instance.Data.Id == context.Message.Id)
                 .SelectId(context => NewId.NextGuid())
         );
+
+        Event(() => UserEmailVerificationCodeSent,
+            corr => corr
+                .CorrelateBy((instance, context) => instance.Data.Id == context.Message.Id)
+                .SelectId(context => NewId.NextGuid())
+        );
     }
 
     void ConfigureEventActivities()
     {
         Initially(
-            Ignore(UserSignedUp, context => context.Message.StatusId == _userStatuses.Active),
-            When(UserSignedUp, context => context.Message.StatusId != _userStatuses.Pending)
+            Ignore(UserSignedUp, context => context.Message.StatusId != _userStatuses.Pending),
+            When(UserSignedUp, context => context.Message.StatusId == _userStatuses.Pending)
                 .Then(context => {
                     context.Saga.Data.Id = context.Message.Id;
                     context.Saga.Data.EmailAddress = context.Message.EmailAddress;
@@ -52,7 +59,14 @@ public sealed class UserEmailVerificationSaga : MassTransitStateMachine<UserEmai
                     context.Saga.Data.Id = context.Message.Id;
                     context.Saga.Data.EmailAddress = context.Message.EmailAddress;
                 })
-                .TransitionTo(VerificationCodeCreated)
+                .Publish(context => context.Message.Adapt<UserEmailVerificationCodeCreatedEvent, SendUserEmailVerificationCodeRequestedEvent>())
+                .TransitionTo(VerificationCodeCreated),
+            When(UserEmailVerificationCodeSent)
+                .Then(context => {
+                    context.Saga.Data.Id = context.Message.Id;
+                    context.Saga.Data.EmailAddress = context.Message.EmailAddress;
+                })
+                .TransitionTo(VerificationCodeSent)
         );
     }
 
