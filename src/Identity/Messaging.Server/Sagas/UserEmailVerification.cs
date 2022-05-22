@@ -21,6 +21,7 @@ public sealed class UserEmailVerificationSaga : MassTransitStateMachine<UserEmai
     public Event<UserSignedUpEvent> UserSignedUp { get; private set; }
     public Event<UserEmailVerificationCodeCreatedEvent> UserEmailVerificationCodeCreated { get; private set; }
     public Event<UserEmailVerificationCodeSentEvent> UserEmailVerificationCodeSent { get; private set; }
+    public Event<UserEmailVerifiedEvent> UserEmailVerified { get; private set; }
 
     void ConfigureEvents()
     {
@@ -41,12 +42,19 @@ public sealed class UserEmailVerificationSaga : MassTransitStateMachine<UserEmai
                 .CorrelateBy((instance, context) => instance.Data.Id == context.Message.Id)
                 .SelectId(context => NewId.NextGuid())
         );
+
+        Event(() => UserEmailVerified,
+            corr => corr
+                .CorrelateBy((instance, context) => instance.Data.Id == context.Message.Id)
+                .OnMissingInstance(context => context.Discard())
+        );
     }
 
     void ConfigureEventActivities()
     {
         Initially(
             Ignore(UserSignedUp, context => context.Message.StatusId != _userStatuses.Pending),
+            Ignore(UserEmailVerified),
             When(UserSignedUp, context => context.Message.StatusId == _userStatuses.Pending)
                 .Then(context => {
                     context.Saga.Data.Id = context.Message.Id;
@@ -67,6 +75,11 @@ public sealed class UserEmailVerificationSaga : MassTransitStateMachine<UserEmai
                     context.Saga.Data.EmailAddress = context.Message.EmailAddress;
                 })
                 .TransitionTo(VerificationCodeSent)
+        );
+
+        DuringAny(
+            When(UserEmailVerified)
+                .TransitionTo(Verified)
         );
     }
 

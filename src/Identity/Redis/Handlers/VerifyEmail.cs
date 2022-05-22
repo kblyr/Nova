@@ -17,7 +17,6 @@ sealed class VerifyEmailHandler : IRequestHandler<VerifyEmailCommand>
     {
         var database = await _multiplexerProvider.GetDatabase();
         var key = _keyGenerator.Generate(request.Adapt<VerifyEmailCommand, EmailVerificationCodeKeyGenerator.Payload>());
-
         var modelString = await database.StringGetAsync(key);
 
         if (modelString.IsNullOrEmpty)
@@ -26,7 +25,6 @@ sealed class VerifyEmailHandler : IRequestHandler<VerifyEmailCommand>
         }
 
         var model = JsonSerializer.Deserialize<EmailVerificationCodeModel>(modelString);
-
         if (model is null || model.VerificationCode != request.VerificationCode)
         {
             return request.Adapt<VerifyEmailCommand, IncorrectEmailVerificationCodeResponse>();
