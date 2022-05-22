@@ -1,5 +1,13 @@
+using Mapster;
 using MassTransit;
 using Nova.Identity.Sagas;
+
+var mappingAssemblies = new[]
+{
+    Nova.Identity.Messaging.Server.AssemblyMarker.Assembly
+};
+
+TypeAdapterConfig.GlobalSettings.Scan(mappingAssemblies);
 
 var host = Host.CreateDefaultBuilder(args)
     .ConfigureServices((host, services) => {

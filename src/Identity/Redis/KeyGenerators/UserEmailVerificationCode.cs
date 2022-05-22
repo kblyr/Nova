@@ -6,12 +6,12 @@ public sealed class UserEmailVerificationCodeKeyGenerator : IKeyGenerator<UserEm
 
     public RedisKey Generate(Payload payload)
     {
-        return new RedisKey(string.Format(FORMAT, payload.Id, payload.EmailAddress));
+        return new RedisKey(string.Format(FORMAT, payload.UserId, payload.EmailAddress));
     }
 
     public record Payload
     {
-        public int Id { get; init; }
+        public int UserId { get; init; }
         public string EmailAddress { get; init; } = "";
     }
 }
