@@ -63,6 +63,7 @@ builder.Services
     .AddNovaRedis(redis => redis
         .AddMultiplexerProvider<Nova.Identity.MultiplexerProvider>(builder.Configuration["Nova:Identity:ConnectionStrings:Redis"])
         .AddKeyGenerator<EmailVerificationCodeKeyGenerator>()
+        .AddKeyGenerator<UserEmailVerificationCodeKeyGenerator>()
     )
     .AddNovaWebAPI()
     .AddNovaWebAPIServer(responseTypeMapAssemblies, server => server
