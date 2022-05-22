@@ -19,10 +19,17 @@ public sealed class UserEmailVerificationSaga : MassTransitStateMachine<UserEmai
     public State Verified { get; private set; }
 
     public Event<UserSignedUpEvent> UserSignedUp { get; private set; }
+    public Event<UserEmailVerificationCodeCreatedEvent> UserEmailVerificationCodeCreated { get; private set; }
 
     void ConfigureEvents()
     {
         Event(() => UserSignedUp,
+            corr => corr
+                .CorrelateBy((instance, context) => instance.Data.Id == context.Message.Id)
+                .SelectId(context => NewId.NextGuid())
+        );
+
+        Event(() => UserEmailVerificationCodeCreated,
             corr => corr
                 .CorrelateBy((instance, context) => instance.Data.Id == context.Message.Id)
                 .SelectId(context => NewId.NextGuid())
@@ -38,7 +45,14 @@ public sealed class UserEmailVerificationSaga : MassTransitStateMachine<UserEmai
                     context.Saga.Data.Id = context.Message.Id;
                     context.Saga.Data.EmailAddress = context.Message.EmailAddress;
                 })
-                .TransitionTo(Pending)
+                .Publish(context => context.Message.Adapt<UserSignedUpEvent, CreateUserEmailVerificationCodeRequestedEvent>())
+                .TransitionTo(Pending),
+            When(UserEmailVerificationCodeCreated)
+                .Then(context => {
+                    context.Saga.Data.Id = context.Message.Id;
+                    context.Saga.Data.EmailAddress = context.Message.EmailAddress;
+                })
+                .TransitionTo(VerificationCodeCreated)
         );
     }
 
