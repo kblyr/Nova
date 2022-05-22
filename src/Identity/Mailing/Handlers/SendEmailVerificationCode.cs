@@ -23,19 +23,3 @@ sealed class SendEmailVerificationCodeHandler : IRequestHandler<SendEmailVerific
         return SendEmailVerificationCodeCommand.Response.Instance;
     }
 }
-
-
-sealed class SendEmailVerificationCodeRequestedHandler : INotificationHandler<SendEmailVerificationCodeRequestedEvent>
-{
-    readonly IMediator _mediator;
-
-    public SendEmailVerificationCodeRequestedHandler(IMediator mediator)
-    {
-        _mediator = mediator;
-    }
-
-    public async Task Handle(SendEmailVerificationCodeRequestedEvent notification, CancellationToken cancellationToken)
-    {
-        await _mediator.Send(notification.Adapt<SendEmailVerificationCodeRequestedEvent, SendEmailVerificationCodeCommand>(), cancellationToken);
-    }
-}
