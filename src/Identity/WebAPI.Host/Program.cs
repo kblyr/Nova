@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Nova;
 using Nova.Core;
 using Nova.EFCore;
+using Nova.Identity.Consumers;
 using Nova.Identity.Contexts;
 using Nova.Identity.Converters;
 using Nova.Identity.Core;
@@ -43,6 +44,7 @@ builder.Services
     .AddMediatR(cqrsHandlerAssemblies)
     .AddMapster(mappingAssemblies)
     .AddMassTransit(massTransit => {
+        massTransit.AddConsumer<CreateUserEmailVerificationCodeRequestedConsumer>();
         massTransit.UsingRabbitMq((context, rabbitMq) => {
             rabbitMq.Host(builder.Configuration["Nova:Identity:ConnectionStrings:RabbitMQ"]);
             rabbitMq.ConfigureEndpoints(context);
