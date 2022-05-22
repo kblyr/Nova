@@ -90,8 +90,27 @@ public sealed class UserEmailVerificationSaga : MassTransitStateMachine<UserEmai
         );
 
         DuringAny(
+            Ignore(UserSignedUp),
             When(UserEmailVerified)
                 .TransitionTo(Verified)
+        );
+
+        During(Pending,
+            When(UserEmailVerificationCodeCreated)
+                .Publish(context => context.Message.Adapt<UserEmailVerificationCodeCreatedEvent, SendUserEmailVerificationCodeRequestedEvent>())
+                .TransitionTo(VerificationCodeCreated),
+            When(UserEmailVerificationCodeSent)
+                .TransitionTo(VerificationCodeSent)
+        );
+
+        During(VerificationCodeCreated,
+            Ignore(UserEmailVerificationCodeCreated),
+            When(UserEmailVerificationCodeSent)
+                .TransitionTo(VerificationCodeSent)
+        );
+
+        During(VerificationCodeSent,
+            Ignore(UserEmailVerificationCodeSent)
         );
     }
 
