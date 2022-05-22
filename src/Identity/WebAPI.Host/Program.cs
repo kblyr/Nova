@@ -6,7 +6,6 @@ using Nova;
 using Nova.Core;
 using Nova.EFCore;
 using Nova.Identity.Contexts;
-using Nova.Identity.Contracts;
 using Nova.Identity.Converters;
 using Nova.Identity.Core;
 using Nova.Identity.Core.Security;
@@ -44,7 +43,6 @@ builder.Services
     .AddMediatR(cqrsHandlerAssemblies)
     .AddMapster(mappingAssemblies)
     .AddMassTransit(massTransit => {
-        massTransit.AddRequestClient<CreateEmailVerificationCodeCommand>();
         massTransit.UsingRabbitMq((context, rabbitMq) => {
             rabbitMq.Host(builder.Configuration["Nova:Identity:ConnectionStrings:RabbitMQ"]);
             rabbitMq.ConfigureEndpoints(context);
