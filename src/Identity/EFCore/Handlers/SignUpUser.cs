@@ -34,6 +34,7 @@ sealed class SignUpUserHandler : IRequestHandler<SignUpUserCommand>
             HashedPassword = password.HashedPassword,
             PasswordSalt = password.Salt,
             StatusId = _userStatuses.Pending,
+            IsPasswordChangeRequired = false,
             IsDeleted = false,
             InsertedById = auditInfo.UserId,
             InsertedOn = auditInfo.Timestamp

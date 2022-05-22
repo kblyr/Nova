@@ -10,6 +10,7 @@ public record User
     public string HashedPassword { get; set; }
     public string PasswordSalt { get; set; }
     public short StatusId { get; set; }
+    public bool IsPasswordChangeRequired { get; set; }
 
     public bool IsDeleted { get; set; }
     public int? InsertedById { get; set; }

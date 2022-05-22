@@ -15,7 +15,7 @@ INSERT INTO "Identity"."UserStatus"("Id", "Name") VALUES
     (2, 'Active'),
     (3, 'Deactivated'),
     (4, 'Locked');
-
+-- DROP TABLE "Identity"."User"
 CREATE TABLE "Identity"."User"
 (
     "Id" INT NOT NULL GENERATED ALWAYS AS IDENTITY,
@@ -25,6 +25,7 @@ CREATE TABLE "Identity"."User"
     "HashedPassword" TEXT NOT NULL,
     "PasswordSalt" TEXT NOT NULL,
     "StatusId" SMALLINT NOT NULL,
+    "IsPasswordChangeRequired" BOOLEAN NOT NULL,
     "IsDeleted" BOOLEAN NOT NULL,
     "InsertedById" INT,
     "InsertedOn" TIMESTAMPTZ,
