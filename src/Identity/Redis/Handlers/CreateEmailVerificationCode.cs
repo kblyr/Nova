@@ -39,18 +39,3 @@ sealed class CreateEmailVerificationCodeHandler : IRequestHandler<CreateEmailVer
         return model.Adapt<EmailVerificationCodeModel, CreateEmailVerificationCodeCommand.Response>();
     }
 }
-
-sealed class CreateEmailVerificationCodeRequestedHandler : INotificationHandler<CreateEmailVerificationCodeRequestedEvent>
-{
-    readonly IMediator _mediator;
-
-    public CreateEmailVerificationCodeRequestedHandler(IMediator mediator)
-    {
-        _mediator = mediator;
-    }
-
-    public async Task Handle(CreateEmailVerificationCodeRequestedEvent notification, CancellationToken cancellationToken)
-    {
-        await _mediator.Send(notification.Adapt<CreateEmailVerificationCodeRequestedEvent, CreateEmailVerificationCodeCommand>(), cancellationToken);
-    }
-}
