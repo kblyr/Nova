@@ -40,6 +40,11 @@ public class ApiEndpoint<TApiRequest, TRequest> : ApiEndpoint<TApiRequest>
 {
     public override async Task HandleAsync(TApiRequest req, CancellationToken ct)
     {
-        await Send<TRequest>(req, ct);
+        await Send<TRequest>(req, MutateRequest, ct);
+    }
+
+    protected virtual TRequest MutateRequest(TRequest request)
+    {
+        return request;
     }
 }
