@@ -27,25 +27,25 @@ public sealed class UserEmailVerificationSaga : MassTransitStateMachine<UserEmai
     {
         Event(() => UserSignedUp,
             corr => corr
-                .CorrelateBy((instance, context) => instance.Data.Id == context.Message.Id)
+                .CorrelateBy((instance, context) => instance.Data.UserId == context.Message.Id)
                 .SelectId(context => NewId.NextGuid())
         );
 
         Event(() => UserEmailVerificationCodeCreated,
             corr => corr
-                .CorrelateBy((instance, context) => instance.Data.Id == context.Message.Id)
+                .CorrelateBy((instance, context) => instance.Data.UserId == context.Message.UserId)
                 .SelectId(context => NewId.NextGuid())
         );
 
         Event(() => UserEmailVerificationCodeSent,
             corr => corr
-                .CorrelateBy((instance, context) => instance.Data.Id == context.Message.Id)
+                .CorrelateBy((instance, context) => instance.Data.UserId == context.Message.UserId)
                 .SelectId(context => NewId.NextGuid())
         );
 
         Event(() => UserEmailVerified,
             corr => corr
-                .CorrelateBy((instance, context) => instance.Data.Id == context.Message.Id)
+                .CorrelateBy((instance, context) => instance.Data.UserId == context.Message.UserId)
                 .OnMissingInstance(context => context.Discard())
         );
     }
@@ -57,21 +57,21 @@ public sealed class UserEmailVerificationSaga : MassTransitStateMachine<UserEmai
             Ignore(UserEmailVerified),
             When(UserSignedUp, context => context.Message.StatusId == _userStatuses.Pending)
                 .Then(context => {
-                    context.Saga.Data.Id = context.Message.Id;
+                    context.Saga.Data.UserId = context.Message.Id;
                     context.Saga.Data.EmailAddress = context.Message.EmailAddress;
                 })
                 .Publish(context => context.Message.Adapt<UserSignedUpEvent, CreateUserEmailVerificationCodeRequestedEvent>())
                 .TransitionTo(Pending),
             When(UserEmailVerificationCodeCreated)
                 .Then(context => {
-                    context.Saga.Data.Id = context.Message.Id;
+                    context.Saga.Data.UserId = context.Message.UserId;
                     context.Saga.Data.EmailAddress = context.Message.EmailAddress;
                 })
                 .Publish(context => context.Message.Adapt<UserEmailVerificationCodeCreatedEvent, SendUserEmailVerificationCodeRequestedEvent>())
                 .TransitionTo(VerificationCodeCreated),
             When(UserEmailVerificationCodeSent)
                 .Then(context => {
-                    context.Saga.Data.Id = context.Message.Id;
+                    context.Saga.Data.UserId = context.Message.UserId;
                     context.Saga.Data.EmailAddress = context.Message.EmailAddress;
                 })
                 .TransitionTo(VerificationCodeSent)
@@ -93,7 +93,7 @@ public sealed class UserEmailVerificationSaga : MassTransitStateMachine<UserEmai
 
     public sealed class InstanceData
     {
-        public int Id { get; set; }
+        public int UserId { get; set; }
         public string EmailAddress { get; set; }
     }
 }

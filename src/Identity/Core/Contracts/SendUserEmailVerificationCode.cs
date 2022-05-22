@@ -2,7 +2,7 @@ namespace Nova.Identity.Contracts;
 
 public record SendUserEmailVerificationCodeCommand : IRequest
 {
-    public int Id { get; init; }
+    public int UserId { get; init; }
     public string EmailAddress { get; init; } = "";
     public string VerificationCode { get; init; } = "";
 
@@ -14,7 +14,7 @@ public record SendUserEmailVerificationCodeCommand : IRequest
 
 public record SendUserEmailVerificationCodeRequestedEvent : INotification
 {
-    public int Id { get; init; }
+    public int UserId { get; init; }
     public string EmailAddress { get; init; } = "";
     public string VerificationCode { get; init; } = "";
 }

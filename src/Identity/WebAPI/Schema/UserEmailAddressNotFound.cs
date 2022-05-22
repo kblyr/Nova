@@ -5,7 +5,7 @@ public static class UserEmailAddressNotFound
     [SchemaId(ResponseSchemaIds.UserEmailAddressNotFound)]
     public record Response : IApiFailedResponse
     {
-        public string Id { get; init; } = "";
+        public string UserId { get; init; } = "";
         public string EmailAddress { get; init; } = "";
     }
 }

@@ -5,7 +5,7 @@ public static class VerifyUserEmail
     [SchemaId(RequestSchemaIds.VerifyUserEmail)]
     public record Request : IApiRequest
     {
-        public string Id { get; init; } = "";
+        public string UserId { get; init; } = "";
         public string EmailAddress { get; init; } = "";
         public string VerificationCode { get; init; } = "";
     }
