@@ -18,6 +18,7 @@ IHost host = Host.CreateDefaultBuilder(args)
         services.AddMediatR(cqrsHandlerAssemblies);
         services.AddMassTransit(massTransit => {
             massTransit.AddConsumer<SendEmailVerificationCodeRequestedConsumer>();
+            massTransit.AddConsumer<SendUserEmailVerificationCodeRequestedConsumer>();
             massTransit.UsingRabbitMq((context, rabbitMq) => {
                 rabbitMq.Host(host.Configuration["Nova:Identity:ConnectionStrings:RabbitMQ"]);
                 rabbitMq.ConfigureEndpoints(context);
@@ -27,11 +28,15 @@ IHost host = Host.CreateDefaultBuilder(args)
         services
             .AddNovaMailing(mailing => mailing
                 .AddSender<EmailVerificationCodeSender>()
+                .AddSender<UserEmailVerificationCodeSender>()
                 .AddTemplateLoaderFromFile<EmailVerificationCodeTemplateLoader>()
+                .AddTemplateLoaderFromFile<UserEmailVerificationCodeTemplateLoader>()
             )
             .AddNovaMessagingPublisher();
 
-        services.Configure<EmailVerificationCodeMailOptions>(host.Configuration.GetSection(EmailVerificationCodeMailOptions.CONFIGKEY));
+        services
+            .Configure<EmailVerificationCodeMailOptions>(host.Configuration.GetSection(EmailVerificationCodeMailOptions.CONFIGKEY))
+            .Configure<UserEmailVerificationCodeMailOptions>(host.Configuration.GetSection(UserEmailVerificationCodeMailOptions.CONFIGKEY));
     })
     .Build();
 

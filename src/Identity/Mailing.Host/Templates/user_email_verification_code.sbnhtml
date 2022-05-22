@@ -1,0 +1,11 @@
+<html>
+<head>
+    <title></title>
+</head>
+<body>
+    <h1>Nova Email Verification</h1>
+    <span>Here's your Verification Code</span>
+    <br></br>
+    <span style="color: green; font-family: monospace; font-size: 2rem; font-weight: 700;">{{ verification_code }}</span>
+</body>
+</html>
