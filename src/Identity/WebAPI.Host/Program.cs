@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Nova;
 using Nova.Core;
 using Nova.EFCore;
+using Nova.Identity.Configuration;
 using Nova.Identity.Consumers;
 using Nova.Identity.Contexts;
 using Nova.Identity.Converters;
@@ -71,6 +72,7 @@ builder.Services
     .AddNovaWebAPIServer(responseTypeMapAssemblies, server => server
         .AddHashIdConverter<UserIdConverter>(builder.Configuration["Nova:Identity:User:HashIdSalt"])
     );
+builder.Services.Configure<UserStatusesLookup>(builder.Configuration.GetSection(UserStatusesLookup.CONFIGKEY));
 
 var app = builder.Build();
 app.UseAuthorization();
