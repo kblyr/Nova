@@ -1,5 +1,6 @@
 using Mapster;
 using MassTransit;
+using Nova.Identity.Configuration;
 using Nova.Identity.Sagas;
 
 var mappingAssemblies = new[]
@@ -31,6 +32,7 @@ var host = Host.CreateDefaultBuilder(args)
                 rabbitMq.ConfigureEndpoints(context);
             });
         });
+        services.Configure<UserStatusesLookup>(host.Configuration.GetSection(UserStatusesLookup.CONFIGKEY));
     })
     .Build();
 
