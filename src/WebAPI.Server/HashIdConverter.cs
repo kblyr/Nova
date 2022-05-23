@@ -15,15 +15,15 @@ public abstract class HashIdConverterBase
     readonly IHashids _hashids;
     protected IHashids Hashids => _hashids;
 
-    protected HashIdConverterBase(string salt)
+    protected HashIdConverterBase(string salt, int minHashLength)
     {
-        _hashids = new Hashids(salt);
+        _hashids = new Hashids(salt, minHashLength);
     }
 }
 
 public abstract class Int32HashIdConverterBase : HashIdConverterBase
 {
-    protected Int32HashIdConverterBase(string salt) : base(salt)
+    protected Int32HashIdConverterBase(string salt, int minHashLength) : base(salt, minHashLength)
     {
     }
 

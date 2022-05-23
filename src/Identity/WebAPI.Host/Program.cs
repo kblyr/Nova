@@ -70,7 +70,7 @@ builder.Services
     )
     .AddNovaWebAPI()
     .AddNovaWebAPIServer(responseTypeMapAssemblies, server => server
-        .AddHashIdConverter<UserIdConverter>(builder.Configuration["Nova:Identity:User:HashIdSalt"])
+        .AddHashIdConverter<UserIdConverter>(builder.Configuration["Nova:Identity:UserId:Salt"], Convert.ToInt32(builder.Configuration["Nova:Identity:UserId:MinimumHashLength"]))
     );
 builder.Services.Configure<UserStatusesLookup>(builder.Configuration.GetSection(UserStatusesLookup.CONFIGKEY));
 

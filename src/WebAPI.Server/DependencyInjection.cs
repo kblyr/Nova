@@ -1,4 +1,5 @@
 using System.Reflection;
+using System.Security.Cryptography;
 using Nova.WebAPI.Server.Auditing;
 
 namespace Nova.WebAPI.Server;
@@ -37,10 +38,10 @@ public static class DependencyExtensions
         return services.AddNovaWebAPIServer(assembliesToScan, injector => {});
     }
 
-    public static DependencyInjector AddHashIdConverter<T>(this DependencyInjector injector, string salt) where T : IHashIdConverter
+    public static DependencyInjector AddHashIdConverter<T>(this DependencyInjector injector, string salt = "", int minHashLength = 0) where T : IHashIdConverter
     {
         var t = typeof(T);
-        var converter = Activator.CreateInstance(t, salt);
+        var converter = Activator.CreateInstance(t, salt, minHashLength);
         
         if (converter is not null)
         {
