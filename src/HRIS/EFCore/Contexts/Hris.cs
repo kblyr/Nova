@@ -1,8 +1,8 @@
 namespace Nova.HRIS.Contexts;
 
-public sealed class HrisDbContext : DbContextBase<HrisDbContext>
+public sealed class HRISDbContext : DbContextBase<HRISDbContext>
 {
-    public HrisDbContext(DbContextOptions<HrisDbContext> options, IEntityConfigAssemblyProvider<HrisDbContext> entityConfigAssemblyProvider) : base(options, entityConfigAssemblyProvider)
+    public HRISDbContext(DbContextOptions<HRISDbContext> options, IEntityConfigAssemblyProvider<HRISDbContext> entityConfigAssemblyProvider) : base(options, entityConfigAssemblyProvider)
     {
     }
 
