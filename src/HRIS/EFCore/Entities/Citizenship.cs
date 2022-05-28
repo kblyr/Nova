@@ -1,7 +1,7 @@
 #nullable disable
 namespace Nova.HRIS.Entities;
 
-public class Citizenship
+public record Citizenship
 {
     public int Id { get; set; }
     public string Name { get; set; }

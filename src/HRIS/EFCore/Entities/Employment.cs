@@ -1,7 +1,7 @@
 #nullable disable
 namespace Nova.HRIS.Entities;
 
-public class Employment
+public record Employment
 {
     public long Id { get; set; }
     public int EmployeeId { get; set; }

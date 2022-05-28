@@ -1,7 +1,7 @@
 #nullable disable
 namespace Nova.HRIS.Entities;
 
-public class SalaryGradeStep
+public record SalaryGradeStep
 {
     public long Id { get; set; }
     public int TableId { get; set; }
