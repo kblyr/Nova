@@ -7,4 +7,15 @@ public sealed class HRISDbContext : DbContextBase<HRISDbContext>
     }
 
     public DbSet<Employee> Employees => Set<Employee>();
+    public DbSet<EmployeeAddress> EmployeeAddresses => Set<EmployeeAddress>();
+    public DbSet<Province> Provinces => Set<Province>();
+    public DbSet<City> Cities => Set<City>();
+    public DbSet<Barangay> Barangays => Set<Barangay>();
+    public DbSet<EmploymentType> EmploymentTypes => Set<EmploymentType>();
+    public DbSet<CivilStatus> CivilStatuses => Set<CivilStatus>();
+    public DbSet<Citizenship> Citizenships => Set<Citizenship>();
+    public DbSet<EmploymentStatus> EmploymentStatuses => Set<EmploymentStatus>();
+    public DbSet<Office> Offices => Set<Office>();
+    public DbSet<Position> Positions => Set<Position>();
+    public DbSet<Employment> Employments => Set<Employment>();
 }
