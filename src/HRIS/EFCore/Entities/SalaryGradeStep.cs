@@ -9,11 +9,11 @@ public class SalaryGradeStep
     public short Step { get; set; }
     public decimal Amount { get; set; }
 
+    public SalaryGradeTable Table { get; set; }
+
     public bool IsDeleted { get; set; }
     public int? InsertedById { get; set; }
     public DateTimeOffset? InsertedOn { get; set; }
     public int? DeletedById { get; set; }
     public DateTimeOffset? DeletedOn { get; set; }
-
-    public SalaryGradeTable Table { get; set; }
 }

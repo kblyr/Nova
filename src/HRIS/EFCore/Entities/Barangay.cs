@@ -7,6 +7,8 @@ public class Barangay
     public string Name { get; set; }
     public int? CityId { get; set; }
 
+    public City City { get; set; }
+
     public bool IsDeleted { get; set; }
     public int? InsertedById { get; set; }
     public DateTimeOffset? InsertedOn { get; set; }
@@ -14,6 +16,4 @@ public class Barangay
     public DateTimeOffset? UpdatedOn { get; set; }
     public int? DeletedById { get; set; }
     public DateTimeOffset? DeletedOn { get; set; }
-
-    public City City { get; set; }
 }

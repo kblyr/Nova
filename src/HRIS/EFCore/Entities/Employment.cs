@@ -12,14 +12,14 @@ public class Employment
     public DateTimeOffset EffectivityBeginDate { get; set; }
     public DateTimeOffset? EffectivityEndDate { get; set; }
 
+    public Employee Employee { get; set; }
+    public EmploymentType EmploymentType { get; set; }
+    public Office Office { get; set; }
+    public Position Position { get; set; }
+
     public bool IsDeleted { get; set; }
     public int? InsertedById { get; set; }
     public DateTimeOffset? InsertedOn { get; set; }
     public int? DeletedById { get; set; }
     public DateTimeOffset? DeletedOn { get; set; }
-
-    public Employee Employee { get; set; }
-    public EmploymentType EmploymentType { get; set; }
-    public Office Office { get; set; }
-    public Position Position { get; set; }
 }

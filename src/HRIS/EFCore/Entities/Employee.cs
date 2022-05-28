@@ -24,6 +24,10 @@ public class Employee
 
     public string FullName { get; set; }
 
+    public CivilStatus CivilStatus { get; set; }
+    public Citizenship Citizenship { get; set; }
+    public EmploymentStatus EmploymentStatus { get; set; }
+
     public bool IsDeleted { get; set; }
     public int? InsertedById { get; set; }
     public DateTimeOffset? InsertedOn { get; set; }
@@ -31,8 +35,4 @@ public class Employee
     public DateTimeOffset? UpdatedOn { get; set; }
     public int? DeletedById { get; set; }
     public DateTimeOffset? DeletedOn { get; set; }
-
-    public CivilStatus CivilStatus { get; set; }
-    public Citizenship Citizenship { get; set; }
-    public EmploymentStatus EmploymentStatus { get; set; }
 }

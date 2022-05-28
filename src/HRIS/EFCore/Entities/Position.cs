@@ -10,6 +10,9 @@ public class Position
 
     public string FullName { get; set; }
 
+    public Position Parent { get; set; }
+    public IEnumerable<Position> Children { get; set; }
+
     public bool IsDeleted { get; set; }
     public int? InsertedById { get; set; }
     public DateTimeOffset? InsertedOn { get; set; }
@@ -17,7 +20,4 @@ public class Position
     public DateTimeOffset? UpdatedOn { get; set; }
     public int? DeletedById { get; set; }
     public DateTimeOffset? DeletedOn { get; set; }
-
-    public Position Parent { get; set; }
-    public IEnumerable<Position> Children { get; set; }
 }
