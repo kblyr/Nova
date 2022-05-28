@@ -88,6 +88,15 @@ sealed class AddEmployeeHandler : IRequestHandler<AddEmployeeCommand>
             }
         }
 
+        if (request.SalaryGradeStep is not null)
+        {
+            var response = await SaveEmployeeSalaryGradeStep(context, employee.Id, request.SalaryGradeStep, auditInfo, cancellationToken);
+            if (response is not null)
+            {
+                return response;
+            }
+        }
+
         await transaction.CommitAsync(cancellationToken);
         return new AddEmployeeCommand.Response { Id = employee.Id };
     }
@@ -208,6 +217,25 @@ sealed class AddEmployeeHandler : IRequestHandler<AddEmployeeCommand>
             InsertedOn = auditInfo.Timestamp
         };
         context.Employments.Add(employment);
+        await context.SaveChangesAsync(cancellationToken);
+        return null;
+    }
+
+    async Task<IResponse?> SaveEmployeeSalaryGradeStep(HRISDbContext context, int employeeId, AddEmployeeCommand.SalaryGradeStepObj requestSalaryGradeStep, AuditInfo auditInfo, CancellationToken cancellationToken)
+    {
+        if (await context.SalaryGradeSteps.IsValid(requestSalaryGradeStep.Grade, requestSalaryGradeStep.Step, requestSalaryGradeStep.EffectivityBeginDate, requestSalaryGradeStep.EffectivityEndDate, cancellationToken) == false)
+        {
+            return requestSalaryGradeStep.Adapt<AddEmployeeCommand.SalaryGradeStepObj, InvalidSalaryGradeStepResponse>();
+        }
+
+        var employeeSalaryGradeStep = requestSalaryGradeStep.Adapt<AddEmployeeCommand.SalaryGradeStepObj, EmployeeSalaryGradeStep>() with
+        {
+            EmployeeId = employeeId,
+            IsDeleted = false,
+            InsertedById = auditInfo.UserId,
+            InsertedOn = auditInfo.Timestamp
+        };
+        context.EmployeeSalaryGradeSteps.Add(employeeSalaryGradeStep);
         await context.SaveChangesAsync(cancellationToken);
         return null;
     }

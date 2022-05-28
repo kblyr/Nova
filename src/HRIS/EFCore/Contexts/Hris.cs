@@ -18,4 +18,6 @@ public sealed class HRISDbContext : DbContextBase<HRISDbContext>
     public DbSet<Office> Offices => Set<Office>();
     public DbSet<Position> Positions => Set<Position>();
     public DbSet<Employment> Employments => Set<Employment>();
+    public DbSet<EmployeeSalaryGradeStep> EmployeeSalaryGradeSteps => Set<EmployeeSalaryGradeStep>();
+    public DbSet<SalaryGradeStep> SalaryGradeSteps => Set<SalaryGradeStep>();
 }

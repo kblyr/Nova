@@ -55,4 +55,22 @@ public static class DbSetExtensions
             .Where(position => position.Id == id && !position.IsDeleted)
             .AnyAsync(cancellationToken);
     }
+
+    public static async Task<bool> IsValid(this DbSet<SalaryGradeStep> salaryGradeSteps, short grade, short step, DateTimeOffset effectivityBeginDate, DateTimeOffset? effectivityEndDate, CancellationToken cancellationToken = default)
+    {
+        var query = salaryGradeSteps.AsNoTracking()
+            .Where(salaryGradeStep => 
+                !salaryGradeStep.IsDeleted
+                && salaryGradeStep.Grade == grade
+                && salaryGradeStep.Step == step
+                && salaryGradeStep.Table.EffectivityBeginDate.Date <= effectivityBeginDate.Date
+            );
+
+        if (effectivityEndDate is not null)
+        {
+            query = query.Where(salaryGradeStep => salaryGradeStep.Table.EffectivityEndDate == null || salaryGradeStep.Table.EffectivityEndDate.Value.Date >= effectivityEndDate.Value.Date);
+        }
+
+        return await query.AnyAsync(cancellationToken);
+    }
 }
