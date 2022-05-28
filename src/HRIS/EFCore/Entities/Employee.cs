@@ -13,7 +13,7 @@ public class Employee
     public string ContactNumber { get; set; }
     public string EmailAddress { get; set; }
     public short? CivilStatusId { get; set; }
-    public int? NationalityId { get; set; }
+    public int? CitizenshipId { get; set; }
     public short EmploymentStatusId { get; set; }
 
     public string FullName { get; set; }
@@ -27,6 +27,6 @@ public class Employee
     public DateTimeOffset? DeletedOn { get; set; }
 
     public CivilStatus CivilStatus { get; set; }
-    public Nationality Nationality { get; set; }
+    public Citizenship Citizenship { get; set; }
     public EmploymentStatus EmploymentStatus { get; set; }
 }
