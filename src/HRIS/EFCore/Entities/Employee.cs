@@ -15,13 +15,8 @@ public class Employee
     public short? CivilStatusId { get; set; }
     public int? NationalityId { get; set; }
     public short EmploymentStatusId { get; set; }
-    public string Address { get; set; }
-    public int? BarangayId { get; set; }
-    public int? CityId { get; set; }
-    public int? ProvinceId { get; set; }
 
     public string FullName { get; set; }
-    public string FullAddress { get; set; }
 
     public bool IsDeleted { get; set; }
     public int? InsertedById { get; set; }
@@ -34,7 +29,4 @@ public class Employee
     public CivilStatus CivilStatus { get; set; }
     public Nationality Nationality { get; set; }
     public EmploymentStatus EmploymentStatus { get; set; }
-    public Barangay Barangay { get; set; }
-    public City City { get; set; }
-    public Province Province { get; set; }
 }
