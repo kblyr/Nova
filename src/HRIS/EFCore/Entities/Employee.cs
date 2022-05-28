@@ -27,6 +27,9 @@ public class Employee
     public CivilStatus CivilStatus { get; set; }
     public Citizenship Citizenship { get; set; }
     public EmploymentStatus EmploymentStatus { get; set; }
+    public IEnumerable<EmployeeAddress> Addresses { get; set; }
+    public IEnumerable<EmployeeSalaryGradeStep> SalaryGradeSteps { get; set; }
+    public IEnumerable<Employment> Employments { get; set; }
 
     public bool IsDeleted { get; set; }
     public int? InsertedById { get; set; }
