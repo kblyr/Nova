@@ -8,12 +8,14 @@ public class Employee
     public string MiddleName { get; set; }
     public string LastName { get; set; }
     public string NameSuffix { get; set; }
-    public DateTime BirthDate { get; set; }
+    public string MaidenMiddleName { get; set; }
     public bool Sex { get; set; }
+    public DateTime BirthDate { get; set; }
+    public string BirthPlace { get; set; }
+    public short? CivilStatusId { get; set; }
     public string LandlineNumber { get; set; }
     public string MobileNumber { get; set; }
     public string EmailAddress { get; set; }
-    public short? CivilStatusId { get; set; }
     public int? CitizenshipId { get; set; }
     public short EmploymentStatusId { get; set; }
     public string TIN { get; set; }

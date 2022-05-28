@@ -6,7 +6,12 @@ public class EmployeeAddress
     public long Id { get; set; }
     public int EmployeeId { get; set; }
     public short TypeId { get; set; }
-    public string HouseBlockLotNumber { get; set; }
+    public string UnitRoomNumber { get; set; }
+    public string HouseNumber { get; set; }
+    public string Building { get; set; }
+    public string BlockNumber { get; set; }
+    public string LotNumber { get; set; }
+    public string PhaseNumber { get; set; }
     public string Street { get; set; }
     public string SubdivisionVillage { get; set; }
     public int? BarangayId { get; set; }
