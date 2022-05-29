@@ -61,9 +61,8 @@ sealed class AddEmployeeHandler : IRequestHandler<AddEmployeeCommand>
             InsertedOn = auditInfo.Timestamp
         };
         context.Employees.Add(employee);
-        var publishTasks = new List<Task>();
         await context.SaveChangesAsync(cancellationToken);
-        publishTasks.Add(_mediator.Publish(employee.Adapt<Employee, EmployeeAddedEvent>(), cancellationToken));
+        await _mediator.Publish(employee.Adapt<Employee, EmployeeAddedEvent>(), cancellationToken);
 
         if (request.PermanentAddress is not null)
         {
@@ -93,7 +92,7 @@ sealed class AddEmployeeHandler : IRequestHandler<AddEmployeeCommand>
 
             if (employment is not null)
             {
-                publishTasks.Add(_mediator.Publish(employment.Adapt<Employment, EmploymentAddedEvent>(), cancellationToken));
+                await _mediator.Publish(employment.Adapt<Employment, EmploymentAddedEvent>(), cancellationToken);
             }
         }
 
@@ -107,12 +106,11 @@ sealed class AddEmployeeHandler : IRequestHandler<AddEmployeeCommand>
 
             if (employeeSalaryGradeStep is not null)
             {
-                publishTasks.Add(_mediator.Publish(employeeSalaryGradeStep.Adapt<EmployeeSalaryGradeStep, EmployeeSalaryGradeStepAddedEvent>(), cancellationToken));
+                await _mediator.Publish(employeeSalaryGradeStep.Adapt<EmployeeSalaryGradeStep, EmployeeSalaryGradeStepAddedEvent>(), cancellationToken);
             }
         }
 
         await transaction.CommitAsync(cancellationToken);
-        await Task.WhenAll(publishTasks);
         return new AddEmployeeCommand.Response { Id = employee.Id };
     }
 
