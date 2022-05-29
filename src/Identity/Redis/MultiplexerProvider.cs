@@ -1,6 +1,6 @@
 namespace Nova.Identity;
 
-public class MultiplexerProvider : MultiplexerProviderBase
+public sealed class MultiplexerProvider : MultiplexerProviderBase, IMultiplexerProvider
 {
     public MultiplexerProvider(string configuration) : base(configuration)
     {

@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk.Worker">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>dotnet-Nova.Identity.Mailing.Host-A2C40C24-762A-4E84-BDEB-E7AEC8CE924D</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MassTransit" Version="8.0.2" />
+    <PackageReference Include="MassTransit.RabbitMq" Version="8.0.2" />
+    <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="10.0.1" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="6.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Messaging.Consumer\Nova.Identity.Messaging.Consumer.csproj" />
+    <ProjectReference Include="..\Mailing\Nova.Identity.Mailing.csproj" />
+    <ProjectReference Include="..\..\Mailing\Nova.Mailing.csproj" />
+    <ProjectReference Include="..\Messaging.Publisher\Nova.Identity.Messaging.Publisher.csproj" />
+  </ItemGroup>
+</Project>

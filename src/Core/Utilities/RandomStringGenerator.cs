@@ -3,24 +3,48 @@ using System.Text;
 
 namespace Nova.Utilities;
 
-public sealed class RandomStringGenerator
+public interface IRandomStringGenerator
 {
-    static readonly char[] _chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890".ToCharArray();
+    string Generate(int length);
+    string Generate(int length, char[] chars);
+    string Generate(int length, string charsString);
+}
 
-    public string Generate(int size)
-	{            
-		byte[] data = new byte[4*size];
-		using var crypto = RandomNumberGenerator.Create();
-        crypto.GetBytes(data);
-		var result = new StringBuilder(size);
-        
-		for (int i = 0; i < size; i++)
-		{
-			var rnd = BitConverter.ToUInt32(data, i * 4);
-			var idx = rnd % _chars.Length;
-			result.Append(_chars[idx]);
-		}
+sealed class RandomStringGenerator : IRandomStringGenerator
+{
+    static readonly int _blockSize = 4;
+    static readonly char[] _chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890".ToCharArray();
 
-		return result.ToString();
-	}
+    public string Generate(int length)
+    {
+        return Generate(length, _chars);
+    }
+
+    public string Generate(int length, char[] chars)
+    {
+        if (length <= 0 || chars is null || chars.Length == 0)
+        {
+            return "";
+        }
+
+        var randomData = RandomNumberGenerator.GetBytes(_blockSize * length);
+        var builder = new StringBuilder();
+
+        for (var i = 0; i < length; i++)
+        {
+            builder.Append(chars[BitConverter.ToUInt32(randomData, _blockSize * i) % chars.Length]);
+        }
+
+        return builder.ToString();
+    }
+
+    public string Generate(int length, string charsString)
+    {
+        if (string.IsNullOrWhiteSpace(charsString))
+        {
+            return "";
+        }
+
+        return Generate(length, charsString.ToCharArray());
+    }
 }

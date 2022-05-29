@@ -1,6 +1,7 @@
+#nullable disable
 namespace Nova.HRIS.Entities;
 
-public class CivilStatus
+public record CivilStatus
 {
     public short Id { get; set; }
     public string Name { get; set; }

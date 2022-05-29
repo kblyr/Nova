@@ -1,3 +1,7 @@
 namespace Nova.HRIS.Contracts;
 
-public record CityNotInProvince(short CityId, short? ProvinceId) : FailedResponse;
+public record CityNotInProvinceResponse : IFailedResponse
+{
+    public int CityId { get; init; }
+    public int? ProvinceId { get; init; }
+}

@@ -1,9 +1,13 @@
+#nullable disable
 namespace Nova.HRIS.Entities;
 
-public class Province
+public record Province
 {
-    public short Id { get; set; }
+    public int Id { get; set; }
     public string Name { get; set; }
+
+    public IEnumerable<City> Cities { get; set; }
+
     public bool IsDeleted { get; set; }
     public int? InsertedById { get; set; }
     public DateTimeOffset? InsertedOn { get; set; }

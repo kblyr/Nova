@@ -1,10 +1,14 @@
+#nullable disable
 namespace Nova.HRIS.Entities;
 
-public class Barangay
+public record Barangay
 {
-    public short Id { get; set; }
+    public int Id { get; set; }
     public string Name { get; set; }
-    public short? CityId { get; set; }
+    public int? CityId { get; set; }
+
+    public City City { get; set; }
+
     public bool IsDeleted { get; set; }
     public int? InsertedById { get; set; }
     public DateTimeOffset? InsertedOn { get; set; }
@@ -12,6 +16,4 @@ public class Barangay
     public DateTimeOffset? UpdatedOn { get; set; }
     public int? DeletedById { get; set; }
     public DateTimeOffset? DeletedOn { get; set; }
-
-    public City City { get; set; }
 }

@@ -1,0 +1,70 @@
+using MimeKit;
+using Nova.Configuration;
+
+namespace Nova;
+
+public interface IMailSender
+{
+    Task Send(string recipient, string content, CancellationToken cancellationToken = default);
+}
+
+public abstract class MailSenderBase 
+{
+    readonly SmtpClient _smtp = new();
+    readonly MailOptions _options;
+
+    protected MailSenderBase(MailOptions options)
+    {
+        _options = options;
+    }
+
+    public async Task Connect(CancellationToken cancellationToken  = default)
+    {
+        if (_smtp.IsConnected)
+        {
+            return;
+        }
+
+        await _smtp.ConnectAsync(_options.Host, _options.Port, _options.SocketOptions, cancellationToken);
+    }
+
+    public async Task Disconnect(CancellationToken cancellationToken = default)
+    {
+        if (!_smtp.IsConnected)
+        {
+            return;
+        }
+
+        await _smtp.DisconnectAsync(true, cancellationToken);
+    }
+
+    public async Task Authenticate(CancellationToken cancellationToken = default)
+    {
+        if (_smtp.IsAuthenticated)
+        {
+            return;
+        }
+
+        await _smtp.AuthenticateAsync(_options.SenderAddress, _options.Password, cancellationToken);
+    }
+
+    public async Task Send(string recipient, string content, CancellationToken cancellationToken = default)
+    {
+        await Connect(cancellationToken);
+        await Authenticate(cancellationToken);
+
+        if (!_smtp.IsConnected || !_smtp.IsAuthenticated)
+        {
+            return;
+        }
+
+        var message = new MimeMessage();
+        message.Subject = _options.Subject;
+        message.From.Add(new MailboxAddress(_options.SenderName, _options.SenderAddress));
+        message.To.Add(MailboxAddress.Parse(recipient));
+        var bodyBuilder = new BodyBuilder();
+        bodyBuilder.HtmlBody = content;
+        message.Body = bodyBuilder.ToMessageBody();
+        await _smtp.SendAsync(message, cancellationToken);
+    }
+}

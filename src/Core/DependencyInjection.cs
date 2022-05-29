@@ -1,28 +1,28 @@
-using System.Reflection;
 using Microsoft.Extensions.DependencyInjection;
+using Nova.Core.Utilities;
 
 namespace Nova.Core;
 
 public sealed class DependencyInjector : DependencyInjectorBase, IDependencyInjector
 {
-    public DependencyInjector(IServiceCollection services, Assembly[]? assemblyMarkers) : base(services, assemblyMarkers)
+    public DependencyInjector(IServiceCollection services) : base(services)
     {
     }
 }
 
 public static class DependencyExtensions
 {
-    public static IServiceCollection AddNova(this IServiceCollection services, Action<DependencyInjector>? injectDependencies = null)
+    public static IServiceCollection AddNova(this IServiceCollection services, InjectDependencies<DependencyInjector> injectDependencies)
     {
-        var injector = new DependencyInjector(services, null);
-        injectDependencies?.Invoke(injector);
+        var injector = new DependencyInjector(services);
+        injectDependencies(injector);
         return services;
     }
 
-    public static IServiceCollection AddNova(this IServiceCollection services, Assembly[] assemblyMarkers, Action<DependencyInjector>? injectDependencies = null)
+    public static IServiceCollection AddNova(this IServiceCollection services)
     {
-        var injector = new DependencyInjector(services, assemblyMarkers);
-        injectDependencies?.Invoke(injector);
-        return services;
+        return services.AddNova(injector => injector
+            .AddUtilities()
+        );
     }
 }

@@ -1,24 +1,33 @@
-using StackExchange.Redis;
-
 namespace Nova;
 
-public abstract class MultiplexerProviderBase
+public interface IMultiplexerProvider 
+{
+    Task<IConnectionMultiplexer> GetInstance();
+    Task<IDatabase> GetDatabase();
+}
+
+public abstract class MultiplexerProviderBase 
 {
     readonly string _configuration;
 
-    public MultiplexerProviderBase(string configuration)
+    protected MultiplexerProviderBase(string configuration)
     {
         _configuration = configuration;
     }
 
-    private IConnectionMultiplexer? _instance;
-
-    public IConnectionMultiplexer Instance()
+    IConnectionMultiplexer? _instance;
+    public async Task<IConnectionMultiplexer> GetInstance()
     {
         if (_instance is not null)
             return _instance;
 
-        _instance = ConnectionMultiplexer.Connect(_configuration);
+        _instance = await ConnectionMultiplexer.ConnectAsync(_configuration);
         return _instance;
+    }
+
+    public async Task<IDatabase> GetDatabase()
+    {
+        var instance = await GetInstance();
+        return instance.GetDatabase();
     }
 }

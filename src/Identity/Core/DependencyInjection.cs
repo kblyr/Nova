@@ -1,30 +1,28 @@
-using System.Reflection;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Nova.Identity.Configuration;
+using Nova.Identity.Core.Security;
 
 namespace Nova.Identity.Core;
 
 public sealed class DependencyInjector : DependencyInjectorBase, IDependencyInjector
 {
-    public DependencyInjector(IServiceCollection services, Assembly[]? assemblyMarkers) : base(services, assemblyMarkers)
+    public DependencyInjector(IServiceCollection services) : base(services)
     {
     }
 }
 
 public static class DependencyExtensions
 {
-    public static Nova.Core.DependencyInjector Identity(this Nova.Core.DependencyInjector parentInjector, Action<DependencyInjector>? injectDependencies = null)
+    public static IServiceCollection AddNovaIdentity(this IServiceCollection services, InjectDependencies<DependencyInjector> injectDependencies)
     {
-        var injector = new DependencyInjector(parentInjector.Services, parentInjector.AssemblyMarkers);
-        injectDependencies?.Invoke(injector);
-        return parentInjector;
+        var injector = new DependencyInjector(services);
+        injector
+            .AddSecurity();
+        injectDependencies(injector);
+        return services;
     }
 
-    public static DependencyInjector SetupConfigurations(this DependencyInjector injector, IConfiguration configuration)
+    public static IServiceCollection AddNovaIdentity(this IServiceCollection services)
     {
-        injector.Services
-            .Configure<AccessTokenConfig>(configuration.GetSection(AccessTokenConfig.ConfigKey));
-        return injector;
+        return services.AddNovaIdentity(injector => {});
     }
 }

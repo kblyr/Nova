@@ -1,32 +1,12 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
-    <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <UserSecretsId>86fa6b9e-cef3-4625-8aca-bbef36d3c6e0</UserSecretsId>
+    <Nullable>enable</Nullable>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
-    <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="10.0.1" />
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.3" />
+    <ProjectReference Include="..\..\WebAPI\Nova.WebAPI.csproj" />
   </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\..\Core\Nova.csproj" />
-    <ProjectReference Include="..\..\Redis\Nova.Redis.csproj" />
-    <ProjectReference Include="..\..\Web\Nova.Web.csproj" />
-    <ProjectReference Include="..\Core\Nova.Identity.csproj" />
-    <ProjectReference Include="..\EFCore\Nova.Identity.EFCore.csproj" />
-    <ProjectReference Include="..\EFCore.Postgres\Nova.Identity.EFCore.Postgres.csproj" />
-    <ProjectReference Include="..\Shared\Nova.Identity.Shared.csproj" />
-    <ProjectReference Include="..\Redis\Nova.Identity.Redis.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Using Include="Nova.Messaging" />
-    <Using Include="Nova.Identity.Schema" />
-  </ItemGroup>
-
 </Project>

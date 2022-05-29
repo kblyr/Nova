@@ -1,78 +1,76 @@
-using Microsoft.EntityFrameworkCore;
-
 namespace Nova.HRIS;
 
-public static class DbSet_Extensions
+public static class DbSetExtensions
 {
-    public static async Task<bool> Exists(this DbSet<Province> provinces, short id)
+    public static async Task<bool> DoesExists(this DbSet<Employee> employees, string firstName, string lastName, DateTime birthDate, CancellationToken cancellationToken = default)
     {
-        return await provinces
-            .AsNoTracking()
-            .Where(province => province.Id == id && !province.IsDeleted)
-            .AnyAsync();
-    }
-    
-    public static async Task<bool> Exists(this DbSet<CivilStatus> civilStatuses, short id)
-    {
-        return await civilStatuses
-            .AsNoTracking()
-            .Where(civilStatus => civilStatus.Id == id)
-            .AnyAsync();
-    }
-
-    public static async Task<bool> Exists(this DbSet<Nationality> nationalities, short id)
-    {
-        return await nationalities
-            .AsNoTracking()
-            .Where(nationality => nationality.Id == id)
-            .AnyAsync();
-    }
-
-    public static async Task<bool> Exists(this DbSet<Barangay> barangays, string name, short? cityId)
-    {
-        return await barangays
-            .AsNoTracking()
-            .Where(barangay => barangay.Name == name && barangay.CityId == cityId && !barangay.IsDeleted)
-            .AnyAsync();
-    }
-
-    public static async Task<bool> Exists(this DbSet<City> cities, short id)
-    {
-        return await cities
-            .AsNoTracking()
-            .Where(city => city.Id == id && !city.IsDeleted)
-            .AnyAsync();
-    }
-
-    public static async Task<bool> Exists(this DbSet<Employee> employees, string firstName, string middleName, string lastName, string nameSuffix, bool? sex, DateTime? birthDate)
-    {
-        return await employees
-            .AsNoTracking()
-            .Where(employee =>
-                employee.FirstName == firstName
-                && employee.MiddleName == middleName
+        return await employees.AsNoTracking()
+            .Where(employee => 
+                !employee.IsDeleted
+                && employee.FirstName == firstName
                 && employee.LastName == lastName
-                && employee.NameSuffix == nameSuffix
-                && employee.Sex == sex
-                && employee.BirthDate.Value.Date == birthDate.Value.Date
-                && !employee.IsDeleted
+                && employee.BirthDate.Date == birthDate.Date
             )
-            .AnyAsync();
+            .AnyAsync(cancellationToken);
     }
 
-    public static async Task<bool> Exists(this DbSet<City> cities, string name, short? provinceId)
+    public static async Task<bool> DoesExists(this DbSet<CivilStatus> civilStatuses, short id, CancellationToken cancellationToken = default)
     {
-        return await cities
-            .AsNoTracking()
-            .Where(city => city.Name == name && city.ProvinceId == provinceId && !city.IsDeleted)
-            .AnyAsync();
+        return await civilStatuses.AsNoTracking()
+            .Where(civilStatus => civilStatus.Id == id)
+            .AnyAsync(cancellationToken);
     }
 
-    public static async Task<bool> Exists(this DbSet<Province> provinces, string name)
+    public static async Task<bool> DoesExists(this DbSet<EmploymentType> employmentTypes, short id, CancellationToken cancellationToken = default)
     {
-        return await provinces
-            .AsNoTracking()
-            .Where(province => province.Name == name && !province.IsDeleted)
-            .AnyAsync();
+        return await employmentTypes.AsNoTracking()
+            .Where(employmentType => employmentType.Id == id)
+            .AnyAsync(cancellationToken);
+    }
+
+    public static async Task<bool> DoesExists(this DbSet<Citizenship> citizenships, int id, CancellationToken cancellationToken = default)
+    {
+        return await citizenships.AsNoTracking()
+            .Where(citizenship => citizenship.Id == id && !citizenship.IsDeleted)
+            .AnyAsync(cancellationToken);
+    }
+
+    public static async Task<bool> DoesExists(this DbSet<EmploymentStatus> employmentStatuses, short id, CancellationToken cancellationToken = default)
+    {
+        return await employmentStatuses.AsNoTracking()
+            .Where(employmentStatus => employmentStatus.Id == id)
+            .AnyAsync(cancellationToken);
+    }
+
+    public static async Task<bool> DoesExists(this DbSet<Office> offices, int id, CancellationToken cancellationToken = default)
+    {
+        return await offices.AsNoTracking()
+            .Where(office => office.Id == id && !office.IsDeleted)
+            .AnyAsync(cancellationToken);
+    }
+
+    public static async Task<bool> DoesExists(this DbSet<Position> positions, int id, CancellationToken cancellationToken = default)
+    {
+        return await positions.AsNoTracking()
+            .Where(position => position.Id == id && !position.IsDeleted)
+            .AnyAsync(cancellationToken);
+    }
+
+    public static async Task<bool> IsValid(this DbSet<SalaryGradeStep> salaryGradeSteps, short grade, short step, DateTimeOffset effectivityBeginDate, DateTimeOffset? effectivityEndDate, CancellationToken cancellationToken = default)
+    {
+        var query = salaryGradeSteps.AsNoTracking()
+            .Where(salaryGradeStep => 
+                !salaryGradeStep.IsDeleted
+                && salaryGradeStep.Grade == grade
+                && salaryGradeStep.Step == step
+                && salaryGradeStep.Table.EffectivityBeginDate.Date <= effectivityBeginDate.Date
+            );
+
+        if (effectivityEndDate is not null)
+        {
+            query = query.Where(salaryGradeStep => salaryGradeStep.Table.EffectivityEndDate == null || salaryGradeStep.Table.EffectivityEndDate.Value.Date >= effectivityEndDate.Value.Date);
+        }
+
+        return await query.AnyAsync(cancellationToken);
     }
 }

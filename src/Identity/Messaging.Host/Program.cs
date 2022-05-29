@@ -1,0 +1,39 @@
+using Mapster;
+using MassTransit;
+using Nova.Identity.Configuration;
+using Nova.Identity.Sagas;
+
+var mappingAssemblies = new[]
+{
+    Nova.Identity.Messaging.Server.AssemblyMarker.Assembly
+};
+
+TypeAdapterConfig.GlobalSettings.Scan(mappingAssemblies);
+
+var host = Host.CreateDefaultBuilder(args)
+    .ConfigureServices((host, services) => {
+        services.AddMassTransit(massTransit => {
+            var mongoDbConnectionString = host.Configuration["Nova:Identity:ConnectionStrings:MongoDB"];
+            massTransit.AddSagaStateMachine<EmailVerificationSaga, EmailVerificationSaga.Instance>()
+                .Endpoint(config => config.Name = "Nova_Identity_EmailVerification")
+                .MongoDbRepository(mongoDbConnectionString, config => {
+                    config.DatabaseName = "nova_identity";
+                    config.CollectionName = "email_verification";
+                });
+            massTransit.AddSagaStateMachine<UserEmailVerificationSaga, UserEmailVerificationSaga.Instance>()
+                .Endpoint(config => config.Name = "Nova_Identity_UserEmailVerification")
+                .MongoDbRepository(mongoDbConnectionString, config => {
+                    config.DatabaseName = "nova_identity";
+                    config.CollectionName = "user_email_verification";
+                });
+
+            massTransit.UsingRabbitMq((context, rabbitMq) => {
+                rabbitMq.Host(host.Configuration["Nova:Identity:ConnectionStrings:RabbitMQ"]);
+                rabbitMq.ConfigureEndpoints(context);
+            });
+        });
+        services.Configure<UserStatusesLookup>(host.Configuration.GetSection(UserStatusesLookup.CONFIGKEY));
+    })
+    .Build();
+
+await host.RunAsync();
