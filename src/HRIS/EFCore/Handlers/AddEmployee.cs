@@ -61,7 +61,9 @@ sealed class AddEmployeeHandler : IRequestHandler<AddEmployeeCommand>
             InsertedOn = auditInfo.Timestamp
         };
         context.Employees.Add(employee);
+        var publishTasks = new List<Task>();
         await context.SaveChangesAsync(cancellationToken);
+        publishTasks.Add(_mediator.Publish(employee.Adapt<Employee, EmployeeAddedEvent>(), cancellationToken));
 
         if (request.PermanentAddress is not null)
         {
@@ -83,24 +85,34 @@ sealed class AddEmployeeHandler : IRequestHandler<AddEmployeeCommand>
 
         if (request.Employment is not null)
         {
-            var response = await SaveEmployment(context, employee.Id, request.Employment, auditInfo, cancellationToken);
-            if (response is not null)
+            var (employment, failedResponse) = await SaveEmployment(context, employee.Id, request.Employment, auditInfo, cancellationToken);
+            if (failedResponse is not null)
             {
-                return response;
+                return failedResponse;
+            }
+
+            if (employment is not null)
+            {
+                publishTasks.Add(_mediator.Publish(employment.Adapt<Employment, EmploymentAddedEvent>(), cancellationToken));
             }
         }
 
         if (request.SalaryGradeStep is not null)
         {
-            var response = await SaveEmployeeSalaryGradeStep(context, employee.Id, request.SalaryGradeStep, auditInfo, cancellationToken);
-            if (response is not null)
+            var (employeeSalaryGradeStep, failedResponse) = await SaveEmployeeSalaryGradeStep(context, employee.Id, request.SalaryGradeStep, auditInfo, cancellationToken);
+            if (failedResponse is not null)
             {
-                return response;
+                return failedResponse;
+            }
+
+            if (employeeSalaryGradeStep is not null)
+            {
+                publishTasks.Add(_mediator.Publish(employeeSalaryGradeStep.Adapt<EmployeeSalaryGradeStep, EmployeeSalaryGradeStepAddedEvent>(), cancellationToken));
             }
         }
 
         await transaction.CommitAsync(cancellationToken);
-        await _mediator.Publish(employee.Adapt<Employee, EmployeeAddedEvent>(), cancellationToken);
+        await Task.WhenAll(publishTasks);
         return new AddEmployeeCommand.Response { Id = employee.Id };
     }
 
@@ -195,21 +207,21 @@ sealed class AddEmployeeHandler : IRequestHandler<AddEmployeeCommand>
             .SingleOrDefaultAsync(cancellationToken);
     }
 
-    async Task<IResponse?> SaveEmployment(HRISDbContext context, int employeeId, AddEmployeeCommand.EmploymentObj requestEmployment, AuditInfo auditInfo, CancellationToken cancellationToken)
+    async Task<(Employment?, IFailedResponse?)> SaveEmployment(HRISDbContext context, int employeeId, AddEmployeeCommand.EmploymentObj requestEmployment, AuditInfo auditInfo, CancellationToken cancellationToken)
     {
         if (await context.EmploymentTypes.DoesExists(requestEmployment.TypeId, cancellationToken) == false)
         {
-            return new EmploymentTypeNotFoundResponse { Id = requestEmployment.TypeId };
+            return (null, new EmploymentTypeNotFoundResponse { Id = requestEmployment.TypeId });
         }
 
         if (await context.Offices.DoesExists(requestEmployment.OfficeId, cancellationToken) == false)
         {
-            return new OfficeNotFoundResponse { Id = requestEmployment.OfficeId };
+            return (null, new OfficeNotFoundResponse { Id = requestEmployment.OfficeId });
         }
 
         if (await context.Positions.DoesExists(requestEmployment.PositionId, cancellationToken) == false)
         {
-            return new PositionNotFoundResponse { Id = requestEmployment.PositionId };
+            return (null, new PositionNotFoundResponse { Id = requestEmployment.PositionId });
         }
 
         var employment = requestEmployment.Adapt<AddEmployeeCommand.EmploymentObj, Employment>() with
@@ -221,14 +233,14 @@ sealed class AddEmployeeHandler : IRequestHandler<AddEmployeeCommand>
         };
         context.Employments.Add(employment);
         await context.SaveChangesAsync(cancellationToken);
-        return null;
+        return (employment, null);
     }
 
-    async Task<IResponse?> SaveEmployeeSalaryGradeStep(HRISDbContext context, int employeeId, AddEmployeeCommand.SalaryGradeStepObj requestSalaryGradeStep, AuditInfo auditInfo, CancellationToken cancellationToken)
+    async Task<(EmployeeSalaryGradeStep?, IFailedResponse?)> SaveEmployeeSalaryGradeStep(HRISDbContext context, int employeeId, AddEmployeeCommand.SalaryGradeStepObj requestSalaryGradeStep, AuditInfo auditInfo, CancellationToken cancellationToken)
     {
         if (await context.SalaryGradeSteps.IsValid(requestSalaryGradeStep.Grade, requestSalaryGradeStep.Step, requestSalaryGradeStep.EffectivityBeginDate, requestSalaryGradeStep.EffectivityEndDate, cancellationToken) == false)
         {
-            return requestSalaryGradeStep.Adapt<AddEmployeeCommand.SalaryGradeStepObj, InvalidSalaryGradeStepResponse>();
+            return (null, requestSalaryGradeStep.Adapt<AddEmployeeCommand.SalaryGradeStepObj, InvalidSalaryGradeStepResponse>());
         }
 
         var employeeSalaryGradeStep = requestSalaryGradeStep.Adapt<AddEmployeeCommand.SalaryGradeStepObj, EmployeeSalaryGradeStep>() with
@@ -240,6 +252,6 @@ sealed class AddEmployeeHandler : IRequestHandler<AddEmployeeCommand>
         };
         context.EmployeeSalaryGradeSteps.Add(employeeSalaryGradeStep);
         await context.SaveChangesAsync(cancellationToken);
-        return null;
+        return (employeeSalaryGradeStep, null);
     }
 }
