@@ -13,7 +13,7 @@ public record Employment
     public DateTimeOffset? EffectivityEndDate { get; set; }
 
     public Employee Employee { get; set; }
-    public EmploymentType EmploymentType { get; set; }
+    public EmploymentType Type { get; set; }
     public Office Office { get; set; }
     public Position Position { get; set; }
 
