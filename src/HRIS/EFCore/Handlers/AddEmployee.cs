@@ -9,14 +9,16 @@ sealed class AddEmployeeHandler : IRequestHandler<AddEmployeeCommand>
     readonly IFullNameBuilder _fullNameBuilder;
     readonly AddressTypesLookup _addressTypes;
     readonly IAddressFullNameBuilder _addressFullNameBuilder;
+    readonly IMediator _mediator;
 
-    public AddEmployeeHandler(IDbContextFactory<HRISDbContext> contextFactory, ICurrentAuditInfoProvider auditInfoProvider, IFullNameBuilder fullNameBuilder, IOptions<AddressTypesLookup> addressTypes, IAddressFullNameBuilder addressFullNameBuilder)
+    public AddEmployeeHandler(IDbContextFactory<HRISDbContext> contextFactory, ICurrentAuditInfoProvider auditInfoProvider, IFullNameBuilder fullNameBuilder, IOptions<AddressTypesLookup> addressTypes, IAddressFullNameBuilder addressFullNameBuilder, IMediator mediator)
     {
         _contextFactory = contextFactory;
         _auditInfoProvider = auditInfoProvider;
         _fullNameBuilder = fullNameBuilder;
         _addressTypes = addressTypes.Value;
         _addressFullNameBuilder = addressFullNameBuilder;
+        _mediator = mediator;
     }
 
     public async Task<IResponse> Handle(AddEmployeeCommand request, CancellationToken cancellationToken)
@@ -98,6 +100,7 @@ sealed class AddEmployeeHandler : IRequestHandler<AddEmployeeCommand>
         }
 
         await transaction.CommitAsync(cancellationToken);
+        await _mediator.Publish(employee.Adapt<Employee, EmployeeAddedEvent>(), cancellationToken);
         return new AddEmployeeCommand.Response { Id = employee.Id };
     }
 
